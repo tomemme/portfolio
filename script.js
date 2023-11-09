@@ -11,20 +11,53 @@ const cryptoTidbits = [
 ];
 
 // JavaScript code
+// document.addEventListener("DOMContentLoaded", function() {
+//     // Get a reference to the "Show Tidbit" link
+//     const cryptoTidbitLink = document.getElementById("cryptoTidbitLink");
+
+//     // Add a click event listener to the link
+//     cryptoTidbitLink.addEventListener("click", function(event) {
+//         // Prevent the default behavior of the link (don't navigate)
+//         event.preventDefault();
+
+//         // Get a random tidbit from the cryptoTidbits array
+//         const randomIndex = Math.floor(Math.random() * cryptoTidbits.length);
+//         const randomTidbit = cryptoTidbits[randomIndex];
+
+//         // Display the tidbit in an alert (you can use a different method to display it)
+//         alert(randomTidbit);
+//     });
+// });
+
+// JavaScript code
 document.addEventListener("DOMContentLoaded", function() {
-    // Get a reference to the "Show Tidbit" link
-    const cryptoTidbitLink = document.getElementById("cryptoTidbitLink");
+    const notecards = document.querySelectorAll(".notecard");
+    const shuffleButton = document.getElementById("shuffleButton");
 
-    // Add a click event listener to the link
-    cryptoTidbitLink.addEventListener("click", function(event) {
-        // Prevent the default behavior of the link (don't navigate)
-        event.preventDefault();
+    // Shuffle the notecards using Fisher-Yates algorithm
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex, temporaryValue;
 
-        // Get a random tidbit from the cryptoTidbits array
-        const randomIndex = Math.floor(Math.random() * cryptoTidbits.length);
-        const randomTidbit = cryptoTidbits[randomIndex];
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
 
-        // Display the tidbit in an alert (you can use a different method to display it)
-        alert(randomTidbit);
-    });
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+    }
+
+    // Function to display a random notecard
+    function showRandomNotecard() {
+        shuffle(notecards);
+        notecards.forEach((notecard, index) => {
+            setTimeout(() => {
+                notecard.style.display = "block";
+            }, index * 1000); // Adjust the delay time as needed
+        });
+    }
+
+    // Add a click event listener to the "Show Random Tidbit" button
+    shuffleButton.addEventListener("click", showRandomNotecard);
 });
