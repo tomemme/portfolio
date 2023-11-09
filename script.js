@@ -11,28 +11,10 @@ const cryptoTidbits = [
 ];
 
 // JavaScript code
-// document.addEventListener("DOMContentLoaded", function() {
-//     // Get a reference to the "Show Tidbit" link
-//     const cryptoTidbitLink = document.getElementById("cryptoTidbitLink");
-
-//     // Add a click event listener to the link
-//     cryptoTidbitLink.addEventListener("click", function(event) {
-//         // Prevent the default behavior of the link (don't navigate)
-//         event.preventDefault();
-
-//         // Get a random tidbit from the cryptoTidbits array
-//         const randomIndex = Math.floor(Math.random() * cryptoTidbits.length);
-//         const randomTidbit = cryptoTidbits[randomIndex];
-
-//         // Display the tidbit in an alert (you can use a different method to display it)
-//         alert(randomTidbit);
-//     });
-// });
-
-// JavaScript code
 document.addEventListener("DOMContentLoaded", function() {
     const notecards = document.querySelectorAll(".notecard");
     const shuffleButton = document.getElementById("shuffleButton");
+    let currentNotecardIndex = -1; // Start with no notecard displayed
 
     // Shuffle the notecards using Fisher-Yates algorithm
     function shuffle(array) {
@@ -48,16 +30,22 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    // Function to hide the current notecard
+    function hideCurrentNotecard() {
+        if (currentNotecardIndex !== -1) {
+            notecards[currentNotecardIndex].style.display = "none";
+        }
+    }
+
     // Function to display a random notecard
     function showRandomNotecard() {
+        hideCurrentNotecard(); // Hide the previous notecard
         shuffle(notecards);
-        notecards.forEach((notecard, index) => {
-            setTimeout(() => {
-                notecard.style.display = "block";
-            }, index * 1000); // Adjust the delay time as needed
-        });
+        currentNotecardIndex = 0; // Start with the first notecard
+        notecards[currentNotecardIndex].style.display = "block";
     }
 
     // Add a click event listener to the "Show Random Tidbit" button
     shuffleButton.addEventListener("click", showRandomNotecard);
 });
+
