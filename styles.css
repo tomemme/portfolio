@@ -6,6 +6,12 @@ body {
     padding: 0;
 }
 
+.container {
+    display: flex;
+    background-color: beige;
+    padding: 20px;
+}
+
 /*left sidebar */
 
 .left-sidebar {
