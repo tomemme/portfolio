@@ -12,6 +12,24 @@ body {
     padding: 20px;
 }
 
+/*background images*/
+/* Add a background image to a section with the class "education-section" */
+.education-section {
+    background-image: url('education-background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Add a background image to a section with the class "projects-section" */
+.projects-section {
+    background-image: url('projects-background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
 /*Notecard*/
 /* CSS code */
 .notecard {
