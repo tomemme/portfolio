@@ -96,8 +96,10 @@ body {
 
 /* CSS for the right sidebar */
 .right-sidebar {
-    width: 50%; /* Adjust the width as needed (half of the left sidebar) */
-    float: right; /* Float the sidebar to the right to position it on the right side */
+    width: 50%; /* Adjust the width as needed (half of the screen width) */
+    position: absolute; /* Position it absolutely within its containing element */
+    top: 0; /* Align it to the top of the container */
+    right: 0; /* Align it to the right edge of the container */
     background-color: beige; /* Set the background color to beige or any color you prefer */
     padding: 20px; /* Add padding to the content inside the sidebar */
     box-sizing: border-box; /* Include padding and border in the total width */
@@ -113,6 +115,7 @@ body {
 }
 
 /* Add more styles to customize the right sidebar */
+
 
 
 header {
