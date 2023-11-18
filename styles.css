@@ -12,6 +12,11 @@ body {
     padding: 20px;
 }
 
+/* CSS for the blur effect for images*/
+.blur-background {
+    filter: blur(5px); /* Adjust the blur intensity as needed */
+}
+
 #schoolImage {
     position: fixed;
     top: 50%;

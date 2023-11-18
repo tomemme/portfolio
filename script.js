@@ -70,10 +70,12 @@ educationSections.forEach((section, index) => {
 
     h3Element.addEventListener('mouseover', function() {
         schoolImage.style.display = 'block';
+        section.classList.add('blur-background');
     });
 
     h3Element.addEventListener('mouseout', function() {
         schoolImage.style.display = 'none';
+        section.classList.remove('blur-background')
     });
 });
 
