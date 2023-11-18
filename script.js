@@ -49,14 +49,31 @@ document.addEventListener("DOMContentLoaded", function() {
     shuffleButton.addEventListener("click", showRandomNotecard);
 });
 
-//logic to display hover over images.
-const h3Element = document.querySelector('.education-section h3');
-const schoolImage = document.getElementById('schoolImage');
+//logic to display hover over images. orignal method
+// const h3Element = document.querySelector('.education-section h3');
+// const schoolImage = document.getElementById('schoolImage');
 
-h3Element.addEventListener('mouseover', function() {
-    schoolImage.style.display = 'block';
+// h3Element.addEventListener('mouseover', function() {
+//     schoolImage.style.display = 'block';
+// });
+
+// h3Element.addEventListener('mouseout', function() {
+//     schoolImage.style.display = 'none';
+// });
+
+const educationSections = document.querySelectorAll('.education-container .education-section');
+const schoolImages = document.querySelectorAll('.education-container img');
+
+educationSections.forEach((section, index) => {
+    const h3Element = section.querySelector('h3');
+    const schoolImage = schoolImages[index];
+
+    h3Element.addEventListener('mouseover', function() {
+        schoolImage.style.display = 'block';
+    });
+
+    h3Element.addEventListener('mouseout', function() {
+        schoolImage.style.display = 'none';
+    });
 });
 
-h3Element.addEventListener('mouseout', function() {
-    schoolImage.style.display = 'none';
-});
