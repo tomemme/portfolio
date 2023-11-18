@@ -18,6 +18,8 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999; /* Ensure the image appears on top of other content */
+    width: 300px;
+    height: 200px;
 }
 
 
