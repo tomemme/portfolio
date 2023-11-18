@@ -12,21 +12,12 @@ body {
     padding: 20px;
 }
 
-/*background images*/
-/* Add a background image to a section with the class "education-section" */
-.education-section {
-    background-image: url('images/college.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-/* Add a background image to a section with the class "projects-section" */
-.navy-section {
-    background-image: url('images/Balboa-Naval-Hospital.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+#schoolImage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Ensure the image appears on top of other content */
 }
 
 

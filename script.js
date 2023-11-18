@@ -49,3 +49,14 @@ document.addEventListener("DOMContentLoaded", function() {
     shuffleButton.addEventListener("click", showRandomNotecard);
 });
 
+//logic to display hover over images.
+const h3Element = document.querySelector('.education-section h3');
+const schoolImage = document.getElementById('schoolImage');
+
+h3Element.addEventListener('mouseover', function() {
+    schoolImage.style.display = 'block';
+});
+
+h3Element.addEventListener('mouseout', function() {
+    schoolImage.style.display = 'none';
+});
