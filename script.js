@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
 //     schoolImage.style.display = 'none';
 // });
 
+const educationContainer = document.querySelector('.education-container');
 const educationSections = document.querySelectorAll('.education-container .education-section');
 const schoolImages = document.querySelectorAll('.education-container img');
 
@@ -70,12 +71,12 @@ educationSections.forEach((section, index) => {
 
     h3Element.addEventListener('mouseover', function() {
         schoolImage.style.display = 'block';
-        section.classList.add('blur-background');
+        educationContainer.classList.add('blur-background');
     });
 
     h3Element.addEventListener('mouseout', function() {
         schoolImage.style.display = 'none';
-        section.classList.remove('blur-background')
+        educationContainer.classList.remove('blur-background')
     });
 });
 

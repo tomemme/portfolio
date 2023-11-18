@@ -13,7 +13,7 @@ body {
 }
 
 /* CSS for the blur effect for images*/
-.blur-background {
+.education-container.blur-background {
     filter: blur(5px); /* Adjust the blur intensity as needed */
 }
 
