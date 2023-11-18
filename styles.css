@@ -15,15 +15,15 @@ body {
 /*background images*/
 /* Add a background image to a section with the class "education-section" */
 .education-section {
-    background-image: url('education-background.jpg');
+    background-image: url('images/college.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
 
 /* Add a background image to a section with the class "projects-section" */
-.projects-section {
-    background-image: url('projects-background.jpg');
+.navy-section {
+    background-image: url('images/Balboa-Naval-Hospital.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
