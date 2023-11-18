@@ -94,6 +94,27 @@ body {
 }
 /*left sidebar */
 
+/* CSS for the right sidebar */
+.right-sidebar {
+    width: 50%; /* Adjust the width as needed (half of the left sidebar) */
+    float: right; /* Float the sidebar to the right to position it on the right side */
+    background-color: beige; /* Set the background color to beige or any color you prefer */
+    padding: 20px; /* Add padding to the content inside the sidebar */
+    box-sizing: border-box; /* Include padding and border in the total width */
+}
+
+/* Style the content inside the right sidebar as needed */
+.right-sidebar h2 {
+    font-size: 24px; /* Example: Increase the font size for headings */
+}
+
+.right-sidebar ul {
+    list-style-type: square; /* Example: Use square bullets for lists */
+}
+
+/* Add more styles to customize the right sidebar */
+
+
 header {
     background-color: #333;
     color: white;
