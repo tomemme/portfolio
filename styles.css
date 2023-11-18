@@ -12,10 +12,6 @@ body {
     padding: 20px;
 }
 
-/* CSS for the blur effect for images*/
-.education-container.blur-background .education-section{
-    filter: blur(5px); /* Adjust the blur intensity as needed */
-}
 
 #schoolImage {
     position: fixed;
