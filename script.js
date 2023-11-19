@@ -16,6 +16,7 @@ fetch('docs/cryptotidbits.xlsx')
 
         showRandomImageButton.addEventListener('click', function() {
             // Select a random entry from the XLSX data
+            console.log('Button clicked');
             const randomIndex = Math.floor(Math.random() * jsonData.length);
             const randomEntry = jsonData[randomIndex];
 
@@ -31,6 +32,8 @@ fetch('docs/cryptotidbits.xlsx')
             // Display the image box with data
             const randomImageBox = imageBoxes[0]; // Assuming you have only one image box
             randomImageBox.style.display = 'block';
+
+            console.log('XLSX date', jsonData);
 
             // Set a timeout to hide the image box after a few seconds (e.g., 3 seconds)
             setTimeout(function() {
