@@ -1,53 +1,47 @@
 // script.js
 
-// You can add JavaScript functionality here, e.g., handling project clicks, animations, etc.
-const cryptoTidbits = [
-    "Nonce - A number used in mining to determine block difficulty by adding leading zeros to hash.",
-    "Halving - An event that occurs every 210,000 blocks, cutting mining rewards in half to maintain scarcity. Bitcoin's current reward: 6.25 BTC",
-    "Rollup - Layer 2 solution for Ethereum, enabling faster and cost-effective transactions through off-chain processing. Optimistic Rollup is one popular implementation.",
-    "Decentralization -Distribution of authority and control in a blockchain network, eliminating single points of failure. Enhances security and censorship resistance.",
-    "Smart Contracts - Self-executing agreements on the blockchain, automatically enforcing terms without intermediaries.",
-    "Fork - Splitting of a blockchain into two separate chains, usually due to a difference in consensus rules.",
-];
+const imageBoxes = document.querySelectorAll('.image-box');
+const showRandomImageButton = document.getElementById('showRandomImage');
+const wordPlaceholder = document.getElementById('wordPlaceholder');
+const tidbitPlaceholder = document.getElementById('tidbitPlaceholder');
 
-// JavaScript code
-document.addEventListener("DOMContentLoaded", function() {
-    const notecards = document.querySelectorAll(".notecard");
-    const shuffleButton = document.getElementById("shuffleButton");
-    let currentNotecardIndex = -1; // Start with no notecard displayed
+// Load the XLSX file (you'll need to adjust the path to your file)
+fetch('docs.cryptotidbits.xlsx')
+    .then(response => response.arrayBuffer())
+    .then(data => {
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0]; // Assuming data is in the first sheet
+        const sheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
 
-    // Shuffle the notecards using Fisher-Yates algorithm
-    function shuffle(array) {
-        let currentIndex = array.length, randomIndex, temporaryValue;
+        showRandomImageButton.addEventListener('click', function() {
+            // Select a random entry from the XLSX data
+            const randomIndex = Math.floor(Math.random() * jsonData.length);
+            const randomEntry = jsonData[randomIndex];
 
-        while (currentIndex !== 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
+            // Populate the placeholders with the data
+            wordPlaceholder.textContent = randomEntry.word;
+            tidbitPlaceholder.textContent = randomEntry.tidbit;
 
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-    }
+            // Hide all other image boxes
+            imageBoxes.forEach(box => {
+                box.style.display = 'none';
+            });
 
-    // Function to hide the current notecard
-    function hideCurrentNotecard() {
-        if (currentNotecardIndex !== -1) {
-            notecards[currentNotecardIndex].style.display = "none";
-        }
-    }
+            // Display the image box with data
+            const randomImageBox = imageBoxes[0]; // Assuming you have only one image box
+            randomImageBox.style.display = 'block';
 
-    // Function to display a random notecard
-    function showRandomNotecard() {
-        hideCurrentNotecard(); // Hide the previous notecard
-        shuffle(notecards);
-        currentNotecardIndex = 0; // Start with the first notecard
-        notecards[currentNotecardIndex].style.display = "block";
-    }
+            // Set a timeout to hide the image box after a few seconds (e.g., 3 seconds)
+            setTimeout(function() {
+                randomImageBox.style.display = 'none';
+            }, 3000); // Adjust the time (3000 milliseconds = 3 seconds)
+        });
+    })
+    .catch(error => {
+        console.error('Error loading XLSX file:', error);
+    });
 
-    // Add a click event listener to the "Show Random Tidbit" button
-    shuffleButton.addEventListener("click", showRandomNotecard);
-});
 
 //logic to display hover over images. orignal method
 // const h3Element = document.querySelector('.education-section h3');

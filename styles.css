@@ -46,20 +46,6 @@ body {
 }
 
 
-/*Notecard*/
-/* CSS code */
-.notecard {
-    width: 200px;
-    height: 150px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    display: none; /* Initially hide notecards */
-}
-
 /*left sidebar */
 
 .left-sidebar {
