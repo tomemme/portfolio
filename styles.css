@@ -96,22 +96,27 @@ body {
 
 /* CSS for the right sidebar */
 .right-sidebar {
-    width: 50%; /* Adjust the width as needed (half of the screen width) */
     position: absolute; /* Position it absolutely within its containing element */
-    top: 0; /* Align it to the top of the container */
     right: 0; /* Align it to the right edge of the container */
-    background-color: beige; /* Set the background color to beige or any color you prefer */
-    padding: 20px; /* Add padding to the content inside the sidebar */
-    box-sizing: border-box; /* Include padding and border in the total width */
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Style the content inside the right sidebar as needed */
 .right-sidebar h2 {
-    font-size: 24px; /* Example: Increase the font size for headings */
+    font-size: 1.5rem;
+    margin-bottom: 10px; /* Example: Increase the font size for headings */
 }
 
 .right-sidebar ul {
     list-style-type: square; /* Example: Use square bullets for lists */
+    padding: 0;
+}
+
+.left-sidebar p {
+    margin: 0;
 }
 
 /* Add more styles to customize the right sidebar */
