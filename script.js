@@ -6,7 +6,7 @@ const wordPlaceholder = document.getElementById('wordPlaceholder');
 const tidbitPlaceholder = document.getElementById('tidbitPlaceholder');
 
 // Load the XLSX file (you'll need to adjust the path to your file)
-fetch('docs.cryptotidbits.xlsx')
+fetch('docs/cryptotidbits.xlsx')
     .then(response => response.arrayBuffer())
     .then(data => {
         const workbook = XLSX.read(data, { type: 'array' });
@@ -37,6 +37,8 @@ fetch('docs.cryptotidbits.xlsx')
                 randomImageBox.style.display = 'none';
             }, 3000); // Adjust the time (3000 milliseconds = 3 seconds)
         });
+
+
     })
     .catch(error => {
         console.error('Error loading XLSX file:', error);
