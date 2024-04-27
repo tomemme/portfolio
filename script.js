@@ -48,21 +48,10 @@ fetch('docs/cryptotidbits.xlsx')
     });
 
 
-//logic to display hover over images. orignal method
-// const h3Element = document.querySelector('.education-section h3');
-// const schoolImage = document.getElementById('schoolImage');
-
-// h3Element.addEventListener('mouseover', function() {
-//     schoolImage.style.display = 'block';
-// });
-
-// h3Element.addEventListener('mouseout', function() {
-//     schoolImage.style.display = 'none';
-// });
-
-
+/*
 const educationSections = document.querySelectorAll('.education-container .education-section');
 const schoolImages = document.querySelectorAll('.education-container img');
+
 
 educationSections.forEach((section, index) => {
     const h3Element = section.querySelector('h3');
@@ -76,4 +65,25 @@ educationSections.forEach((section, index) => {
         schoolImage.style.display = 'none';
     });
 });
+*/
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const icons = document.querySelectorAll('.image-icon');
+
+    icons.forEach(icon => {
+        const targetId = icon.getAttribute('data-target');
+        const targetImage = document.getElementById(targetId);
+
+        icon.onmouseover = () => {
+            targetImage.style.display = 'block';  // Show the image
+        };
+
+        icon.onmouseout = () => {
+            targetImage.style.display = 'none';  // Hide the image
+        };
+    });
+});
+
+
 
