@@ -45,6 +45,26 @@ body {
     z-index: 9999; /* Ensure the image appears on top of other content */
 }
 
+/* Style for the image icon container */
+.image-icon {
+    display: inline-block; /* Keeps the icon aligned properly */
+    vertical-align: middle; /* Centers icon vertically relative to text */
+}
+
+/* Initially hide the image */
+.hidden-image {
+    display: none;
+    position: absolute; /* Position it relative to its nearest positioned ancestor */
+    z-index: 10; /* Make sure it appears above other content */
+    width: auto; /* Maintain original image width */
+    max-width: 600px; /* Limit the width to avoid very large images */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Optional: Adds shadow for better visibility */
+}
+
+/* Show the image when the icon is hovered over */
+.image-icon:hover + .hidden-image {
+    display: block;
+}
 
 /*left sidebar */
 
