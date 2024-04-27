@@ -47,18 +47,21 @@ body {
 
 /* Style for the image icon container */
 .image-icon {
-    display: inline-block; /* Keeps the icon aligned properly */
-    vertical-align: middle; /* Centers icon vertically relative to text */
+    display: inline-block;  /* Keeps the icon aligned properly */
+    vertical-align: middle;  /* Centers icon vertically relative to text */
+    cursor: pointer;  /* Changes the cursor to a pointer to indicate it's clickable */
 }
 
 /* Initially hide the image */
 .hidden-image {
     display: none;
-    position: absolute; /* Position it relative to its nearest positioned ancestor */
-    z-index: 10; /* Make sure it appears above other content */
-    width: auto; /* Maintain original image width */
-    max-width: 600px; /* Limit the width to avoid very large images */
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Optional: Adds shadow for better visibility */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;  /* Ensures the image appears on top of other content */
+    max-width: 600px;  /* Limits the size to ensure it's not too large */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);  /* Adds a shadow for better visibility */
 }
 
 /* Show the image when the icon is hovered over */
