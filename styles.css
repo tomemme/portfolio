@@ -145,3 +145,30 @@ header {
 .project-card a:hover {
     background-color: #555;
 }
+
+/* Footer styling */
+footer {
+    background-color: #2C3E50;  /* Dark blue background */
+    color: #FFFFFF;  /* White text color */
+    text-align: center;  /* Center-align the text */
+    padding: 20px 0;  /* Padding above and below the text */
+    font-size: 14px;  /* Moderate text size */
+    border-top: 3px solid #2980B9;  /* Blue border on the top edge */
+}
+
+footer a {
+    color: #FFFFFF;  /* Ensures links are also white */
+    text-decoration: none;  /* No underlines on the links */
+    transition: color 0.3s;  /* Smooth transition for hover effect */
+}
+
+footer a:hover {
+    color: #BDC3C7;  /* Light grey color on hover */
+}
+
+.footer-container {
+    margin: 0 auto;  /* Centers the footer container */
+    width: 80%;  /* Limits the width of the footer content */
+    display: block;
+}
+
