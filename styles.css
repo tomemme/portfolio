@@ -1,5 +1,26 @@
 /* styles.css */
 
+/*styling for navigation bar*/
+.navbar {
+    background-color: #333; /* Dark background for the navbar */
+    overflow: hidden; /* Ensures the navbar contents don't overflow */
+}
+
+.navbar a {
+    float: left; /* Align links to the left side */
+    display: block; /* Make each link a block element */
+    color: white; /* White text color */
+    text-align: center; /* Center the text inside the link */
+    padding: 14px 20px; /* Padding inside each link */
+    text-decoration: none; /* No underline on links */
+}
+
+.navbar a:hover {
+    background-color: #ddd; /* Light background on hover */
+    color: black; /* Dark text on hover */
+}
+
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
