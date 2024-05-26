@@ -1,0 +1,49 @@
+
+/*about me start*/
+#aboutMe {
+    background: #f9f9f9; /* Light grey background for the section */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    width: 80%; /* Adjust width based on your layout preference */
+    max-width: 960px; /* Maximum width */
+}
+
+.bio {
+    display: flex;
+    align-items: center;
+    flex-direction: row; /* Adjust to column on smaller screens if necessary */
+    gap: 20px;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Circular photo */
+    object-fit: cover; /* Ensures the image covers the space without distortion */
+}
+
+.bio h2 {
+    margin-top: 0;
+}
+
+.bio p {
+    font-size: 1.1em; /* Slightly larger font size for readability */
+    line-height: 1.6; /* Good line height for reading */
+    color: #333; /* Dark grey text color for contrast */
+}
+
+@media (max-width: 768px) {
+    .bio {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .profile-photo {
+        width: 120px; /* Slightly smaller photo on mobile */
+        height: 120px;
+    }
+}
+
+/*about me end*/
