@@ -186,6 +186,31 @@ header {
     background-color: #555;
 }
 
+/*start of wordCloud*/
+
+#wordCloud {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: url('your-background-image.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+#wordCloud span {
+    font-size: 2em;
+    color: #fff;  /* White text color */
+    font-weight: bold;
+    animation: fadeIn 5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from { transform: translate(-50%, -50%) scale(0); }
+    to { transform: translate(-50%, -50%) scale(1); }
+}
+
+/*end of wordCloud*/
+
 /* Footer styling */
 footer {
     background-color: #2C3E50;  /* Dark blue background */
