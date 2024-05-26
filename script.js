@@ -70,26 +70,28 @@ educationSections.forEach((section, index) => {
 document.addEventListener('DOMContentLoaded', function() {
     const words = ["Innovative", "Creative", "Leader", "Rosh Godol", "Developer", "Enthusiast", "Explorer", "Techie"];
     const cloud = document.getElementById('wordCloud');
+    const cloudHeight = cloud.clientHeight;
+    const cloudWidth = cloud.clientWidth;
 
     words.forEach(word => {
         let span = document.createElement('span');
         span.textContent = word;
         span.style.position = 'absolute';
-        span.style.left = `${Math.random() * 100}%`;
-        span.style.top = `${Math.random() * 100}%`;
+        span.style.left = `${Math.random() * cloudWidth}px`;
+        span.style.top = `${Math.random() * cloudHeight}px`;
         span.style.opacity = 0;
         span.style.transition = 'all 2s';
         cloud.appendChild(span);
     });
 
-    // Animation
     setTimeout(() => {
         document.querySelectorAll('#wordCloud span').forEach(span => {
             span.style.opacity = 1;
             span.style.transform = `translate(-50%, -50%)`;
         });
-    }, 100);  // Start animation shortly after words are placed
+    }, 100);
 });
+
 
 
 

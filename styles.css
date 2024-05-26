@@ -25,6 +25,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 .container {
@@ -188,10 +189,9 @@ header {
 
 /*start of wordCloud*/
 
-#wordCloud {
+main#wordCloud {
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 120px);
     overflow: hidden;
     background: url('your-background-image.jpg') no-repeat center center;
     background-size: cover;
