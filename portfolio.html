@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Thomas Emmerling's Portfolio</h1>
+    </header>
+    <!-- Navigation Bar -->
+    <div class="navbar">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="contact.html">Contact</a>
+    </div>
+
+    <!---->
+    <main>
+        <section class="container">
+            <section class="left-sidebar">
+                <h2>Educational Background</h2>
+                <ul>   
+                <div class="education-container">
+                    <li>
+                    <section class="education-section">
+                        <h3>Bachelor's of Science Information Science</h3>
+                        <p>Applied Networking</p>
+                        <p>Data Structures & Algorithms</p>
+                        <P>System Analysis and Design</P>
+                        <img id="schoolImage" src="images/college.jpg" alt="School Image" style="display: none;">
+                    </section>
+                    </li>
+                    <li>
+                        <section class="education-section">
+                        <h3>Code Academy Certificate Program</h3>
+                        <p>Full-Stack Web Development</p>
+                        <img id="school2Image" src="images/aca.jpeg" alt="School2 Image" style="display: none;">
+                        </section>
+                    </li>
+                    <li>
+                        <h3>Navy Training</h3>
+                        <p>Field Medical Training Battalion West</p>
+                        <p>Combat Trauma management</p>
+                        <p>CompTIA Security+</p>
+                        <p>Corps School</p>
+                    </li>
+                </div>
+                </ul>
+                <h2>Job History</h2>
+                <ul>
+                <div class="career-container">
+                    <li>
+                        <h3>Dentsu 2017-2024</h3>
+                        <p>Database Developer</p>
+                        <P>Dev/Ops Intern</P>
+                    </li>
+                    <li>
+                        <section class="fmf-section">
+                        <h3>Navy Career 2008-2013</h3>
+                        <p>Fleet Marine Force Corpsman</p>
+                        <img id="fmfImage" src="images/fmf.jpeg" alt="FMF Image" style="display: none;"></section>
+                        <section class="nmcsd-section">
+                            <p>Data analyst/ Dept. ISSO</p>
+                            <p>General Duty Corspman on a Cancer ward</p>
+                            <p>Flu Team member</p>
+                            <img id="balboaImage" src="images/balboa.jpg" alt="Balboa Image" style="display: none;">
+                        </section>
+                    </li>
+                    <li>
+                        <h3>Sam Emmerling Company</h3>
+                        <p>Intermesent Fireproofer</p>
+                        <p>Remodeling Interior</p>
+                        <p>Exterior cleaning/painting</p>
+                    </li>
+                </div>
+                </ul>
+            </section>
+
+            <section class="right-sidebar">
+                <h2>Random Intrest</h2>
+                <ul>
+                    <li>
+                        <h3>NP vs P</h3>
+                        <a href="https://www.britannica.com/science/P-versus-NP-problem">Find out more</a>
+                    </li>
+                </ul>
+            </section>
+    
+        <section class="projects">
+            <h2>Current Projects</h2>
+            <div class="project-card">
+                <h3>Multi-Research</h3>
+                <p>Program that takes search queries and search multiple Academic/Scientific/Medical resources.</p>
+                <a href="https://github.com/tomemme/cannaResearch">View Project</a>
+            </div>
+
+            <h2>Personal Projects</h2>
+            <div class="project-card">
+                <h3>Crypto Tidbits</h3>
+                <p>Information gathering on the inner workings of the crypto currency space.</p>
+                <a href="https://www.youtube.com/@CryptoTidbits/shorts">View more CryptoTidbits on my Youtube Channel</a>
+                <div class="image-box-container">
+                    <div class="image-box" id="randomImageBox">
+                        <h3 id="wordPlaceholder"></h3>
+                        <p id="tidbitPlaceholder"></p>
+                    </div>
+                </div>
+                <button id="showRandomImage">Show Random Image</button>
+                
+            </div>
+
+            <div class="project-card">
+                <h3>Parcel GeoCode Locator</h3>
+                <p>Program that takes address information and uses the Google API and geocode function to Pin all the locations on a map.</p>
+                <a href="https://github.com/tomemme/AddressGeoCode">View Project</a>
+            </div>
+
+            <h2>Dentsu Projects</h2>
+            <div class="project-card">
+                <h3>PGP Key expiration monitor</h3>
+                <p>Bash program that can be executed to monitor a User's PGP keyring and evaluates which keys might be expiring withing a month/week and would email the Team which key was expiring and when.</p>
+            </div>
+            <div class="project-card">
+                <h3>RDatabase Primary Key change.</h3>
+                <p>Helped scope out LOE and commence change request to modify the account primary key which impacted 50% of codebase.</p>
+            </div>
+            <!-- Add more project cards as needed -->
+        </section>
+    </section>
+    </main>
+    <footer>
+    <div class="footer-container">
+        <p>Contact Information: </p>
+        <p>Email: <a href="mailto:swimaster22@gmail.com">swimaster22@gmail.com</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/thomas-emmerling-553454b1/" target="_blank">thomas-emmerling</a></p>
+        <p>GitHub: <a href="https://github.com/tomemme" target="_blank">tomemme</a></p>
+    </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
