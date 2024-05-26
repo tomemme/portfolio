@@ -85,11 +85,6 @@ body {
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);  /* Adds a shadow for better visibility */
 }
 
-/* Show the image when the icon is hovered over */
-.image-icon:hover + .hidden-image {
-    display: block;
-}
-
 
 /*left sidebar */
 
