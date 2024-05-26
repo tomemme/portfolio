@@ -68,7 +68,9 @@ educationSections.forEach((section, index) => {
 
 //section of code for wordCloud
 document.addEventListener('DOMContentLoaded', function() {
-    const words = ["Innovative", "Creative", "Leader", "Rosh Godol", "Developer", "Enthusiast", "Explorer", "Techie"];
+    const words = ["Innovative", "Creative", "Leader", "Rosh Godol", "Developer", "Enthusiast", "Explorer", "Techie", 
+        "Hospital Corpsman","Fleet Marine Force","Critical Thinker","Outdoorsy","Humanitarian",
+    ];
     const cloud = document.getElementById('wordCloud');
     const cloudHeight = cloud.clientHeight;
     const cloudWidth = cloud.clientWidth;

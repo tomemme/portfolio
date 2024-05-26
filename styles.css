@@ -199,7 +199,7 @@ main#wordCloud {
 
 #wordCloud span {
     font-size: 2em;
-    color: black;  /* White text color */
+    color: rgb(10, 10, 10);  /* White text color */
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     animation: fadeIn 5s ease-in-out forwards;
