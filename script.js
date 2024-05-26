@@ -48,7 +48,7 @@ fetch('docs/cryptotidbits.xlsx')
     });
 
 
-/*
+
 const educationSections = document.querySelectorAll('.education-container .education-section');
 const schoolImages = document.querySelectorAll('.education-container img');
 
@@ -63,25 +63,6 @@ educationSections.forEach((section, index) => {
 
     h3Element.addEventListener('mouseout', function() {
         schoolImage.style.display = 'none';
-    });
-});
-*/
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    const icons = document.querySelectorAll('.image-icon');
-
-    icons.forEach(icon => {
-        const targetId = icon.getAttribute('data-target');
-        const targetImage = document.getElementById(targetId);
-
-        icon.onmouseover = () => {
-            targetImage.style.display = 'block';  // Show the image
-        };
-
-        icon.onmouseout = () => {
-            targetImage.style.display = 'none';  // Hide the image
-        };
     });
 });
 
