@@ -193,7 +193,7 @@ main#wordCloud {
     position: relative;
     height: calc(100vh - 120px);
     overflow: hidden;
-    background: url('your-background-image.jpg') no-repeat center center;
+    background: url('sereneNature.webp') no-repeat center center;
     background-size: cover;
 }
 
