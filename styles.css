@@ -202,6 +202,8 @@ main#wordCloud {
     font-size: 2em;
     color: rgb(10, 10, 10);  /* White text color */
     font-weight: bold;
+    padding: 5px; /*adds spacing around each word*/
+    margin: 5px; /*prevents word overlapping i hope*/
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     animation: fadeIn 5s ease-in-out forwards;
 }
