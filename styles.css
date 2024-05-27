@@ -30,7 +30,7 @@ body {
 
 .container {
     display: flex;
-    background: url('images/successClimb.webp') no-repeat center center;
+    background: url('images/sereneNature.webp') no-repeat center center;
     background-size: cover;
     padding: 20px;
 }
