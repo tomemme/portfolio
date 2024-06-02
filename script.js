@@ -20,25 +20,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 const randomIndex = Math.floor(Math.random() * jsonData.length);
                 const randomEntry = jsonData[randomIndex];
 
-                // Populate the placeholders with the data
-                wordPlaceholder.textContent = randomEntry.word;
-                tidbitPlaceholder.textContent = randomEntry.tidbit;
+                if (randomEntry) {
+                    // Populate the placeholders with the data
+                    wordPlaceholder.textContent = randomEntry.word;
+                    tidbitPlaceholder.textContent = randomEntry.tidbit;
 
-                // Hide all other image boxes
-                imageBoxes.forEach(box => {
-                    box.style.display = 'none';
-                });
+                    // Hide all other image boxes
+                    imageBoxes.forEach(box => {
+                        box.style.display = 'none';
+                    });
 
-                // Display the image box with data
-                const randomImageBox = imageBoxes[0]; // Assuming you have only one image box
-                randomImageBox.style.display = 'block';
+                    // Display the image box with data
+                    const randomImageBox = imageBoxes[0]; // Assuming you have only one image box
+                    randomImageBox.style.display = 'block';
 
-                console.log('XLSX data', jsonData);
+                    console.log('XLSX data', jsonData);
 
-                // Set a timeout to hide the image box after a few seconds (e.g., 3 seconds)
-                setTimeout(function() {
-                    randomImageBox.style.display = 'none';
-                }, 3000); // Adjust the time (3000 milliseconds = 3 seconds)
+                    // Set a timeout to hide the image box after a few seconds (e.g., 3 seconds)
+                    setTimeout(function() {
+                        randomImageBox.style.display = 'none';
+                    }, 3000);// Adjust the time (3000 milliseconds = 3 seconds)
+                }else {
+                    console.error('No random entry found in JSON data');
+                }
             });
         })
         .catch(error => {
