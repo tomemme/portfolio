@@ -7,7 +7,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px auto;
     width: 80%; /* Adjust width based on your layout preference */
-    max-width: 960px; /* Maximum width */
+    /*max-width: 960px; /* Maximum width */
 }
 
 .bio {
