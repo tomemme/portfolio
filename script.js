@@ -72,26 +72,34 @@ document.addEventListener('DOMContentLoaded', function() {
         "Hospital Corpsman","Fleet Marine Force","Critical Thinker","Outdoorsy","Humanitarian",
     ];
     const cloud = document.getElementById('wordCloud');
-    const cloudHeight = cloud.clientHeight;
-    const cloudWidth = cloud.clientWidth;
+    console.log(cloud); //log element shouldnt be null
 
-    words.forEach(word => {
-        let span = document.createElement('span');
-        span.textContent = word;
-        span.style.position = 'absolute';
-        span.style.left = `${Math.random() * cloudWidth}px`;
-        span.style.top = `${Math.random() * cloudHeight}px`;
-        span.style.opacity = 0;
-        span.style.transition = 'all 2s';
-        cloud.appendChild(span);
-    });
+    if (cloud) {
+        const cloudHeight = cloud.clientHeight;
+        console.log(cloudHeight);
+        const cloudWidth = cloud.clientWidth;
 
-    setTimeout(() => {
-        document.querySelectorAll('#wordCloud span').forEach(span => {
-            span.style.opacity = 1;
-            span.style.transform = `translate(-50%, -50%)`;
+        words.forEach(word => {
+            let span = document.createElement('span');
+            span.textContent = word;
+            span.style.position = 'absolute';
+            span.style.left = `${Math.random() * cloudWidth}px`;
+            span.style.top = `${Math.random() * cloudHeight}px`;
+            span.style.opacity = 0;
+            span.style.transition = 'all 2s';
+            cloud.appendChild(span);
         });
-    }, 100);
+
+        setTimeout(() => {
+            document.querySelectorAll('#wordCloud span').forEach(span => {
+                span.style.opacity = 1;
+                span.style.transform = `translate(-50%, -50%)`;
+                });
+        }, 100);
+    } else {
+        console.error('Element #wordCloud not found');
+    }
+    
 });
 
 
