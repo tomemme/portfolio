@@ -75,25 +75,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const cloudHeight = cloud.clientHeight;
     const cloudWidth = cloud.clientWidth;
 
-    function doesOverlap(elem, otherElems) {
-        const rect1 = elem.getBoundingClientRect();
-        for (let i = 0; i < otherElems.length; i++) {
-            const rect2 = otherElems[i].getBoundingClientRect();
-            if (!(rect1.right < rect2.left || rect1.left > rect2.right | rect1.bottom < rect2.top || rect1.top > rect2.bottom)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     words.forEach(word => {
-        const span = document.createElement('span');
+        let span = document.createElement('span');
         span.textContent = word;
-        do {
-            span.style.left = `${Math.random() * (cloud.clientWidth - 100)}px`;  // -100 to reduce overflow probability
-            span.style.top = `${Math.random() * (cloud.clientHeight - 50)}px`;  // -50 to reduce overflow probability
-            cloud.appendChild(span);
-        } while (doesOverlap(span, Array.from(cloud.children).slice(0, -1)));  // Check overlap except the current
+        span.style.position = 'absolute';
+        span.style.left = `${Math.random() * cloudWidth}px`;
+        span.style.top = `${Math.random() * cloudHeight}px`;
+        span.style.opacity = 0;
+        span.style.transition = 'all 2s';
+        cloud.appendChild(span);
     });
 
     setTimeout(() => {

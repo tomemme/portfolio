@@ -42,10 +42,6 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999; /* Ensure the image appears on top of other content */
-    width: 50%; /* scales based on the width of the viewport */
-    height: auto; /* maintains aspect ratio */
-    max-width: 800px; /* maximum size */
-    max-height: 800px;
 }
 
 #school2Image {
