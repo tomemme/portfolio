@@ -85,14 +85,17 @@
             </section>
     
         <section class="projects">
-            <h2>Current Projects</h2>
+            <h2>Current Projects in the works</h2>
+            <div class="project-card">
+                <h3>Encrypted Journal</h3>
+                <p>An encrypted journal application written in Python using Tkinter for the GUI and cryptography for encryption. This application allows you to securely save, load, and delete journal entries with encryption. Your password is hashed with SHA512 after you supply it to the program and the hash expires after 5 mins and you will need to provide your password again. The entries are encrypted using AES encryption combined with a derived key made by using the hashed password and salt again.</p>
+                <a href="https://github.com/tomemme/EncryptedJournal">View project</a>
+            </div>
             <div class="project-card">
                 <h3>Multi-Research</h3>
                 <p>Python program that takes search queries and searches (webscrapes) multiple Academic/Scientific/Medical resources for matches.</p>
                 <a href="https://github.com/tomemme/cannaResearch">View Project</a>
             </div>
-
-            <h2>Personal Projects</h2>
             <div class="project-card">
                 <h3>Crypto Tidbits</h3>
                 <p>Information gathering on the inner workings of the crypto currency space.</p>
@@ -104,7 +107,6 @@
                 </div>
                 <button id="showRandomImage">Show Random Image</button>   
             </div>
-
             <div class="project-card">
                 <h3>Parcel GeoCode Locator</h3>
                 <p>Program that takes address information and uses the Google API and geocode function to Pin all the locations on a map.</p>
