@@ -24,40 +24,38 @@
         <section class="container">
             <section class="left-sidebar">
                 <h2>Educational Background</h2>
-                <ul>   
-                <div class="education-container">
-                    <li>
-                    <section class="education-section">
-                        <h3>Bachelor's of Science Information Science</h3>
-                        <p>Applied Networking</p>
-                        <p>Data Structures & Algorithms</p>
-                        <P>System Analysis and Design</P>
-                        <img id="schoolImage" src="images/college.jpg" alt="School Image" style="display: none;">
-                    </section>
-                    </li>
+                <ul class="education-container">   
                     <li>
                         <section class="education-section">
-                        <h3>Arkansas Code Academy</h3>
-                        <p>Full-Stack Web Development</p>
-                        <p>Java proficiency certificate</p>
-                        <img id="school2Image" src="images/aca.jpeg" alt="School2 Image" style="display: none;">
+                            <h3>Bachelor's of Science Information Science</h3>
+                            <p>Applied Networking</p>
+                            <p>Data Structures & Algorithms</p>
+                            <p>System Analysis and Design</p>
+                            <img id="schoolImage" src="images/college.jpg" alt="School Image" style="display: none;">
                         </section>
                     </li>
                     <li>
                         <section class="education-section">
-                        <h3>Navy Training</h3>
-                        <p>Field Medical Training Battalion West</p>
-                        <p>Combat Trauma management</p>
-                        <p>CompTIA Security+</p>
-                        <p>Corps School</p>
-                        <img id="fmfImage" src="images/fmf.jpeg" alt="FMF Image" style="display: none;">
-                        <section>
+                            <h3>Arkansas Code Academy</h3>
+                            <p>Full-Stack Web Development</p>
+                            <p>Java proficiency certificate</p>
+                            <img id="school2Image" src="images/aca.jpeg" alt="School2 Image" style="display: none;">
+                        </section>
                     </li>
-                </div>
+                    <li>
+                        <section class="education-section">
+                            <h3>Navy Training</h3>
+                            <p>Field Medical Training Battalion West</p>
+                            <p>Combat Trauma management</p>
+                            <p>CompTIA Security+</p>
+                            <p>Corps School</p>
+                            <img id="fmfImage" src="images/fmf.jpeg" alt="FMF Image" style="display: none;">
+                        </section>
+                    </li>
+                    <!-- More <li> elements can be added here -->
                 </ul>
                 <h2>Work History</h2>
-                <ul>
-                <div class="career-container">
+                <ul class="career-container">
                     <li>
                         <h3>Dentsu 2017-Present</h3>
                         <h4>Database Developer</h4>
@@ -83,54 +81,52 @@
                         <p>Interior Remodeling</p>
                         <p>Exterior power-washing/painting</p>
                     </li>
-                </div>
                 </ul>
             </section>
-    
-        <section class="projects">
-            <h2>Current Projects in the works</h2>
-            <div class="project-card">
-                <h3>Encrypted Journal</h3>
-                <p>I wanted to force myself to use my computer more and get in the habit of journaling. I used Python to create a password protected encrypted journal using a few python libraries and SHA512 and AES encryption combined.</p>
-                <a href="https://github.com/tomemme/EncryptedJournal">View project</a>
-            </div>
-            <div class="project-card">
-                <h3>Multi-Research</h3>
-                <p>I wanted to speed up my research capabilties, so I made a python program that takes search queries and searches (webscrapes) multiple Academic/Scientific/Medical resources for matches. Each new site added to the program needs unique logic to undestand the HTML structure</p>
-                <a href="https://github.com/tomemme/cannaResearch">View Project</a>
-            </div>
-            <div class="project-card">
-                <h3>Crypto Tidbits</h3>
-                <p>Information gathering on the inner workings of the crypto currency space. I used the years of reasearch and reading whites plus the help of AI to make the videos.</p>
-                <a href="https://www.youtube.com/@CryptoTidbits/shorts">View more CryptoTidbits on my Youtube Channel</a>
-                <div class="image-box">
-                    <img id="randomImage" src="" alt="Random Image">
-                    <p id="wordPlaceholder"></p>
-                    <p id="tidbitPlaceholder"></p>
+            <section class="projects">
+                <h2>Current Projects in the works</h2>
+                <div class="project-card">
+                    <h3>Encrypted Journal</h3>
+                    <p>I wanted to force myself to use my computer more and get in the habit of journaling. I used Python to create a password protected encrypted journal using a few python libraries and SHA512 and AES encryption combined.</p>
+                    <a href="https://github.com/tomemme/EncryptedJournal">View project</a>
                 </div>
-                <button id="showRandomImage">Show Random Image</button>   
-            </div>
-            <div class="project-card">
-                <h3>Parcel GeoCode Locator</h3>
-                <p>Program that takes address information and uses the Google API and geocode function to Pin all the locations on a map. Wrote this for my dad so he could research real estate</p>
-                <a href="https://github.com/tomemme/AddressGeoCode">View Project</a>
-            </div>
+                <div class="project-card">
+                    <h3>Multi-Research</h3>
+                    <p>I wanted to speed up my research capabilties, so I made a python program that takes search queries and searches (webscrapes) multiple Academic/Scientific/Medical resources for matches. Each new site added to the program needs unique logic to undestand the HTML structure</p>
+                    <a href="https://github.com/tomemme/cannaResearch">View Project</a>
+                </div>
+                <div class="project-card">
+                    <h3>Crypto Tidbits</h3>
+                    <p>Information gathering on the inner workings of the crypto currency space. I used the years of reasearch and reading whites plus the help of AI to make the videos.</p>
+                    <a href="https://www.youtube.com/@CryptoTidbits/shorts">View more CryptoTidbits on my Youtube Channel</a>
+                    <div class="image-box">
+                        <img id="randomImage" src="" alt="Random Image">
+                        <p id="wordPlaceholder"></p>
+                        <p id="tidbitPlaceholder"></p>
+                    </div>
+                    <button id="showRandomImage">Show Random Image</button>   
+                </div>
+                <div class="project-card">
+                    <h3>Parcel GeoCode Locator</h3>
+                    <p>Program that takes address information and uses the Google API and geocode function to Pin all the locations on a map. Wrote this for my dad so he could research real estate</p>
+                    <a href="https://github.com/tomemme/AddressGeoCode">View Project</a>
+                </div>
 
-            <h2>Dentsu Projects</h2>
-            <div class="project-card">
-                <h3>Cloud migration for Account servers</h3>
-                <p>Helped migrate the code base and processing from using Corporate servers to AWS servers. Change required the rewriting of some powershell scripts into linux. Which came at the cost of losing OOP capabilities.</p>
-            </div>
-            <div class="project-card">
-                <h3>PGP Key expiration monitor</h3>
-                <p>Wrote a bash script that gets executed weekly to monitor a User's PGP keyring and evaluates which keys might be expiring withing a month or a week and would email the Team which key was expiring and when.</p>
-            </div>
-            <div class="project-card">
-                <h3>RDatabase Primary Key change.</h3>
-                <p>Helped scope out LOE and commence change request to modify the account primary key which impacted 50% of codebase.</p>
-            </div>
-            <!-- Add more project cards as needed -->
-        </section>
+                <h2>Dentsu Projects</h2>
+                <div class="project-card">
+                    <h3>Cloud migration for Account servers</h3>
+                    <p>Helped migrate the code base and processing from using Corporate servers to AWS servers. Change required the rewriting of some powershell scripts into linux. Which came at the cost of losing OOP capabilities.</p>
+                </div>
+                <div class="project-card">
+                    <h3>PGP Key expiration monitor</h3>
+                    <p>Wrote a bash script that gets executed weekly to monitor a User's PGP keyring and evaluates which keys might be expiring withing a month or a week and would email the Team which key was expiring and when.</p>
+                </div>
+                <div class="project-card">
+                    <h3>RDatabase Primary Key change.</h3>
+                    <p>Helped scope out LOE and commence change request to modify the account primary key which impacted 50% of codebase.</p>
+                </div>
+                <!-- Add more project cards as needed -->
+            </section>
     </section>
     </main>
     <footer>
