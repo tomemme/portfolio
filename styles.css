@@ -184,7 +184,7 @@ body {
 
 @media (min-width: 768px) {
     .bio {
-        flex-direction: row; /* Align items side-by-side on larger screens */
+        flex-direction: column; /* Align items side-by-side on larger screens */
         justify-content: space-around; /* Distributes space around items */
     }
 }
