@@ -182,13 +182,6 @@ body {
     padding: 20px;
 }
 
-@media (min-width: 768px) {
-    .bio {
-        flex-direction: column; /* Align items side-by-side on larger screens */
-        justify-content: space-around; /* Distributes space around items */
-    }
-}
-
 
 .bio img {
     width: 150px; /* Example width, adjust as needed */
@@ -204,7 +197,7 @@ body {
 }
 
 .bio p, .bio footer {
-    text-align: justify; /* Justifies the text for a cleaner look */
+    text-align: left; /* Justifies the text for a cleaner look */
     color: #666; /* Lighter text color for a modern look */
 }
 
