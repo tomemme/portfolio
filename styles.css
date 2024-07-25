@@ -173,12 +173,22 @@ body {
 
 /* about me CSS for main section */
 .bio {
-    background-color: #fff; /* Provides a light background to enhance readability */
-    padding: 20px; /* Adds space around the content */
-    border-radius: 8px; /* Softens the edges */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for a layered effect */
-    margin: 20px 0; /* Ensures sufficient spacing around the section */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically on smaller screens */
+    align-items: center; /* Center-align the content for a nicer look on wider screens */
+    gap: 20px; /* Adds space between flex items */
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
+
+@media (min-width: 768px) {
+    .bio {
+        flex-direction: row; /* Align items side-by-side on larger screens */
+        justify-content: space-around; /* Distributes space around items */
+    }
+}
+
 
 .bio img {
     width: 150px; /* Example width, adjust as needed */
