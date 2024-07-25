@@ -88,6 +88,23 @@ body {
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);  /* Adds a shadow for better visibility */
 }
 
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .left-sidebar, .right-sidebar, .projects, .bio {
+        width: 100%; /* Full width for small screens */
+        max-width: none; /* Overrides any max-width set earlier */
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .navbar a {
+        padding: 10px; /* Larger hit area for links */
+    }
+
+    footer .footer-container {
+        width: 95%; /* More space on smaller screens */
+    }
+}
+
 
 /*left sidebar */
 
@@ -153,6 +170,34 @@ body {
 }
 
 /* Add more styles to customize the right sidebar */
+
+/* about me CSS for main section */
+.bio {
+    background-color: #fff; /* Provides a light background to enhance readability */
+    padding: 20px; /* Adds space around the content */
+    border-radius: 8px; /* Softens the edges */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for a layered effect */
+    margin: 20px 0; /* Ensures sufficient spacing around the section */
+}
+
+.bio img {
+    width: 150px; /* Example width, adjust as needed */
+    height: auto; /* Maintains aspect ratio */
+    border-radius: 50%; /* Makes the image circular */
+    display: block;
+    margin: 0 auto 20px; /* Centers the image and adds spacing below */
+}
+
+.bio h2 {
+    text-align: center; /* Centers the heading text */
+    color: #333; /* Dark color for contrast */
+}
+
+.bio p, .bio footer {
+    text-align: justify; /* Justifies the text for a cleaner look */
+    color: #666; /* Lighter text color for a modern look */
+}
+
 
 
 
