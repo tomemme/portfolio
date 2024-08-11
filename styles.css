@@ -1,5 +1,23 @@
 /* styles.css */
 
+/* Header Styling */
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 2em;
+}
+
+/* Main Layout */
+main {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
 /*styling for navigation bar*/
 .navbar {
     background-color: #333; /* Dark background for the navbar */
@@ -143,64 +161,72 @@ body {
 }
 /*left sidebar */
 
-/* CSS for the right sidebar */
-.right-sidebar {
-    position: absolute; /* Position it absolutely within its containing element */
-    right: 0; /* Align it to the right edge of the container */
-    background-color: #f5f5f5;
-    width: 10%;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Style the content inside the right sidebar as needed */
-.right-sidebar h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px; /* Example: Increase the font size for headings */
-}
-
-.right-sidebar ul {
-    list-style-type: square; /* Example: Use square bullets for lists */
-    padding: 0;
-}
-
-.right-sidebar p {
-    margin: 0;
-}
-
 /* Add more styles to customize the right sidebar */
 
 /* about me CSS for main section */
+/* About Me Section */
 .bio {
-    display: flex;
-    flex-direction: column; /* Stack elements vertically on smaller screens */
-    align-items: center; /* Center-align the content for a nicer look on wider screens */
-    gap: 20px; /* Adds space between flex items */
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    flex: 2;
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
 .bio img {
-    width: 150px; /* Example width, adjust as needed */
-    height: auto; /* Maintains aspect ratio */
-    border-radius: 50%; /* Makes the image circular */
-    display: block;
-    margin: 0 auto 20px; /* Centers the image and adds spacing below */
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 20px;
 }
 
 .bio h2 {
-    text-align: center; /* Centers the heading text */
-    color: #333; /* Dark color for contrast */
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #2980b9;
+    text-align: center;
 }
 
-.bio p, .bio footer {
-    text-align: left; /* Justifies the text for a cleaner look */
-    color: #666; /* Lighter text color for a modern look */
+.bio p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-align: justify;
+    color: #555;
 }
 
+.bio blockquote {
+    font-style: italic;
+    color: #666;
+    margin: 20px 0;
+    padding-left: 20px;
+    border-left: 5px solid #2980b9;
+}
+
+/* CSS for the right sidebar */
+/* Sidebar Styling */
+.right-sidebar {
+    flex: 1;
+    background-color: #ecf0f1;
+    padding: 20px;
+    margin-left: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.right-sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #2980b9;
+}
+
+.right-sidebar ul {
+    list-style-type: square;
+    padding-left: 20px;
+}
+
+.right-sidebar li {
+    margin-bottom: 10px;
+}
 
 
 
@@ -300,8 +326,8 @@ footer {
     color: #FFFFFF;  /* White text color */
     text-align: center;  /* Center-align the text */
     padding: 20px 0;  /* Padding above and below the text */
-    font-size: 14px;  /* Moderate text size */
-    border-top: 3px solid #2980B9;  /* Blue border on the top edge */
+    font-size: 0.9rem;  /* Moderate text size */
+    margin-top: 40px;
 }
 
 footer a {
@@ -311,7 +337,7 @@ footer a {
 }
 
 footer a:hover {
-    color: #BDC3C7;  /* Light grey color on hover */
+    text-decoration: underline;
 }
 
 .footer-container {
