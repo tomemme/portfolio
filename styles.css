@@ -9,15 +9,6 @@ header {
     font-size: 2em;
 }
 
-/* Main Layout */
-main {
-    display: flex;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 20px;
-}
-
 /*styling for navigation bar*/
 .navbar {
     background-color: #333; /* Dark background for the navbar */
