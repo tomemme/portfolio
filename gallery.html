@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Gallery Styles */
+        .gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px auto;
+        }
+
+        .gallery-item {
+            margin: 10px;
+            border: 1px solid #2f6e2f;
+            padding: 10px;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            color: #2f6e2f;
+            flex: 1;
+        }
+
+        /*.gallery-item img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border: 1px solid #2f6e2f; /* Green border for images 
+        }*/
+        
+        .img-small {
+            width: 220px;
+        }
+
+        .img-medium {
+            width: 440px;
+        }
+
+        .img-large {
+            width: 800px;
+        }
+
+        .gallery-item p {
+            font-size: 0.9em;
+            color: #2f6e2f;
+        }
+
+        .wide-image {
+            width: 150%; /* or any specific width you prefer, like 150%, 200px, etc. */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+    <div class="retroContainer">
+        <header>
+            <pre>
+                _
+                _____  ( )  _____
+                  vVVVVV\__|__/VVVVVv  
+                vVVVVVVvvv|vvvVVVVVVv
+                vVVVV      |      VVVVv
+               vVVV        | >=.   VVVv
+               vVV         |____)   VVv
+               v          (|          v
+                 |)
+                (|  
+                 |)
+                (| 
+                 |`
+    ejm         |
+            </pre>
+            <h1>Image Gallery</h1>
+        </header>
+
+        <div class="navbar">
+            <a href="index.html">Home</a>
+            <a href="retroAbout.html">About Me</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="gallery.html">Image Gallery</a> <!-- Link to the gallery page -->
+        </div>
+
+        <main>
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <img src="images/square_mahjong.jpg" alt="Description 1" class="img-medium">
+                    <p>My aunt gave me her old PC and I would play this game for hours. I got grounded and took the PC apart just curious how it all worked.</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/rocky.jpg" alt="Description 2" class="img-small">
+                    <p>I've always been competitive, im pretty sure my dad and I had to buy this game twice due to my mom breaking it.</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/balboa.jpg" alt="Description 3" class="img-large">
+                    <p>My first duty station where I worked many various jobs as a Corpsman</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/fmf.jpeg" alt="Description 4" class="img-large">
+                    <p>Pic of 3rd Battalion 4th Marines BAS for the 2011 deployment to Afghanistan.</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/college.jpg" alt="Description 5" class="img-large">
+                    <p>Uni where I graduated, also grew up here swimming and playing basketball</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/aca.jpeg" alt="Description 6" class="img-small">
+                    <p>Doing my graduation project Demonstraition for the Arkansas Code Academy</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/cheesedip.jpg" alt="Description 6" class="img-medium">
+                    <p>Merkle Fun team cheesedip competition, I took second, told you I was competitive.</p>
+                </div>
+                <!-- Add more gallery items as needed -->
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-container">
+                <p>Contact Information: </p>
+                <p>Email: <a href="mailto:swimaster22@gmail.com">swimaster22@gmail.com</a></p>
+                <p>LinkedIn: <a href="https://www.linkedin.com/in/thomas-emmerling-553454b1/" target="_blank">thomas-emmerling</a></p>
+                <p>GitHub: <a href="https://github.com/tomemme" target="_blank">tomemme</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

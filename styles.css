@@ -1,339 +1,117 @@
-/* styles.css */
-
-/* Header Styling */
 header {
-    background-color: #2c3e50;
-    color: white;
-    padding: 20px;
     text-align: center;
-    font-size: 2em;
+    margin-bottom: 20px;
 }
 
-/*styling for navigation bar*/
-.navbar {
-    background-color: #333; /* Dark background for the navbar */
-    overflow: hidden; /* Ensures the navbar contents don't overflow */
+body {
+    font-family: "Courier New", Courier, monospace;
+    background-color: #000; /* black background */
+    color: #2f6e2f; /* bright green text */
+}
+
+.navbar, .footer-container, .bio, .right-sidebar {
+    border: 1px solid #2f6e2f;
+    padding: 10px;
+}
+
+.bio-container {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 20px; /* Space between the bio text and the image/quotes */
 }
 
 .navbar a {
-    float: left; /* Align links to the left side */
-    display: block; /* Make each link a block element */
-    color: white; /* White text color */
-    text-align: center; /* Center the text inside the link */
-    padding: 14px 20px; /* Padding inside each link */
-    text-decoration: none; /* No underline on links */
+    color: #2f6e2f;
+    text-decoration: none;
+    padding: 10px;
 }
 
 .navbar a:hover {
-    background-color: #ddd; /* Light background on hover */
-    color: black; /* Dark text on hover */
-}
-
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
-.container {
-    display: flex;
-    flex-direction: row; /* Horizontal layout */
-    align-items: flex-start; /* Align items at the start of the flex container */
-    background: url('images/sereneNature.webp') no-repeat center center;
-    background-size: cover;
-    padding: 20px;
-}
-
-#schoolImage {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999; /* Ensure the image appears on top of other content */
-}
-
-#school2Image {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999; /* Ensure the image appears on top of other content */
-}
-
-#fmfImage {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999; /* Ensure the image appears on top of other content */
-}
-
-#balboaImage {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999; /* Ensure the image appears on top of other content */
-}
-
-/* Style for the image icon container */
-.image-icon {
-    display: inline-block;  /* Keeps the icon aligned properly */
-    vertical-align: middle;  /* Centers icon vertically relative to text */
-    cursor: pointer;  /* Changes the cursor to a pointer to indicate it's clickable */
-}
-
-/* Initially hide the image */
-.hidden-image {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;  /* Ensures the image appears on top of other content */
-    max-width: 600px;  /* Limits the size to ensure it's not too large */
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);  /* Adds a shadow for better visibility */
-}
-
-/* Responsive design adjustments */
-@media (max-width: 768px) {
-    .left-sidebar, .right-sidebar, .projects, .bio {
-        width: 100%; /* Full width for small screens */
-        max-width: none; /* Overrides any max-width set earlier */
-        padding: 10px; /* Adjust padding for smaller screens */
-    }
-
-    .navbar a {
-        padding: 10px; /* Larger hit area for links */
-    }
-
-    footer .footer-container {
-        width: 95%; /* More space on smaller screens */
-    }
-}
-
-
-/*left sidebar */
-
-.left-sidebar {
-    background-color: #f5f5f5;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 20%;
-}
-
-.left-sidebar h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    text-align: center;
-}
-
-.left-sidebar ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.left-sidebar li {
-    margin-bottom: 15px;
-}
-
-.left-sidebar h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.left-sidebar p {
-    margin: 0;
-}
-/*left sidebar */
-
-/* Add more styles to customize the right sidebar */
-
-/* about me CSS for main section */
-/* About Me Section */
-.bio {
-    flex: 2;
-    background-color: white;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.bio img {
-    width: 150px;
-    height: auto;
-    border-radius: 50%;
-    margin-bottom: 20px;
-}
-
-.bio h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #2980b9;
-    text-align: center;
-}
-
-.bio p {
-    font-size: 1rem;
-    margin-bottom: 20px;
-    text-align: justify;
-    color: #555;
-}
-
-.bio blockquote {
-    font-style: italic;
-    color: #666;
-    margin: 20px 0;
-    padding-left: 20px;
-    border-left: 5px solid #2980b9;
-}
-
-/* CSS for the right sidebar */
-/* Sidebar Styling */
-.right-sidebar {
-    flex: 1;
-    background-color: #ecf0f1;
-    padding: 20px;
-    margin-left: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.right-sidebar h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: #2980b9;
-}
-
-.right-sidebar ul {
-    list-style-type: square;
-    padding-left: 20px;
-}
-
-.right-sidebar li {
-    margin-bottom: 10px;
-}
-
-
-
-.left-sidebar, .projects {
-    flex: 1;  /* Each section takes equal space */
-    padding: 20px;
-}
-
-
-header {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 20px;
-}
-
-.projects {
-    max-width: 70%;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.project-card {
-    background-color: #f8f8f8;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 40px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
-}
-
-.project-card:hover {
-    transform: scale(1.05);
-}
-
-.project-card h3 {
-    font-size: 1.2rem;
-    color: #333;
-}
-
-.project-card p {
-    color: #666;
-    line-height: 1.6; /*improves readability*/
-}
-
-.project-card a {
-    display: inline-block;
-    padding: 5px 10px;
-    background-color: #333;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.project-card a:hover {
-    background-color: #555;
-}
-
-.image-box {
-   display: none;
-   border: 1px solid #ccc;
-   padding: 10px;
-   margin: 10px; 
-}
-
-/*start of wordCloud*/
-
-main#wordCloud {
-    position: relative;
-    height: calc(100vh - 120px);
-    overflow: hidden;
-    background: url('images/sereneNature.webp') no-repeat center center;
-    background-size: cover;
-}
-
-#wordCloud span {
-    font-size: 2em;
-    color: rgb(10, 10, 10);  /* White text color */
-    font-weight: bold;
-    padding: 5px; /*adds spacing around each word*/
-    margin: 5px; /*prevents word overlapping i hope*/
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 5s ease-in-out forwards;
-}
-
-@keyframes fadeIn {
-    from { transform: translate(-50%, -50%) scale(0); }
-    to { transform: translate(-50%, -50%) scale(1); }
-}
-
-/*end of wordCloud*/
-
-/* Footer styling */
-footer {
-    background-color: #2C3E50;  /* Dark blue background */
-    color: #FFFFFF;  /* White text color */
-    text-align: center;  /* Center-align the text */
-    padding: 20px 0;  /* Padding above and below the text */
-    font-size: 0.9rem;  /* Moderate text size */
-    margin-top: 40px;
-}
-
-footer a {
-    color: #FFFFFF;  /* Ensures links are also white */
-    text-decoration: none;  /* No underlines on the links */
-    transition: color 0.3s;  /* Smooth transition for hover effect */
-}
-
-footer a:hover {
     text-decoration: underline;
 }
 
-.footer-container {
-    margin: 0 auto;  /* Centers the footer container */
-    width: 80%;  /* Limits the width of the footer content */
-    display: block;
+.quotes blockquote {
+    margin: 0 0 20px 0;
+    padding: 0 10px;
+    border-left: 3px solid #2f6e2f;
+    color: #2f6e2f;
 }
 
+.quotes p {
+    margin: 0;
+}
+
+.quotes footer {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #2f6e2f;
+}
+
+.blinking-text {
+    animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+
+
+.profile-photo {
+    width: 400px;
+    height: auto;
+    margin-right: 20px;
+    border: 1px solid #2f6e2f;
+}
+
+.retroContainer {
+    width: 80%; /* or a fixed width like 960px */
+    max-width: 1200px; /* limits the width on larger screens */
+    margin: 0 auto; /* centers the container */
+    padding: 20px; /* optional: add some padding around the content */
+}
+
+#wordCloud {
+    position: relative;
+    width: 100%;
+    height: 600px; /* Adjust height based on your design */
+    border: 1px solid #2f6e2f; /* Green border to match the retro theme */
+    overflow: hidden; /* Ensure words don't overflow */
+    font-family: 'Courier New', Courier, monospace; /* Retro font */
+    color: #2f6e2f; /* Green text */
+}
+
+
+/* portfolio */
+.portfolioContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    padding: 20px;
+    margin: 0 auto; /* centers the container */
+}
+
+.left-sidebar, .projects {
+    width: 48%;
+}
+
+.education-container, .career-container, .project-card {
+    border: 1px solid #2f6e2f;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.education-section {
+    margin-bottom: 20px;
+}
+
+.project-card a {
+    color: #2f6e2f;
+    text-decoration: none;
+}
+
+.project-card a:hover {
+    text-decoration: underline;
+}
