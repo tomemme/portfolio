@@ -14,6 +14,28 @@ body {
     padding: 10px;
 }
 
+.right-sidebar ul {
+    display: flex; /* Use Flexbox for the horizontal layout */
+    justify-content: flex-start; /* Align items to the left */
+    list-style-type: none; /* Remove bullets from the list */
+    padding: 0; /* Remove default padding */
+    margin: 0; /* Remove default margin */
+}
+
+.right-sidebar li {
+    margin-right: 20px; /* Add some space between each item */
+}
+
+.right-sidebar a {
+    color: #0c5221; /* Retro green color */
+    text-decoration: none; /* Remove underline */
+}
+
+.right-sidebar a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+
 .bio-container {
     display: flex;
     align-items: flex-start;
@@ -35,6 +57,7 @@ body {
     padding: 0 10px;
     border-left: 3px solid #2f6e2f;
     color: #2f6e2f;
+    font-style: italic;
 }
 
 .quotes p {
