@@ -52,11 +52,12 @@ body {
     text-decoration: underline;
 }
 
+/* Quotes section */
 .quotes blockquote {
     margin: 0 0 20px 0;
     padding: 0 10px;
-    border-left: 3px solid #2f6e2f;
-    color: #2f6e2f;
+    border-left: 3px solid #5d2b70;
+    color: #5d2b70;
     font-style: italic;
 }
 
@@ -66,9 +67,10 @@ body {
 
 .quotes footer {
     margin-top: 5px;
-    font-size: 0.9em;
-    color: #2f6e2f;
+    font-size: 1.0em;
+    color: #8a2f6c;
 }
+/* Quotes section */
 
 .blinking-text {
     animation: blink 1s step-start infinite;
@@ -79,7 +81,6 @@ body {
         opacity: 0;
     }
 }
-
 
 
 .profile-photo {
