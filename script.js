@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (cloud) {
         const cloudHeight = cloud.clientHeight;
         const cloudWidth = cloud.clientWidth;
-        const speed = 2; // Speed of the bouncing words
+        const speed = 1; // Speed of the bouncing words
 
         words.forEach(word => {
             let span = document.createElement('span');
