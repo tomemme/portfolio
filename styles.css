@@ -109,6 +109,34 @@ body {
 
 
 /* portfolio */
+
+.languages-banner {
+    width: 100%; /* Full width banner */
+    overflow: hidden; /* Hide the text that overflows the container */
+    background-color: #000; /* Retro black background */
+    border: 1px solid #2f6e2f; /* Retro green border */
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: "Courier New", Courier, monospace;
+    color: #8a2f6c;
+}
+
+.scrolling-text {
+    display: inline-block;
+    white-space: nowrap; /* Prevents text from wrapping */
+    animation: scroll 30s linear infinite; /* 15-second scrolling animation */
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(100%); /* Start off-screen to the right */
+    }
+    100% {
+        transform: translateX(-100%); /* End off-screen to the left */
+    }
+}
+
+
 .portfolioContainer {
     display: flex;
     justify-content: space-between;
