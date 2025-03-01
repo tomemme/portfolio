@@ -30,6 +30,9 @@ ejm         |
     
         <!-- Navigation Bar -->
         <div class="navbar">
+            <button class="menu-toggle">
+                <span class="hamburger">☰</span> Index
+            </button> <!-- Hamburger icon -->
             <a href="index.html">Home</a>
             <a href="retroAbout.html">About Me</a>
             <a href="portfolio.html">Portfolio</a>
@@ -47,8 +50,8 @@ ejm         |
     <main>
         <section class="portfolioContainer">
             <section class="left-sidebar">
-                <h2>Educational Background</h2>
-                <ul class="education-container">
+                <h2 class="collapsible-header" data-target="#education-container">Educational Background <span class="toggle-icon">▼</span></h2>
+                <div class="education-container" id="education-container">
                     <section class="education-section">
                         <h3>BSc Information Science (2020-2016)</h3>
                         <p>Applied Networking</p>
@@ -67,9 +70,9 @@ ejm         |
                         <p>CompTIA Security+</p>
                         <p>Corps School</p>
                     </section>
-                </ul>
-                <h2>Work History</h2>
-                <ul class="career-container">
+                </div>
+                <h2 class="collapsible-header" data-target="#career-container">Work History <span class="toggle-icon">▼</span></h2>
+                <div class="career-container" id="career-container">
                     <section class="education-section">
                         <h3>Dentsu (...-2017)</h3>
                         <h4>Database Developer</h4>
@@ -92,45 +95,49 @@ ejm         |
                         <p>Worked on a team of 12 to vaccinate all the Naval staff in the greater San Diego area as part of NMCSD Balboa staff vaccination readiness program. 
                             We vaccinated around 20,000 people, during the 2008 flu season.</p> 
                     </section>
-                </ul>
+                </div>
             </section>
             <section class="projects">
-                <h2>Current Projects on GitHub</h2>
-                <div class="project-card">
-                    <h3>Encrypted Journal application</h3>
-                    <p>An encrypted journal application written in Python, the app uses SHA512 and AES encryption, along with password hashing.</p>
-                    <a href="https://github.com/tomemme/EncryptedJournal">View project</a>
-                </div>
-                <div class="project-card">
-                    <h3>Focused Reader</h3>
-                    <p>JavaScript browser extension that helps readers stay focused on the line they are reading, mimics when you would have a coversheet over the book you are reading.</p>
-                    <a href="https://github.com/tomemme/focusedReader">View Project</a>
-                </div>
-                <div class="project-card">
-                    <h3>PC space cleanup program</h3>
-                    <p>PowerShell script automates the cleanup of temporary files, browser cache, log files, and the Recycle Bin on a Windows system. It includes a dry-run mode for testing and generates a log file to track the cleanup operations</p>
-                    <a href="https://github.com/tomemme/auto_cleanup_task">View Project</a> 
-                </div>
-                <div class="project-card">
-                    <h3>Parcel Geocode Locator</h3>
-                    <p>Program that takes address information and uses the Google API and geocode function to Pin all the locations on a map. Wrote this for my dad so he could research real estate</p>
-                    <a href="https://github.com/tomemme/AddressGeoCode">View Project</a>
+                <h2 class="collapsible-header" data-target="#current-projects">Current Projects on GitHub <span class="toggle-icon">▼</span></h2>
+                <div class="project-card-container" id="current-projects">
+                    <div class="project-card">
+                        <h3>Encrypted Journal application</h3>
+                        <p>An encrypted journal application written in Python, the app uses SHA512 and AES encryption, along with password hashing.</p>
+                        <a href="https://github.com/tomemme/EncryptedJournal">View project</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>Focused Reader</h3>
+                        <p>JavaScript browser extension that helps readers stay focused on the line they are reading, mimics when you would have a coversheet over the book you are reading.</p>
+                        <a href="https://github.com/tomemme/focusedReader">View Project</a>
+                    </div>
+                    <div class="project-card">
+                        <h3>PC space cleanup program</h3>
+                        <p>PowerShell script automates the cleanup of temporary files, browser cache, log files, and the Recycle Bin on a Windows system. It includes a dry-run mode for testing and generates a log file to track the cleanup operations</p>
+                        <a href="https://github.com/tomemme/auto_cleanup_task">View Project</a> 
+                    </div>
+                    <div class="project-card">
+                        <h3>Parcel Geocode Locator</h3>
+                        <p>Program that takes address information and uses the Google API and geocode function to Pin all the locations on a map. Wrote this for my dad so he could research real estate</p>
+                        <a href="https://github.com/tomemme/AddressGeoCode">View Project</a>
+                    </div>
                 </div>
 
-                <h2>Dentsu Career Projects</h2>
-                <div class="project-card">
-                    <h3>Cloud migration for Account servers</h3>
-                    <p>Helped migrate the code base and processing from using corporate servers to AWS servers. Change required the rewriting of some PowerShell scripts into Linux, losing OOP capabilities and having to program around them.</p>
+                <h2 class="collapsible-header" data-target="#dentsu-projects">Dentsu Career Projects <span class="toggle-icon">▼</span></h2>
+                <div class="project-card-container" id="dentsu-projects">
+                    <div class="project-card">
+                        <h3>Cloud migration for Account servers</h3>
+                        <p>Helped migrate the code base and processing from using corporate servers to AWS servers. Change required the rewriting of some PowerShell scripts into Linux, losing OOP capabilities and having to program around them.</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>PGP Key expiration monitor</h3>
+                        <p>Wrote a bash script that gets executed weekly to monitor a User's PGP keyring and evaluates which keys might be expiring withing a month or a week and would email the Team which key was expiring and when.</p>
+                    </div>
+                    <div class="project-card">
+                        <h3>RDatabase Primary Key change.</h3>
+                        <p>Helped scope out LOE and commence change request to modify the account primary key which impacted 50% of codebase.</p>
+                    </div>
+                    <!-- Add more project cards as needed -->
                 </div>
-                <div class="project-card">
-                    <h3>PGP Key expiration monitor</h3>
-                    <p>Wrote a bash script that gets executed weekly to monitor a User's PGP keyring and evaluates which keys might be expiring withing a month or a week and would email the Team which key was expiring and when.</p>
-                </div>
-                <div class="project-card">
-                    <h3>RDatabase Primary Key change.</h3>
-                    <p>Helped scope out LOE and commence change request to modify the account primary key which impacted 50% of codebase.</p>
-                </div>
-                <!-- Add more project cards as needed -->
             </section>
         </section>
     </main>

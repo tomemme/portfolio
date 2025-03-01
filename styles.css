@@ -3,13 +3,36 @@ header {
     margin-bottom: 20px;
 }
 
+/* Default styles (desktop) */
+.navbar {
+    background: #000;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border: 1px solid #2f6e2f;
+}
+
+.navbar a {
+    color: #2f6e2f; /* Neon green from your theme */
+    text-decoration: none;
+    font-family: 'Courier New', Courier, monospace; /* Keep the retro font */
+    padding: 10px 15px; /* Slightly more padding for desktop */
+    /*border: 1px solid #2f6e2f; /* Match the retro border style */
+    margin-right: 10px; /* Space between links */
+    display: inline-block; /* Ensures links stay side by side on desktop */
+  }
+
+.navbar a:hover {
+    text-decoration: underline;
+    text-shadow: 0 0 5px #2f6e2f; /* Add a subtle glow for the hacker vibe */
+}
+
 body {
     font-family: "Courier New", Courier, monospace;
     background-color: #000; /* black background */
     color: #2f6e2f; /* bright green text */
 }
 
-.navbar, .footer-container, .bio, .right-sidebar {
+.footer-container, .bio, .right-sidebar {
     border: 1px solid #2f6e2f;
     padding: 10px;
 }
@@ -40,16 +63,7 @@ body {
     display: flex;
     align-items: flex-start;
     margin-top: 20px; /* Space between the bio text and the image/quotes */
-}
-
-.navbar a {
-    color: #2f6e2f;
-    text-decoration: none;
-    padding: 10px;
-}
-
-.navbar a:hover {
-    text-decoration: underline;
+    box-shadow: 0 0 10px #5d2b70; /* Outer glow for terminal look */
 }
 
 /* Quotes section */
@@ -72,13 +86,59 @@ body {
 }
 /* Quotes section */
 
+.bio {
+    border: 1px solid #2f6e2f;
+    padding: 10px;
+    margin-top: 20px;
+    background: #000; /* Ensure dark background */
+    color: #2f6e2f; /* Neon green text */
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 0 0 10px #2f6e2f; /* Outer glow for terminal look */
+}
+
+/* Optional: Add a subtle scanline background */
+.bio::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAG0lEQVR42mN8//8/AwMDQ1gYGBgYGD4z8DAwMDAwMMDAwMDAwMMDAwMDAwMDEwMDEwMDEwMDAAAAAElFTkSuQmCC') repeat;
+    opacity: 0.15; /* Very subtle scanlines */
+    pointer-events: none; /* Don’t interfere with clicks */
+    z-index: -1; /* Behind content */
+}
+
+/* Ensure bio stays above the scanline */
+.bio > * {
+    position: relative;
+    z-index: 1;
+}
+
+.bio-section {
+    margin-bottom: 15px; /* Space between sections */
+}
+
+.bio-section h3 {
+    margin-top: 0;
+    color: #2f6e2f;
+    /*text-shadow: 0 0 5px #2f6e2f; /* Subtle glow for hacker vibe */
+}
+
+.retro-icon {
+    margin-left: 5px;
+    animation: blink 1.5s step-start infinite; /* Blinking effect for icons */
+}
+
+
 .blinking-text {
     animation: blink 1s step-start infinite;
 }
 
 @keyframes blink {
     50% {
-        opacity: 0;
+        opacity: 0.5;
     }
 }
 
@@ -136,6 +196,40 @@ body {
     }
 }
 
+/* Default styles (desktop and mobile) */
+.collapsible-header {
+    cursor: pointer;
+    margin: 0;
+    padding: 10px;
+    color: #2f6e2f; /* Neon green */
+    font-family: 'Courier New', Courier, monospace;
+    border: 1px solid #2f6e2f; /* Retro green border */
+    background: #000; /* Dark background */
+    text-shadow: 0 0 5px #2f6e2f; /* Glow effect for hacker vibe */
+}
+
+.collapsible-header:hover {
+    background: #2f6e2f; /* Green background on hover */
+    color: #000; /* Black text for contrast */
+}
+
+.toggle-icon {
+    margin-left: 5px;
+    font-size: 0.8em;
+    transition: transform 0.3s ease;
+}
+
+.collapsible-header.active .toggle-icon {
+    transform: rotate(180deg); /* Flip arrow when open */
+}
+
+.education-container, .career-container {
+    border: 1px solid #2f6e2f;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: block; /* Ensure content is visible by default on desktop */
+}
+
 
 .portfolioContainer {
     display: flex;
@@ -146,7 +240,9 @@ body {
 }
 
 .left-sidebar, .projects {
-    width: 48%;
+    width: 48%; /* Roughly half the container width on desktop */
+    /*border: 1px solid #2f6e2f; /* Retro green border */
+    padding: 10px;
 }
 
 .education-container, .career-container, .project-card {
@@ -166,4 +262,150 @@ body {
 
 .project-card a:hover {
     text-decoration: underline;
+    text-shadow: 0 0 5px #2f6e2f; /* Glow effect for hacker vibe */
+}
+
+.menu-toggle {
+    display: none; /* Hidden on desktop */
+    background: #000;
+    color: #2f6e2f;
+    border: 1px solid #2f6e2f;
+    padding: 10px;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  
+.navbar.mobile-menu a {
+    display: none; /* Hide links by default on mobile */
+}
+  
+.navbar.mobile-menu.active a {
+    display: block; /* Show links when menu is active */
+}
+
+/* Mobile styles (add to or modify the existing media query) */
+@media (max-width: 1025px) {
+    /* Navbar (Hamburger Menu) */
+    .menu-toggle {
+        display: block; /* Show hamburger on mobile */
+    }
+
+    .navbar a {
+        display: none; /* Hide links by default on mobile */
+    }
+
+    .navbar.active a {
+        display: block; /* Show links when menu is toggled */
+        margin-bottom: 10px;
+        padding: 15px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar.active a:hover {
+        background: #2f6e2f;
+        color: #000;
+        text-shadow: 0 0 5px #2f6e2f;
+    }
+
+    /* Profile Photo (from retroAbout.html) */
+    .profile-photo {
+        width: 100%; /* Full width on mobile */
+        max-width: 100%; /* Prevent overflow */
+        margin-right: 0; /* Remove right margin since it’s full width */
+        margin-bottom: 20px; /* Add space below the image for the next section */
+    }
+
+    /* Bio Container and Related Sections (from retroAbout.html) */
+    .bio-container {
+        display: block; /* Stack elements vertically on mobile */
+        margin-bottom: 0; /* Remove bottom margin to avoid extra space */
+    }
+
+    .quotes {
+        margin-top: 10px; /* Space below the photo */
+        margin-bottom: 20px; /* Space above the bio */
+    }
+
+    .bio {
+        padding: 10px;
+        margin-top: 15px; /* Slightly less margin on mobile */
+    }
+
+    .bio-section {
+        margin-bottom: 10px; /* Less space between sections on mobile */
+    }
+
+    .retro-icon {
+        font-size: 1.1em; /* Slightly smaller icons on mobile for balance */
+    }
+
+    /* Portfolio Container and Related Sections (from portfolio.html) */
+    .portfolioContainer {
+        display: block; /* Stack sections vertically */
+        width: 100%; /* Full width on mobile */
+        padding: 10px; /* Less padding on mobile */
+        margin: 0; /* Remove auto margins on mobile */
+    }
+
+    .left-sidebar, .projects {
+        width: 99%; /* Full width on mobile (your custom width) */
+        margin-bottom: 20px; /* Space between sections */
+    }
+
+    .collapsible-header {
+        padding: 8px; /* Slightly less padding on mobile */
+        font-size: 1.1em; /* Larger for readability */
+    }
+
+    .education-container, .career-container, .project-card-container {
+        padding: 8px; /* Less padding on mobile */
+        margin-bottom: 15px; /* Tighter spacing */
+    }
+
+    .education-section, .project-card {
+        margin-bottom: 10px; /* Tighter spacing on mobile */
+        padding: 8px; /* Slightly less padding for mobile */
+    }
+
+    /* Increase font size for readability on mobile */
+    .left-sidebar h2, .projects h2, .left-sidebar h3, .projects h3, .left-sidebar h4, .projects h4 {
+        font-size: 1.1em; /* Slightly larger headers on mobile */
+    }
+
+    .left-sidebar p, .projects p {
+        font-size: 0.9em; /* Slightly larger body text on mobile */
+    }
+
+    /* Languages Banner (from portfolio.html) */
+    .languages-banner {
+        padding: 8px; /* Less padding on mobile */
+    }
+
+    .scrolling-text {
+        animation: scroll 60s linear infinite; /* Slower scroll on mobile for readability */
+        font-size: 0.9em; /* Smaller text to fit */
+    }
+
+    .scrolling-text:hover {
+        animation-play-state: paused;
+    }
+
+    /* Links and General Readability */
+    .project-card a, .left-sidebar a {
+        padding: 5px;
+        font-size: 0.9em; /* Larger for touch */
+    }
+
+    .project-card a:hover, .left-sidebar a:hover {
+        text-shadow: 0 0 5px #2f6e2f;
+    }
+
+    h2 {
+        margin-bottom: 10px;
+    }
+
+    p {
+        margin-bottom: 8px;
+    }
 }
