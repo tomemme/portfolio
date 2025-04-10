@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bad Ideas</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: url('https://www.transparenttextures.com/patterns/dark-matter.png') black;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+    #container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1, h2 {
+      animation: intro 5s linear 1;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin-top: 20px;
+    }
+    @keyframes intro {
+      0% {
+        opacity: 0;
+        transform: translateY(100%);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    #bad-idea-form {
+      margin-bottom: 20px;
+    }
+    textarea {
+      width: 80%;
+      max-width: 600px;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #ffcc00;
+      border: none;
+      color: black;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      transition-duration: 0.4s;
+    }
+    button:hover {
+      background-color: black;
+      color: white;
+    }
+    #messages {
+      position: relative;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .message {
+      position: absolute;
+      width: 100%;
+      animation: messageIntro 10s linear forwards;
+    }
+    @keyframes messageIntro {
+      0% {
+        opacity: 0;
+        transform: translateY(0);
+      }
+      10% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(100vh);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Don't dwell on your Bad Ideas</h1>
+    <form id="bad-idea-form">
+      <textarea id="idea" rows="4" cols="50" placeholder="Type your bad idea here..."></textarea>
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+    <div id="messages-container">
+      <h2>Last Bad Ideas</h2>
+      <div id="messages"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('bad-idea-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      submitIdea();
+    });
+
+    document.getElementById('idea').addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        submitIdea();
+      }
+    });
+
+    function submitIdea() {
+      const idea = document.getElementById('idea').value;
+      fetch('/badideas/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: idea })
+      }).then(response => response.text())
+        .then(data => {
+          document.getElementById('idea').value = '';
+          loadLatestMessage();
+        });
+    }
+
+    function loadLatestMessage() {
+      fetch('/badideas/latest-message')
+        .then(response => response.json())
+        .then(data => {
+          const messagesDiv = document.getElementById('messages');
+          const p = document.createElement('p');
+          p.textContent = data.content;
+          p.classList.add('message');
+          messagesDiv.appendChild(p);
+
+          // Remove the message element after the animation ends
+          setTimeout(() => {
+            messagesDiv.removeChild(p);
+          }, 10000); // Match the duration of the animation
+        });
+    }
+
+    // Initial load and periodic refresh
+    setInterval(loadLatestMessage, 2000); // Adjust the interval as needed
+  </script>
+</body>
+</html>
