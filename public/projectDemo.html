@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YHZQJ4Y6Y1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-YHZQJ4Y6Y1');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Demos</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Gallery Styles */
+        .gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px auto;
+            gap: 10px;
+            max-width: 1400px; /* Cap the container width on large screens */
+        }
+
+        .gallery-item {
+            margin: 10px;
+            border: 1px solid #2f6e2f;
+            padding: 10px;
+            text-align: center;
+            font-family: "Courier New", Courier, monospace;
+            color: #2f6e2f;
+            flex: 1 1 700px; /* Default flex basis for desktop, grows/shrinks */
+            max-width: 100%; /* Ensure items don’t exceed container */
+            box-shadow: 0 0 5px #2f6e2f; /* Subtle glow for hacker vibe */
+        }
+
+        .gallery-item.small {
+            flex: 1 1 500px;
+            max-width: 500px;
+        }
+
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            border: 1px solid #2f6e2f; /* Green border for images */
+        }
+
+        .gallery-item p {
+            font-size: 0.9em;
+            color: #2f6e2f;
+        }
+
+        /* Mobile-specific styles (already handled in @media 1025px, but adding here for clarity) */
+        @media (max-width: 1025px) {
+            .gallery-item {
+                flex: 1 1 100%; /* Full width on mobile */
+                margin: 5px; /* Less margin on mobile */
+                padding: 8px; /* Less padding on mobile */
+            }
+
+            .gallery-item img, .gallery-item video {
+                max-width: 100%; /* Ensure images fit on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="retroContainer">
+        <header>
+            <pre>
+                _
+                _____  ( )  _____
+                  vVVVVV\__|__/VVVVVv  
+                vVVVVVVvvv|vvvVVVVVVv
+                vVVVV      |      VVVVv
+               vVVV        | >=.   VVVv
+               vVV         |____)   VVv
+               v          (|          v
+                 |)
+                (|  
+                 |)
+                (| 
+                 |`
+    ejm         |
+            </pre>
+            <h1>Code Project Demonstrations</h1>
+        </header>
+
+        <div class="navbar">
+            <button class="menu-toggle">
+                <span class="hamburger">☰</span> Index
+            </button> <!-- Hamburger icon -->
+            <a href="index.html">Home</a>
+            <a href="retroAbout.html">About Me</a>
+            <a href="portfolio.html">Portfolio</a>
+            <a href="projectDemo.html">Project Demos</a>
+            <a href="gallery.html">Image Gallery</a> <!-- Link to the gallery page -->
+            <a href="books.html">Fav Books</a>
+        </div>
+
+        <main>
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <h3>Focused Reader Demo</h3>
+                    <video controls muted playsinline>
+                        <source src="/videos/focusedReaderDemo.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video> 
+                </div>
+                <div class="gallery-item">
+                    <img src="https://raw.githubusercontent.com/tomemme/phrackOverlay/main/guiDemo.gif" alt="UI overlay">
+                    <p>A user friendly interface overlay created for easier navigation of a website.</p>
+                </div>
+                <div class="gallery-item small">
+                    <img src="https://raw.githubusercontent.com/tomemme/EncryptedJournal/main/guiDemo.gif" alt="Journal">
+                    <p>A encrypted journal that is password protected and lives in a compressed json file.</p>
+                </div>
+                <div class="gallery-item small">
+                    <img src="https://raw.githubusercontent.com/tomemme/screeps/main/screepsDemo.gif" alt="gif">
+                    <p>Level 5 controller reached with 2 towers and a ton of extensions and roads built.</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="" alt="Description 1">
+                    <p></p>
+                </div>
+                <!-- Add more gallery items as needed -->
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-container">
+                <p>Contact Information: </p>
+                <p>Email: <a href="mailto:swimaster22@gmail.com">swimaster22@gmail.com</a></p>
+                <p>LinkedIn: <a href="https://www.linkedin.com/in/thomas-emmerling-553454b1/" target="_blank">thomas-emmerling</a></p>
+                <p>GitHub: <a href="https://github.com/tomemme" target="_blank">tomemme</a></p>
+            </div>
+        </footer>
+        <script src="script.js"></script>
+    </div>
+</body>
+</html>
