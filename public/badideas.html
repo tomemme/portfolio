@@ -3,6 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YHZQJ4Y6Y1"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YHZQJ4Y6Y1');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Don't Dwell on your Bad ideas let them fall away. Try it on www.tomemme.com/badideas.html">
+  <meta name="keywords" content="negativity go away, positivity is key, mental health">
+  <meta name="author" content="Emmerling">
   <title>Bad Ideas</title>
   <style>
     body {
@@ -16,8 +29,29 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      padding-top: 20px;
+      min-height: 100vh;
+      /*justify-content: center;
+      height: 100vh;*/
+    }
+    #button-container {
+    margin-bottom: 20px;
+    }
+    #button-container button {
+      background-color: #ffcc00;
+      border: none;
+      color: black;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      margin: 0 10px;
+      cursor: pointer;
+      transition-duration: 0.4s;
+    }
+    #button-container button:hover {
+      background-color: black;
+      color: white;
     }
     h1, h2 {
       animation: intro 5s linear 1;
@@ -68,6 +102,7 @@
       position: relative;
       width: 100%;
       margin-top: 20px;
+      height: 60vh; /* Give more room for falling messages */
     }
     .message {
       position: absolute;
@@ -92,6 +127,10 @@
 </head>
 <body>
   <div id="container">
+    <div id="button-container">
+      <a href="https://tomemme.com"><button>Portfolio</button></a>
+      <a href="https://irc.tomemme.com"><button>IRC App</button></a>
+    </div>
     <h1>Don't dwell on your Bad Ideas</h1>
     <form id="bad-idea-form">
       <textarea id="idea" rows="4" cols="50" placeholder="Type your bad idea here..."></textarea>
