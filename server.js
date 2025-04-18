@@ -45,41 +45,49 @@ app.post('/submit-contact', async (req, res) => {
 
 // Serve landing.html for the root URL
 app.get('/', (req, res) => {
-    console.log('Serving landing.html for root URL');
-    res.sendFile(path.join(__dirname, 'public', 'landing.html'), (err) => {
-        if (err) {
-            console.error('Error serving landing.html:', err);
-            res.status(500).send('Server error');
-        }
-    });
+  const filePath = path.join(__dirname, 'public', 'landing.html');
+  console.log(`Attempting to serve landing.html from ${filePath}`);
+  res.sendFile(filePath, (err) => {
+      if (err) {
+          console.error(`Error serving landing.html: ${err.message}`);
+          res.status(500).send('Server error: Unable to load landing page');
+      } else {
+          console.log('Successfully served landing.html');
+      }
+  });
 });
 
 // Serve index.html for the portfolio route
 app.get('/portfolio', (req, res) => {
-    console.log('Serving index.html for /portfolio');
-    res.sendFile(path.join(__dirname, 'public', 'index.html'), (err) => {
-        if (err) {
-            console.error('Error serving index.html:', err);
-            res.status(404).send('Portfolio not found');
-        }
-    });
+  const filePath = path.join(__dirname, 'public', 'index.html');
+  console.log(`Attempting to serve index.html from ${filePath}`);
+  res.sendFile(filePath, (err) => {
+      if (err) {
+          console.error(`Error serving index.html: ${err.message}`);
+          res.status(404).send('Portfolio not found');
+      } else {
+          console.log('Successfully served index.html');
+      }
+  });
 });
 
 // Handle other routes by serving the appropriate HTML file or falling back to landing.html
 app.get('*', (req, res) => {
-    console.log(`Attempting to serve ${req.path}.html`);
-    const requestedPath = `${req.path}.html`;
-    res.sendFile(path.join(__dirname, 'public', requestedPath), (err) => {
-        if (err) {
-            console.log('Falling back to landing.html');
-            res.sendFile(path.join(__dirname, 'public', 'landing.html'), (err) => {
-                if (err) {
-                    console.error('Error serving fallback landing.html:', err);
-                    res.status(500).send('Server error');
-                }
-            });
-        }
-    });
+  const requestedPath = path.join(__dirname, 'public', `${req.path}.html`);
+  console.log(`Attempting to serve ${requestedPath}`);
+  res.sendFile(requestedPath, (err) => {
+      if (err) {
+          console.log(`File not found, falling back to landing.html`);
+          res.sendFile(path.join(__dirname, 'public', 'landing.html'), (err) => {
+              if (err) {
+                  console.error(`Error serving fallback landing.html: ${err.message}`);
+                  res.status(500).send('Server error: Unable to load page');
+              } else {
+                  console.log('Successfully served landing.html as fallback');
+              }
+          });
+      }
+  });
 });
 
 const port = process.env.PORT || 3000;
