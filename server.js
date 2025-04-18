@@ -43,23 +43,41 @@ app.post('/submit-contact', async (req, res) => {
     }
 });
 
-// Serve landing.html for the root url
+// Serve landing.html for the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', landing.html));
+    console.log('Serving landing.html for root URL');
+    res.sendFile(path.join(__dirname, 'public', 'landing.html'), (err) => {
+        if (err) {
+            console.error('Error serving landing.html:', err);
+            res.status(500).send('Server error');
+        }
+    });
 });
 
-// serve index as the portfolio route
+// Serve index.html for the portfolio route
 app.get('/portfolio', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    console.log('Serving index.html for /portfolio');
+    res.sendFile(path.join(__dirname, 'public', 'index.html'), (err) => {
+        if (err) {
+            console.error('Error serving index.html:', err);
+            res.status(404).send('Portfolio not found');
+        }
+    });
 });
 
-// Handle all routes by serving the appropriate HTML file or falling back to index.html
+// Handle other routes by serving the appropriate HTML file or falling back to landing.html
 app.get('*', (req, res) => {
+    console.log(`Attempting to serve ${req.path}.html`);
     const requestedPath = `${req.path}.html`;
     res.sendFile(path.join(__dirname, 'public', requestedPath), (err) => {
         if (err) {
-            // If the requested HTML file doesn't exist, fall back to index.html
-            res.sendFile(path.join(__dirname, 'public', 'landing.html'));
+            console.log('Falling back to landing.html');
+            res.sendFile(path.join(__dirname, 'public', 'landing.html'), (err) => {
+                if (err) {
+                    console.error('Error serving fallback landing.html:', err);
+                    res.status(500).send('Server error');
+                }
+            });
         }
     });
 });
