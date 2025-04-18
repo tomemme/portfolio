@@ -4,12 +4,13 @@
     "description": "Portfolio site for tomemme.com",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js"
+        "start": "node server.js"
     },
     "dependencies": {
-      "express": "^4.18.2"
+        "express": "^4.18.2",
+        "node-fetch": "^2.7.0"
     },
     "engines": {
-      "node": "20.x"
+        "node": "20.x"
     }
-  }
+}
