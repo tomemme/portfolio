@@ -1,7 +1,17 @@
 const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
+const nodemailer = require('nodemailer');
 const app = express();
+
+// Create a Nodemailer transporter using Gmail SMTP
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.GMAIL_USER, // Your Gmail address
+        pass: process.env.GMAIL_APP_PASSWORD // Your Gmail App Password
+    }
+});
 
 // Middleware to parse JSON bodies for form submissions
 app.use(express.json());
@@ -33,17 +43,24 @@ app.post('/submit-contact', async (req, res) => {
         submissions.push(submission);
         await fs.writeFile(path.join(__dirname, 'submissions.json'), JSON.stringify(submissions, null, 2));
 
-        // Trigger n8n webhook
-        const webhookUrl = process.env.N8N_WEBHOOK_URL;
-        if (webhookUrl) {
-            await fetch(webhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(submission)
-            });
-            console.log('Webhook triggered:', webhookUrl);
-        } else {
-            console.log('N8N_WEBHOOK_URL not set, skipping webhook');
+        // Send email via Nodemailer
+        const mailOptions = {
+            from: process.env.GMAIL_USER, // Your Gmail address
+            to: 'tomemme@outlook.com',
+            subject: `New Contact Form Submission from ${name}`,
+            text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}\nTimestamp: ${submission.timestamp}`,
+            html: `<p><strong>Name:</strong> ${name}</p>
+                   <p><strong>Email:</strong> ${email}</p>
+                   <p><strong>Message:</strong> ${message}</p>
+                   <p><strong>Timestamp:</strong> ${submission.timestamp}</p>`
+        };
+
+        try {
+            await transporter.sendMail(mailOptions);
+            console.log(`Email sent to tomemme@outlook.com from ${email}`);
+        } catch (error) {
+            console.error('Error sending email:', error.message);
+            // Still respond with success since submission is saved
         }
 
         res.json({ message: 'Message sent successfully! You’ll hear from us soon.' });
