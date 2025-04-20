@@ -6,8 +6,12 @@ const app = express();
 // Middleware to parse JSON bodies for form submissions
 app.use(express.json());
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from the 'public' directory with logging
+app.use(express.static(path.join(__dirname, 'public'), {
+    setHeaders: (res, filePath) => {
+        console.log(`Serving static file: ${filePath}`);
+    }
+}));
 
 // Handle contact form submissions
 app.post('/submit-contact', async (req, res) => {
@@ -42,14 +46,14 @@ app.post('/submit-contact', async (req, res) => {
             console.log('N8N_WEBHOOK_URL not set, skipping webhook');
         }
 
-        res.json({ message: 'Message sent successfully! You will hear from us soon.' });
+        res.json({ message: 'Message sent successfully! You’ll hear from us soon.' });
     } catch (error) {
         console.error('Error processing submission:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });
 
-// Serve index.html (formerly landing.html) for the root URL
+// Serve index.html (Tech Integration Solutions) for the root URL
 app.get('/', (req, res) => {
     const filePath = path.join(__dirname, 'public', 'index.html');
     console.log(`Attempting to serve index.html from ${filePath}`);
@@ -63,7 +67,7 @@ app.get('/', (req, res) => {
     });
 });
 
-// Serve home.html (formerly index.html) for the portfolio route
+// Serve home.html (portfolio) for the portfolio route
 app.get('/portfolio', (req, res) => {
     const filePath = path.join(__dirname, 'public', 'home.html');
     console.log(`Attempting to serve home.html from ${filePath}`);
