@@ -63,7 +63,7 @@ app.post('/submit-contact', async (req, res) => {
             // Still respond with success since submission is saved
         }
 
-        res.json({ message: 'Message sent successfully! You’ll hear from us soon.' });
+        res.json({ message: 'Message sent successfully! You will hear from us soon.' });
     } catch (error) {
         console.error('Error processing submission:', error);
         res.status(500).json({ message: 'Server error' });
