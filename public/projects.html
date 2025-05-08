@@ -57,7 +57,7 @@
                 </div>
             </nav>
             <!-- Projects Section-->
-            <section class="py-5">
+            <section class="py-5" id="projects">
                 <div class="container px-5 mb-5">
                     <div class="text-center mb-5">
                         <h1 class="display-5 fw-bolder mb-0"><span class="text-gradient d-inline">Projects</span></h1>
@@ -67,27 +67,57 @@
                             <!-- Project Card 1-->
                             <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
                                 <div class="card-body p-0">
-                                    <div class="d-flex align-items-center">
-                                        <div class="p-5">
+                                    <div class="d-flex flex-column flex-md-row align-items-center">
+                                        <div class="p-5 flex-grow-1">
                                             <h2 class="fw-bolder">Focused Reader</h2>
-                                            <p>Browser extension to help readers stay focused on the line they are reading, mimics the analog process of coversheet over the book you are reading.</p>
-                                        </div>
+                                            <p class="mb-4">Digital overlay program as a browser extension and also as a Python electron desktop app.</p>
+                                            <h6 class="text-secondary fw-bold mb-1">Problem</h6>
+                                            <p class="mb-3">Post war I had trouble reading as smoothly and enjoyably as before, I would get lost going from one line to the next line.</p>
+                            
+                                            <h6 class="text-secondary fw-bold mb-1">Solution</h6>
+                                            <p class="mb-0">Focused Reader lets the user controll by arrow keys or mouse wheel a digital coversheet guiding the eye just like a physical reading guide.</p>
+                                          </div>
                                         <img class="img-fluid" src="assets/focusedReader.gif" alt="..." />
                                     </div>
                                 </div>
                             </div>
                             <!-- Project Card 2-->
-                            <div class="card overflow-hidden shadow rounded-4 border-0">
+                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
                                 <div class="card-body p-0">
-                                    <div class="d-flex align-items-center">
-                                        <div class="p-5">
+                                    <div class="d-flex flex-column flex-md-row align-items-center">
+                                        <div class="p-5 flex-grow-1">
                                             <h2 class="fw-bolder">Encrypted Journal</h2>
-                                            <p>Python program performing message encoding using salting with a nonce and AES GCM encryption, password hashing. All stored in a protected compressed JSON file.</p>
+                                            <p class="mb-4">Python program performing message encoding using salting with a nonce and AES GCM encryption, password hashing. All stored in a protected compressed JSON file.</p>
+
+                                            <h6 class="text-secondary fw-bold mb-1">Problem</h6>
+                                            <p class="mb-3">Plain text notes are vulnerable to leaks, exposing personal thoughts if a machine is lost or hacked.</p>
+
+                                            <h6 class="text-secondary fw-bold mb-1">Solution</h6>
+                                            <p class="mb-0">The tool encrypts on write and requires your passphrase on read, offering tamper proof, end to end protection for private journaling.</p>
                                         </div>
                                         <img class="img-fluid" src="assets/journal.gif" alt="..." />
                                     </div>
                                 </div>
                             </div>
+                            <!-- Project Card 3 (placeholder)—duplicate & fill in for new items -->
+                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
+                                <div class="card-body p-0">
+                                <div class="d-flex flex-column flex-md-row align-items-center">
+                                    <div class="p-5 flex-grow-1">
+                                    <h2 class="fw-bolder">PC cleanup script</h2>
+                                    <p class="mb-4">PowerShell program which removes temporary files, browser cache, windows log files, and empties the recycle bin.</p>
+                    
+                                    <h6 class="text-secondary fw-bold mb-1">Problem</h6>
+                                    <p class="mb-3">Developing with AI and building a lot of quirky side projects leaves your PC cluttered.</p>
+                    
+                                    <h6 class="text-secondary fw-bold mb-1">Solution</h6>
+                                    <p class="mb-0">So, I created a program to automate keeping my PC clean and free space available for use. Comes with a dry run mode, to log what would be delete before deleting data.</p>
+                                    </div>
+                                    <img class="img-fluid" src="assets/cleanupNew.PNG" alt="Screenshot or GIF of the project" />
+                                </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
