@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Encrypted Journal Tour</title>
+  <link rel="stylesheet" href="landingstyles.css" />
+  <script src="https://unpkg.com/mermaid@9/dist/mermaid.min.js"></script>
+</head>
+<body class="container py-5">
+  <a href="projects.html#journal-card" class="btn btn-sm btn-outline-primary mb-4">← Back to Portfolio</a>
+
+  <h1 class="mb-4">Encrypted Journal: In‑Depth Tour</h1>
+
+  <!-- Overview & Dependencies -->
+  <section class="mb-5">
+    <h2>🔗 Overview & Dependencies</h2>
+    <p>This application relies on the following Python modules and libraries (as imported at the top of <code>secure_journal.py</code>):</p>
+    <ul>
+      <li><code>tkinter</code> for GUI components and dialogs <code>import tkinter as tk</code></li>
+      <li><code>cryptography</code> primitives for key derivation and encryption (<code>Scrypt</code> and <code>AESGCM</code>)</li>
+      <li>Standard library modules: <code>base64</code>, <code>os</code>, <code>sys</code>, <code>gzip</code>, <code>json</code>, <code>datetime</code>, <code>gc</code>, <code>secrets</code>, <code>re</code>, <code>string</code>, <code>contextmanager</code></li>
+      <li><code>enchant</code> for local spell‑checking journal entries</li>
+      <li>Optional Windows-specific modules (<code>win32security</code> and <code>ntsecuritycon</code>) for setting file permissions</li>
+    </ul>
+    <p>These imports establish the core functionality: GUI, secure key derivation & encryption, file I/O, spell‑checking, and optional platform‑specific enhancements.</p>
+    <p class="small text-muted">Import list sourced from <code>secure_journal.py</code> fileciteturn1file3.</p>
+  </section>
+
+  <!-- Audio narration -->
+  <section class="mb-5">
+    <h2>🎙️ Voice Overview</h2>
+    <audio controls preload="metadata" src="assets/audio/journal.m4a">
+      Your browser doesn’t support the audio element.
+    </audio>
+  </section>
+
+  <!-- Architectural diagram -->
+  <section class="mb-5">
+    <h2>📊 Architecture & Data Flow</h2>
+    <div class="mermaid">
+flowchart TD
+  A["User enters text"] --> B["scrypt() derives key"]
+  B --> C["AESGCM.encrypt(nonce, data)"]
+  C --> D["Base64 encode and Gzip to journal.json.gz"]
+  D --> E["Saved to disk with secure permissions"]
+  E --> F["On load: reverse steps"]
+    </div>
+  </section>
+
+  <!-- Code walkthrough -->
+  <section class="mb-5">
+    <h2>💻 Code Walkthrough</h2>
+
+    <details class="mb-3">
+      <summary><strong>1. Key Derivation (scrypt)</strong></summary>
+      <pre><code class="language-python">
+# derive a 32-byte key from the passphrase
+kdf = Scrypt(
+    salt=secrets.token_bytes(16),
+    length=32,
+    n=2**14, r=8, p=1,
+)
+key = kdf.derive(password.encode())
+      </code></pre>
+      <p>This uses Scrypt to turn your passphrase into a strong symmetric key.</p>
+    </details>
+
+    <details class="mb-3">
+      <summary><strong>2. Encryption (AES-GCM)</strong></summary>
+      <pre><code class="language-python">
+aesgcm = AESGCM(key)
+nonce = secrets.token_bytes(12)
+ciphertext = aesgcm.encrypt(nonce, message.encode(), None)
+record = {
+  "nonce": base64.b64encode(nonce).decode(),
+  "entry": base64.b64encode(ciphertext).decode()
+}
+      </code></pre>
+      <p>AES-GCM provides both confidentiality and integrity.</p>
+    </details>
+
+    <details class="mb-3">
+      <summary><strong>3. Compression & Storage</strong></summary>
+      <pre><code class="language-python">
+with gzip.open('journal.json.gz', 'wt', encoding='utf-8') as f:
+    json.dump(data_list, f, indent=4)
+      </code></pre>
+      <p>Gzip shrinks the file and JSON ensures structured storage.</p>
+    </details>
+
+    <details class="mb-3">
+      <summary><strong>4. Loading & Decryption</strong></summary>
+      <pre><code class="language-python">
+with gzip.open('journal.json.gz', 'rt', encoding='utf-8') as f:
+    data_list = json.load(f)
+plaintext = aesgcm.decrypt(nonce, ciphertext, None).decode()
+      </code></pre>
+      <p>Reverses the write steps to retrieve your journal text.</p>
+    </details>
+
+    <details>
+      <summary><strong>5. GUI Interaction</strong></summary>
+      <p>All encryption calls are wrapped in GUI methods with proper password prompts and session timeouts.</p>
+    </details>
+  </section>
+
+  <script>
+    if(window.mermaid) mermaid.initialize({ startOnLoad: true });
+  </script>
+</body>
+</html>
