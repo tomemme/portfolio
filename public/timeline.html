@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YHZQJ4Y6Y1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-YHZQJ4Y6Y1');
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Tom Emme's personal technology and learning timeline" />
+    <meta name="keywords" content="Tom Emmerling, technology history, learning timeline, career milestones" />
+    <meta name="author" content="Thomas Emmerling" />
+    <title>Tom Emme | Technology Timeline</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Custom Google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="homestyles.css" rel="stylesheet" />
+
+    <!-- Custom timeline styles -->
+    <style>
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--bs-primary);
+            transform: translateX(-50%);
+        }
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 1.5rem 2rem;
+        }
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 1.5rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--bs-primary);
+            box-shadow: 0 0 0 4px var(--bs-white);
+        }
+        .timeline-item:nth-child(odd)::before {
+            right: -11px;
+        }
+        .timeline-item:nth-child(even)::before {
+            left: -11px;
+        }
+        .timeline-item .card {
+            display: inline-block;
+            width: 100%;
+            border: none;
+            background: var(--bs-gray-100);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            padding: 1rem;
+        }
+        .timeline-item .card h5 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .timeline-item .card p {
+            margin-bottom: 0;
+        }
+        @media (max-width: 767px) {
+            .timeline::before {
+                left: 1rem;
+            }
+            .timeline-item {
+                width: 100%;
+                padding-left: 3rem;
+                padding-right: 1rem;
+                text-align: left !important;
+            }
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            .timeline-item::before {
+                left: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="d-flex flex-column h-100">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+        <div class="container px-5">
+            <a class="navbar-brand" href="index.html">
+                <span class="fw-bolder text-primary">Thomas Emmerling</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resume.html">Resume</a></li>
+                    <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="timeline.html">Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header-->
+    <header class="py-5 bg-light">
+        <div class="container px-5">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bolder mb-0">
+                    <span class="text-gradient d-inline">My Technology Timeline</span>
+                </h1>
+                <p class="text-secondary mt-3">A chronological journey through my key milestones in technology.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Timeline Section-->
+    <section class="py-5">
+        <div class="container px-5">
+            <div class="timeline">
+                <!-- Item 1 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">'90s</h5>
+                        <p class="text-muted fw-semibold mb-1">Got my first PC and gaming console</p>
+                        <p>
+                            Started tinkering around with a PC my aunt gifted me. Big fan of the Game Boy and PS1, which sparked my interest in technology.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2001</h5>
+                        <p class="text-muted fw-semibold mb-1">Bought my first MP3 player</p>
+                        <p>
+                            Having a love for music, and wanting to try new tech, I moved on from CD's.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2008</h5>
+                        <p class="text-muted fw-semibold mb-1">First Laptop, PC & Xbox in the Navy</p>
+                        <p>
+                            My roommate ran Windows on a MacBook to play specific games, interest peaked. Began exploring dual-boot setups and hardware compatibility.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2009</h5>
+                        <p class="text-muted fw-semibold mb-1">Data Analyst at Naval Medical Center San Diego</p>
+                        <p>
+                            Analyzed patient satisfaction surveys in SPSS, generated data reports for command review, and improved decision-making for hospital staff performance.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2009</h5>
+                        <p class="text-muted fw-semibold mb-1">CompTIA Security+ & ISSO Role</p>
+                        <p>
+                            Passed Security+ certification. Became the department's ISSO, triaged minor tech issues with Hospital IT, strengthening my cybersecurity foundation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2009</h5>
+                        <p class="text-muted fw-semibold mb-1">Built Intranet page for Credentialing</p>
+                        <p>
+                            Volunteered to create an intranet page to organize doctors' credential paperwork, scanned hundreds of documents, streamlined verification, and reduced phone inquiries.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2009</h5>
+                        <p class="text-muted fw-semibold mb-1">Started First YouTube Channel</p>
+                        <p>
+                            Recorded COD4 gameplay with a capture card, edited in Pinnacle Studio. Learned Xbox repair and bypass techniques from local contacts, sparked a “hacker mindset.”
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 7 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2010</h5>
+                        <p class="text-muted fw-semibold mb-1">Explored Jailbreaking iPhones & Xbox</p>
+                        <p>
+                            Dug into the mechanics of jailbreaking, understood the steps teams take to prevent it. This fueled my curiosity about firmware, exploits, and reverse engineering.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 8 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2015</h5>
+                        <p class="text-muted fw-semibold mb-1">First OOP Class in C#</p>
+                        <p>
+                            Switched from nursing courses to pursue technology. Learned object-oriented principles in C#, which solidified my passion for software development.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 9 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2016</h5>
+                        <p class="text-muted fw-semibold mb-1">Began Deep Dive into Bitcoin</p>
+                        <p>
+                            Researched Bitcoin's inner workings—studied blockchain mechanics, cryptographic hashing, and decentralized consensus algorithms.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 10 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2016</h5>
+                        <p class="text-muted fw-semibold mb-1">Completed Community College</p>
+                        <p>
+                            Earned my Associate's in Computer Information Systems, building a strong foundation in networking, databases, and basic programming concepts.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 11 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2017</h5>
+                        <p class="text-muted fw-semibold mb-1">Jolt Hackathon Participation</p>
+                        <p>
+                            Attended my first hackathon, built out-of-the-box thinking skills through Capture the Flag challenges and collaborative problem solving.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 12 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2017</h5>
+                        <p class="text-muted fw-semibold mb-1">Arkansas Coding Academy (ACA)</p>
+                        <p>
+                            Battled imposter syndrome and completed a 3 month Java/SQL bootcamp—strengthened my coding muscles and learned best practices for software design.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 13 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2017</h5>
+                        <p class="text-muted fw-semibold mb-1">Dev/Ops Internship at Merkle & Return to UNI</p>
+                        <p>
+                            Landed a Dev/Ops internship—worked with Linux, PowerShell, and BASH. Returned to university to finish my Information Science degree.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 14 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2018</h5>
+                        <p class="text-muted fw-semibold mb-1">Built First Gaming PC</p>
+                        <p>
+                            Planned, sourced parts, and built my own gaming PC, transitioned fully to PC gaming and learned about hardware benchmarking and overclocking.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 15 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2020</h5>
+                        <p class="text-muted fw-semibold mb-1">Graduated & Hired as Developer</p>
+                        <p>
+                            Completed my degree and joined as a developer. Over the previous years, I honed skills in PowerShell, Linux, T-SQL, interface design, C++, Lisp, JavaScript, Python, Flutter/Dart, and more.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 16 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2022</h5>
+                        <p class="text-muted fw-semibold mb-1">AI Enhancement Begins</p>
+                        <p>
+                            With ChatGPT's release, I dove into AI—built tools, automated workflows, and launched CryptoTidbits (an AI driven YouTube channel) using Python and powershell scripts.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 17 -->
+                <div class="timeline-item">
+                    <div class="card">
+                        <h5 class="text-primary">2025</h5>
+                        <p class="text-muted fw-semibold mb-1">AI Enhancement 2.0</p>
+                        <p>
+                            Leveraging open source models on local hardware—rapidly prototyping multi-language AI projects. Turning big ideas into working products faster than ever imagined.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer-->
+    <footer class="bg-white py-4 mt-auto">
+        <div class="container px-5">
+            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+                <div class="col-auto">
+                    <div class="small m-0">Copyright &copy; tomemme.com</div>
+                </div>
+                <div class="col-auto">
+                    <a class="small" href="#!">Privacy</a>
+                    <span class="mx-1">&middot;</span>
+                    <a class="small" href="#!">Terms</a>
+                    <span class="mx-1">&middot;</span>
+                    <a class="small" href="contact.html">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
