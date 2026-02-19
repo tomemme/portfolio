@@ -11738,15 +11738,21 @@ html {
 .geo-puzzle-preview {
   display: block;
   flex-shrink: 0;
-  width: min(100%, 320px);
-  max-height: 420px;
+  width: clamp(180px, 32vw, 280px);
+  max-width: 100%;
+  max-height: min(65vh, 420px);
+  aspect-ratio: 9/16;
   height: auto;
+  object-fit: contain;
   background-color: #111;
+  margin: 1rem;
+  border-radius: 0.75rem;
 }
 
 @media (max-width: 767.98px) {
   .geo-puzzle-preview {
-    width: 100%;
+    width: min(100%, 320px);
     max-height: 520px;
+    margin: 0 1rem 1rem;
   }
 }
