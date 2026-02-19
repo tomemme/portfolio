@@ -11733,3 +11733,20 @@ html {
     left: -2vw;
   }
 }
+
+/* Keep tall mobile demo videos contained inside project cards */
+.geo-puzzle-preview {
+  display: block;
+  flex-shrink: 0;
+  width: min(100%, 320px);
+  max-height: 420px;
+  height: auto;
+  background-color: #111;
+}
+
+@media (max-width: 767.98px) {
+  .geo-puzzle-preview {
+    width: 100%;
+    max-height: 520px;
+  }
+}
