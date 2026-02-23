@@ -34,6 +34,10 @@
                 text-align: left;
             }
 
+            .hero-role-badge .role-second-line {
+                display: inline;
+            }
+
             .hacker-vibe-link {
                 font-family: "Courier New", Courier, monospace;
                 color: #2f6e2f !important;
@@ -56,6 +60,16 @@
             @media (max-width: 575.98px) {
                 .hero-role-badge {
                     display: inline-block;
+                }
+
+                .hero-role-badge .role-separator-2 {
+                    display: none;
+                }
+
+                .hero-role-badge .role-second-line {
+                    display: block;
+                    text-align: center;
+                    margin-top: 0.15rem;
                 }
             }
         </style>
@@ -89,7 +103,7 @@
                         <div class="col-lg-6 text-center text-lg-start">
                             <!-- Badge -->
                             <span class="badge bg-gradient-primary-to-secondary text-white mb-4 fw-semibold hero-role-badge">
-                            Senior Software Engineer · Data Automation · Security-minded Dev
+                            Senior Software Engineer <span class="role-separator">·</span> Data Automation <span class="role-separator role-separator-2">·</span><span class="role-second-line">Security minded Dev</span>
                             </span>
 
                             <!-- Main headline -->
