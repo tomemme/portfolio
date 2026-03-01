@@ -3,6 +3,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const nodemailer = require('nodemailer');
 const app = express();
+app.set('trust proxy', true);
 
 // Create a Nodemailer transporter using Gmail SMTP
 const transporter = nodemailer.createTransport({
@@ -16,8 +17,74 @@ const transporter = nodemailer.createTransport({
 // Middleware to parse JSON bodies for form submissions
 app.use(express.json());
 
+// Force production traffic onto the canonical host and scheme.
+app.use((req, res, next) => {
+    const host = req.headers.host;
+    const forwardedProto = req.headers['x-forwarded-proto'];
+
+    if (host === 'tomemme.com') {
+        return res.redirect(301, `https://www.tomemme.com${req.originalUrl}`);
+    }
+
+    if (host === 'www.tomemme.com' && forwardedProto && forwardedProto !== 'https') {
+        return res.redirect(301, `https://www.tomemme.com${req.originalUrl}`);
+    }
+
+    next();
+});
+
+// Redirect legacy .html URLs to clean routes.
+app.use((req, res, next) => {
+    if (!req.path.endsWith('.html')) {
+        return next();
+    }
+
+    const redirects = {
+        '/index.html': '/',
+        '/home.html': '/retro',
+        '/portfolio.html': '/portfolio',
+        '/gallery.html': '/retro/gallery',
+        '/books.html': '/retro/books',
+        '/journalTour.html': '/journal-tour'
+    };
+
+    const destination = redirects[req.path] || req.path.replace(/\.html$/, '');
+    return res.redirect(301, destination);
+});
+
+app.get('/retro', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'home.html'));
+});
+
+app.get('/portfolio', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'portfolio.html'));
+});
+
+app.get('/retro/gallery', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'gallery.html'));
+});
+
+app.get('/retro/books', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'books.html'));
+});
+
+app.get('/journal-tour', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'journalTour.html'));
+});
+
+app.get('/sitemap.xml', (req, res) => {
+    res.type('application/xml');
+    res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
+});
+
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
+});
+
 // Serve static files from the 'public' directory with logging
 app.use(express.static(path.join(__dirname, 'public'), {
+    extensions: ['html'],
     setHeaders: (res, filePath) => {
         console.log(`Serving static file: ${filePath}`);
     }
@@ -70,7 +137,7 @@ app.post('/submit-contact', async (req, res) => {
     }
 });
 
-// Serve index.html (Tech Integration Solutions) for the root URL
+// Serve index.html for the root URL
 app.get('/', (req, res) => {
     const filePath = path.join(__dirname, 'public', 'index.html');
     console.log(`Attempting to serve index.html from ${filePath}`);
@@ -80,20 +147,6 @@ app.get('/', (req, res) => {
             res.status(500).send('Server error: Unable to load landing page');
         } else {
             console.log('Successfully served index.html');
-        }
-    });
-});
-
-// Serve home.html (portfolio) for the portfolio route
-app.get('/portfolio', (req, res) => {
-    const filePath = path.join(__dirname, 'public', 'home.html');
-    console.log(`Attempting to serve home.html from ${filePath}`);
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            console.error(`Error serving home.html: ${err.message}`);
-            res.status(404).send('Portfolio not found');
-        } else {
-            console.log('Successfully served home.html');
         }
     });
 });

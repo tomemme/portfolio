@@ -10,12 +10,12 @@
         <meta name="ga-page-name" content="Projects" />
         <meta name="ga-page-group" content="Main Site" />
         <meta name="robots" content="index,follow" />
-        <link rel="canonical" href="https://tomemme.com/projects.html" />
+        <link rel="canonical" href="https://www.tomemme.com/projects" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Tom Emme" />
         <meta property="og:title" content="Tom Emme | Projects" />
         <meta property="og:description" content="Projects for Thomas Emmerling's career transition" />
-        <meta property="og:url" content="https://tomemme.com/projects.html" />
+        <meta property="og:url" content="https://www.tomemme.com/projects" />
         <meta name="keywords" content="
             Thomas Emmerling projects,
             code portfolio,
@@ -46,15 +46,15 @@
             <!-- Navigation-->
             <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
                 <div class="container px-5">
-                    <a class="navbar-brand" href="index.html"><span class="fw-bolder text-primary">Thomas Emmerling</span></a>
+                    <a class="navbar-brand" href="/"><span class="fw-bolder text-primary">Thomas Emmerling</span></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
-                            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="resume.html">Resume</a></li>
-                            <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
-                            <li class="nav-item"><a class="nav-link" href="timeline.html">Timeline</a></li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/resume">Resume</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/projects">Projects</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/timeline">Timeline</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
                             <!-- <li class="nav-item"><a class="nav-link" href="/portfolio">Portfolio</a></li>
                             <li class="nav-item"><a class="nav-link" href="tis.html">Tech Integration Solutions</a></li> -->
                         </ul>
@@ -69,6 +69,38 @@
                     </div>
                     <div class="row gx-5 justify-content-center">
                         <div class="col-lg-11 col-xl-9 col-xxl-8">
+                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
+                                <div class="card-body p-0">
+                                    <div class="d-flex flex-column flex-md-row align-items-center">
+                                        <div class="p-5 flex-grow-1">
+                                            <span class="badge bg-dark text-uppercase mb-3">Featured Live App</span>
+                                            <h2 class="fw-bolder">BTC Snake</h2>
+                                            <p class="mb-4">Browser game logic tied to Bitcoin-themed interaction, built as a finished web app instead of a static code sample.</p>
+                                            <h6 class="text-secondary fw-bold mb-1">What it proves</h6>
+                                            <p class="mb-4">Real-time UI state management, gameplay loops, and polished delivery on a separate production hostname.</p>
+                                            <a class="btn btn-outline-primary" href="https://btcsnake.tomemme.com/" target="_blank" rel="noopener noreferrer">
+                                                <i class="bi bi-box-arrow-up-right me-2"></i>Launch App
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
+                                <div class="card-body p-0">
+                                    <div class="d-flex flex-column flex-md-row align-items-center">
+                                        <div class="p-5 flex-grow-1">
+                                            <span class="badge bg-dark text-uppercase mb-3">Featured Live App</span>
+                                            <h2 class="fw-bolder">GeoPuzzle Walks</h2>
+                                            <p class="mb-4">Interactive walking-route PWA that turns location checkpoints into collectible puzzle progress.</p>
+                                            <h6 class="text-secondary fw-bold mb-1">What it proves</h6>
+                                            <p class="mb-4">Complex front-end UI, geolocation flows, and product thinking that carries through to a deployable experience.</p>
+                                            <a class="btn btn-outline-primary" href="https://geo-puzzle.vercel.app/" target="_blank" rel="noopener noreferrer">
+                                                <i class="bi bi-box-arrow-up-right me-2"></i>Launch App
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Project Card 1-->
                             <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
                                 <div class="card-body p-0">
@@ -87,7 +119,7 @@
                                 </div>
                             </div>
                             <!-- Project Card 2-->
-                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5">
+                            <div class="card overflow-hidden shadow rounded-4 border-0 mb-5" id="journal-card">
                                 <div class="card-body p-0">
                                     <div class="d-flex flex-column flex-md-row align-items-center">
                                         <div class="p-5 flex-grow-1">
@@ -99,7 +131,7 @@
 
                                             <h6 class="text-secondary fw-bold mb-1">Solution</h6>
                                             <p class="mb-0">The tool encrypts on write and requires your passphrase on read, offering tamper proof, end to end protection for private journaling.</p>
-                                            <a href="journalTour.html" id="journal-tour-btn" class="btn btn-outline-info">Take the Tour</a>
+                                            <a href="/journal-tour" id="journal-tour-btn" class="btn btn-outline-info">Take the Tour</a>
                                         </div>
                                         <img class="img-fluid" src="assets/journal.gif" alt="..." />
                                     </div>
@@ -118,6 +150,9 @@
 
                                             <h6 class="text-secondary fw-bold mb-1">Solution</h6>
                                             <p class="mb-0">GeoPuzzle adds collectible puzzle pieces along route checkpoints, using geolocation in Walk Mode and localStorage to keep progress lightweight and private.</p>
+                                            <a class="btn btn-outline-primary mt-4" href="https://geo-puzzle.vercel.app/" target="_blank" rel="noopener noreferrer">
+                                                <i class="bi bi-box-arrow-up-right me-2"></i>Launch App
+                                            </a>
                                         </div>
                                         <video class="geo-puzzle-preview" controls preload="metadata" aria-label="GeoPuzzle project preview">
                                             <source src="videos/geoPuzzle.mp4" type="video/mp4" />
@@ -154,7 +189,7 @@
                 <div class="container px-5 my-5">
                     <div class="text-center">
                         <h2 class="display-4 fw-bolder mb-4">Let's build something together</h2>
-                        <a class="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder" href="contact.html">Contact me</a>
+                        <a class="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder" href="/contact">Contact me</a>
                     </div>
                 </div>
             </section>
@@ -163,13 +198,13 @@
         <footer class="bg-white py-4 mt-auto">
             <div class="container px-5">
                 <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                    <div class="col-auto"><div class="small m-0">Copyright &copy; tomemme.com</div></div>
+                    <div class="col-auto"><div class="small m-0">Copyright &copy; tomemme.com. Proudly serving clients in Oklahoma City and Remotely.</div></div>
                     <div class="col-auto">
                         <a class="small" href="#!">Privacy</a>
                         <span class="mx-1">&middot;</span>
                         <a class="small" href="#!">Terms</a>
                         <span class="mx-1">&middot;</span>
-                        <a class="small" href="contact.html">Contact</a>
+                        <a class="small" href="/contact">Contact</a>
                     </div>
                 </div>
             </div>

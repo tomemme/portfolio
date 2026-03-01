@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Low-value retro utility pages should not compete with primary business pages.
+Disallow: /retro/gallery
+Disallow: /retro/books
+
+Sitemap: https://www.tomemme.com/sitemap.xml
