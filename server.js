@@ -203,7 +203,7 @@ const buildNdaEmailHtml = ({ name, companyName, message, renderedNda, confirmati
     </div>
 `;
 
-const buildInternalOnboardingHtml = ({ name, companyName, signerTitle, email, message, timestamp, confirmationUrl }) => `
+const buildInternalOnboardingHtml = ({ name, companyName, signerTitle, email, message, timestamp }) => `
     <p><strong>New TIS onboarding request</strong></p>
     <p><strong>Name:</strong> ${escapeHtml(name)}</p>
     <p><strong>Company:</strong> ${escapeHtml(companyName)}</p>
@@ -211,7 +211,19 @@ const buildInternalOnboardingHtml = ({ name, companyName, signerTitle, email, me
     <p><strong>Email:</strong> ${escapeHtml(email)}</p>
     <p><strong>Message:</strong> ${escapeHtml(message)}</p>
     <p><strong>Timestamp:</strong> ${escapeHtml(timestamp)}</p>
-    <p><strong>Confirmation link:</strong> <a href="${escapeHtml(confirmationUrl)}">${escapeHtml(confirmationUrl)}</a></p>
+    <p><strong>NDA status:</strong> Sent to client. Waiting for client confirmation.</p>
+    <p>The client-only confirmation link was sent to ${escapeHtml(email)}.</p>
+`;
+
+const buildInternalConfirmationHtml = ({ name, companyName, signerTitle, email, confirmedAt, confirmedIp, confirmedUserAgent }) => `
+    <p><strong>TIS NDA confirmed</strong></p>
+    <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+    <p><strong>Company:</strong> ${escapeHtml(companyName)}</p>
+    <p><strong>Title:</strong> ${escapeHtml(signerTitle)}</p>
+    <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+    <p><strong>Confirmed at:</strong> ${escapeHtml(confirmedAt)}</p>
+    <p><strong>Confirmation IP:</strong> ${escapeHtml(confirmedIp || 'Not recorded')}</p>
+    <p><strong>User agent:</strong> ${escapeHtml(confirmedUserAgent || 'Not recorded')}</p>
 `;
 
 // Force production traffic onto the canonical host and scheme.
@@ -372,8 +384,9 @@ Title: ${signerTitle}
 Email: ${email}
 Message: ${message}
 Timestamp: ${timestamp}
-Confirmation link: ${confirmationUrl}`,
-                html: buildInternalOnboardingHtml({ name, companyName, signerTitle, email, message, timestamp, confirmationUrl })
+NDA status: Sent to client. Waiting for client confirmation.
+Client-only confirmation link sent to: ${email}`,
+                html: buildInternalOnboardingHtml({ name, companyName, signerTitle, email, message, timestamp })
             };
 
             try {
@@ -441,6 +454,31 @@ app.get('/confirm-onboarding/:token', async (req, res) => {
             record.confirmedIp = req.ip;
             record.confirmedUserAgent = req.get('user-agent') || null;
             await writeJsonArray(ONBOARDING_PATH, onboardingRecords);
+
+            const confirmationMailOptions = {
+                from: MAIL_FROM,
+                replyTo: record.email,
+                to: ADMIN_EMAIL,
+                subject: `TIS NDA confirmed by ${record.name}`,
+                text: `TIS NDA confirmed
+Name: ${record.name}
+Company: ${record.companyName}
+Title: ${record.signerTitle}
+Email: ${record.email}
+Confirmed at: ${record.confirmedAt}
+Confirmation IP: ${record.confirmedIp || 'Not recorded'}
+User agent: ${record.confirmedUserAgent || 'Not recorded'}`,
+                html: buildInternalConfirmationHtml(record)
+            };
+
+            try {
+                await transporter.sendMail(confirmationMailOptions);
+                console.log(`Onboarding NDA confirmed by ${record.email}`);
+            } catch (error) {
+                console.error('Error sending onboarding confirmation email:', error.message);
+            }
+        } else {
+            console.log(`Onboarding NDA confirmation link revisited by ${record.email}`);
         }
 
         return res.send(`

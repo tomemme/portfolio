@@ -27,6 +27,8 @@ This document tracks how `tomemme.com` is built, configured, deployed, and verif
 - TIS onboarding compiles `public/nda.md`, emails the customized NDA, and creates a confirmation link.
 - The NDA source stays in Markdown, but client emails render it as mobile-friendly HTML and attach an `.html` copy.
 - `/confirm-onboarding/:token` records NDA confirmation in `onboarding-submissions.json`.
+- The internal onboarding email does not include the confirmation link, because clicking that link confirms the NDA.
+- When the client confirms, the app sends an admin notification email and logs the confirmation.
 
 ## Production Hosting
 
@@ -142,7 +144,10 @@ Test TIS onboarding:
 2. Submit the onboarding form with a test email you control.
 3. Confirm the client email includes the rendered NDA and confirmation link.
 4. Click the confirmation link.
-5. Check Heroku logs for errors.
+5. Confirm the admin inbox receives a `TIS NDA confirmed...` notification.
+6. Check Heroku logs for errors.
+
+Do not click a client confirmation link from an internal/admin copy of an email. The confirmation URL is a bearer token, so whoever opens it records the NDA as confirmed.
 
 ## Moving Toward Auto Deploy
 
