@@ -14,6 +14,7 @@ This document tracks how `tomemme.com` is built, configured, deployed, and verif
 - Storage: local JSON files written by the app at runtime:
   - `submissions.json`
   - `onboarding-submissions.json`
+  - `calendly-bookings.json`
 - Runtime logs are intentionally ignored by git because they can contain client information.
 
 ## Main App Behavior
@@ -25,7 +26,8 @@ This document tracks how `tomemme.com` is built, configured, deployed, and verif
   - Basic portfolio contact submissions.
   - TIS onboarding submissions from `/tis`.
 - `/schedule` redirects to `CALENDLY_URL` when configured, or back to `/tis#signup` as a safe fallback.
-- `/calendly-webhook` can receive a Calendly booking payload and trigger the same NDA email engine.
+- `/calendly-webhook` can receive a Calendly booking payload, store the booking, and email an admin-only NDA trigger link.
+- `/trigger-nda/:token` sends the NDA from a stored Calendly booking when Tom chooses to trigger it during or after the call.
 - TIS onboarding compiles `public/nda.md`, emails the customized NDA, and creates a confirmation link.
 - The NDA source stays in Markdown, but client emails render it as mobile-friendly HTML and attach an `.html` copy.
 - `/confirm-onboarding/:token` records NDA confirmation in `onboarding-submissions.json`.
@@ -70,6 +72,22 @@ heroku config:set MAIL_REPLY_TO=tomemme@outlook.com
 heroku config:set MAIL_FROM_NAME="Tech Integration Solutions"
 heroku config:set CALENDLY_URL=https://calendly.com/your-user/15-minute-workflow-audit
 ```
+
+Calendly webhook setup:
+
+- Webhooks are what let the app reuse booking details instead of asking the client to fill out the same information again.
+- Configure Calendly to call:
+
+```text
+https://www.tomemme.com/calendly-webhook?token=<CALENDLY_WEBHOOK_TOKEN>
+```
+
+- For the 15-minute audit event, collect these questions in Calendly:
+  - Company name
+  - Job title or role
+  - What repetitive workflow is costing you time?
+- When a booking arrives, the app stores it in `calendly-bookings.json` and emails the admin inbox a private `Send NDA` trigger link.
+- Click the private trigger during or after the call only when an NDA is actually needed.
 
 With Gmail SMTP, Gmail may still show or authenticate the sender as the Gmail account. This is normal and better than spoofing. Client replies should go to `MAIL_REPLY_TO`.
 
@@ -147,11 +165,13 @@ Test TIS onboarding:
 
 1. Open `https://www.tomemme.com/tis`.
 2. Tap `Book a 15-Minute Workflow Audit` and confirm `/schedule` reaches the configured Calendly URL.
-3. Submit the fallback onboarding form with a test email you control.
-4. Confirm the client email includes the rendered NDA and confirmation link.
-5. Click the confirmation link.
-6. Confirm the admin inbox receives a `TIS NDA confirmed...` notification.
-7. Check Heroku logs for errors.
+3. Book a test Calendly meeting with a test email you control.
+4. If Calendly webhooks are configured, confirm the admin inbox receives a `Workflow audit booked...` email with a private NDA trigger.
+5. Click the admin-only trigger during or after the test call.
+6. Confirm the client email receives the rendered NDA and confirmation link.
+7. Click the client confirmation link from the client inbox.
+8. Confirm the admin inbox receives a `TIS NDA confirmed...` notification.
+9. Check Heroku logs for errors.
 
 Do not click a client confirmation link from an internal/admin copy of an email. The confirmation URL is a bearer token, so whoever opens it records the NDA as confirmed.
 

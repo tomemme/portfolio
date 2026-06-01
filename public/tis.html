@@ -184,7 +184,7 @@
                 <div class="row gx-4 gx-lg-5">
                     <div class="col-md-10 col-lg-8 mx-auto text-center">
                         <h2 class="text-white mb-3">Book a 15-Minute Workflow Audit</h2>
-                        <p class="text-white-50 mb-4">Use the scheduler when Calendly is connected, or start onboarding here. The automated NDA will land in your inbox so you can see the workflow working from the first step.</p>
+                        <p class="text-white-50 mb-4">Book the audit first. If we need to discuss sensitive systems after the call starts, I can trigger the NDA from your booking details without making you enter the same information twice.</p>
                         <a class="btn btn-primary audit-link mb-4" href="/schedule">Open Scheduler</a>
                         <form id="customContactForm" action="/submit-contact" method="POST">
                             <div class="mb-3">
@@ -277,7 +277,7 @@
                     if (!response.ok) {
                         throw new Error(result.message || 'Onboarding request failed');
                     }
-                    feedback.textContent = 'Workflow started. The automated NDA is in your inbox, which is exactly the kind of busywork this system is built to remove.';
+                    feedback.textContent = 'Workflow started. The automated NDA is in your inbox, which is exactly the kind of repeated admin work this system is built to remove.';
                     feedback.className = 'mt-3 text-success';
                     form.reset();
                 } catch (error) {

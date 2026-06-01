@@ -19,6 +19,7 @@ const CALENDLY_URL = process.env.CALENDLY_URL || '/tis#signup';
 const CALENDLY_WEBHOOK_TOKEN = process.env.CALENDLY_WEBHOOK_TOKEN;
 const SUBMISSIONS_PATH = path.join(__dirname, 'submissions.json');
 const ONBOARDING_PATH = path.join(__dirname, 'onboarding-submissions.json');
+const CALENDLY_BOOKINGS_PATH = path.join(__dirname, 'calendly-bookings.json');
 const NDA_TEMPLATE_PATH = path.join(__dirname, 'public', 'nda.md');
 
 const transporterOptions = process.env.SMTP_HOST
@@ -228,6 +229,18 @@ const buildInternalConfirmationHtml = ({ name, companyName, signerTitle, email, 
     <p><strong>User agent:</strong> ${escapeHtml(confirmedUserAgent || 'Not recorded')}</p>
 `;
 
+const buildCalendlyBookingHtml = ({ name, companyName, signerTitle, email, message, scheduledAt, triggerUrl }) => `
+    <p><strong>Workflow audit booked</strong></p>
+    <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+    <p><strong>Company:</strong> ${escapeHtml(companyName)}</p>
+    <p><strong>Title:</strong> ${escapeHtml(signerTitle)}</p>
+    <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+    <p><strong>Scheduled time:</strong> ${escapeHtml(scheduledAt || 'See Calendly event')}</p>
+    <p><strong>Workflow note:</strong> ${escapeHtml(message)}</p>
+    <p>Use this private link during or after the call if an NDA is needed:</p>
+    <p><a href="${escapeHtml(triggerUrl)}">Send NDA to ${escapeHtml(email)}</a></p>
+`;
+
 const sendOnboardingNda = async ({ req, name, companyName, signerTitle, email, message, source = 'tis-form' }) => {
     const timestamp = new Date().toISOString();
     const renderedNda = await compileNda({ name, companyName, signerTitle });
@@ -337,9 +350,64 @@ const normalizeCalendlyPayload = (body) => {
     );
     const workflowPain = cleanText(findCalendlyAnswer(normalizedAnswers, [/workflow/, /pain/, /problem/, /repetitive/]), 1000);
     const eventName = cleanText(payload.scheduled_event && payload.scheduled_event.name, 160);
+    const scheduledAt = cleanText(
+        payload.scheduled_event && (payload.scheduled_event.start_time || payload.scheduled_event.start_time_pretty),
+        160
+    );
     const message = workflowPain || `15-Minute Workflow Audit booked${eventName ? `: ${eventName}` : ' through Calendly'}.`;
 
-    return { name, email, companyName, signerTitle, message };
+    return { name, email, companyName, signerTitle, message, scheduledAt };
+};
+
+const storeCalendlyBooking = async ({ req, name, companyName, signerTitle, email, message, scheduledAt }) => {
+    const timestamp = new Date().toISOString();
+    const triggerToken = crypto.randomBytes(32).toString('hex');
+    const triggerUrl = `${getBaseUrl(req)}/trigger-nda/${triggerToken}`;
+    const bookingRecord = {
+        type: 'calendly-booking',
+        name,
+        companyName,
+        signerTitle,
+        email,
+        message,
+        scheduledAt,
+        triggerToken,
+        status: 'pending-nda',
+        createdAt: timestamp,
+        ndaSentAt: null,
+        onboardingConfirmationToken: null
+    };
+
+    const bookings = await readJsonArray(CALENDLY_BOOKINGS_PATH);
+    bookings.push(bookingRecord);
+    await writeJsonArray(CALENDLY_BOOKINGS_PATH, bookings);
+
+    const mailOptions = {
+        from: MAIL_FROM,
+        replyTo: email,
+        to: ADMIN_EMAIL,
+        subject: `Workflow audit booked: ${name}`,
+        text: `Workflow audit booked
+Name: ${name}
+Company: ${companyName}
+Title: ${signerTitle}
+Email: ${email}
+Scheduled time: ${scheduledAt || 'See Calendly event'}
+Workflow note: ${message}
+
+Private NDA trigger:
+${triggerUrl}`,
+        html: buildCalendlyBookingHtml({ name, companyName, signerTitle, email, message, scheduledAt, triggerUrl })
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log(`Calendly booking stored for ${email}`);
+    } catch (error) {
+        console.error('Error sending Calendly booking notification:', error.message);
+    }
+
+    return bookingRecord;
 };
 
 // Force production traffic onto the canonical host and scheme.
@@ -430,26 +498,96 @@ app.post('/calendly-webhook', async (req, res) => {
             }
         }
 
-        const { name, email, companyName, signerTitle, message } = normalizeCalendlyPayload(req.body);
+        const { name, email, companyName, signerTitle, message, scheduledAt } = normalizeCalendlyPayload(req.body);
 
         if (!name || !email || !validator.isEmail(email)) {
             return res.status(400).json({ message: 'Calendly payload is missing a valid name or email' });
         }
 
-        await sendOnboardingNda({
+        await storeCalendlyBooking({
             req,
             name,
             companyName,
             signerTitle,
             email,
             message,
-            source: 'calendly'
+            scheduledAt
         });
 
-        return res.json({ message: 'Calendly onboarding NDA sent' });
+        return res.json({ message: 'Calendly booking stored. Admin NDA trigger sent.' });
     } catch (error) {
         console.error('Error processing Calendly webhook:', error);
         return res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.get('/trigger-nda/:token', async (req, res) => {
+    try {
+        const token = cleanText(req.params.token, 128);
+
+        if (!/^[a-f0-9]{64}$/.test(token)) {
+            return res.status(404).send('<h1>NDA trigger not found</h1><p>Please check the link and try again.</p>');
+        }
+
+        const bookings = await readJsonArray(CALENDLY_BOOKINGS_PATH);
+        const booking = bookings.find((entry) => entry.triggerToken === token);
+
+        if (!booking) {
+            return res.status(404).send('<h1>NDA trigger not found</h1><p>Please check the link and try again.</p>');
+        }
+
+        if (booking.ndaSentAt) {
+            return res.send(`
+                <!doctype html>
+                <html lang="en">
+                    <head>
+                        <meta charset="utf-8" />
+                        <meta name="viewport" content="width=device-width, initial-scale=1" />
+                        <title>NDA Already Sent</title>
+                        <style>body { font-family: Arial, sans-serif; max-width: 720px; margin: 4rem auto; padding: 0 1rem; line-height: 1.6; }</style>
+                    </head>
+                    <body>
+                        <h1>NDA already sent</h1>
+                        <p>The NDA for ${escapeHtml(booking.name)} at ${escapeHtml(booking.companyName)} was already sent at ${escapeHtml(booking.ndaSentAt)}.</p>
+                    </body>
+                </html>
+            `);
+        }
+
+        const onboardingRecord = await sendOnboardingNda({
+            req,
+            name: booking.name,
+            companyName: booking.companyName,
+            signerTitle: booking.signerTitle,
+            email: booking.email,
+            message: booking.message,
+            source: 'calendly-trigger'
+        });
+
+        booking.status = 'nda-sent';
+        booking.ndaSentAt = new Date().toISOString();
+        booking.onboardingConfirmationToken = onboardingRecord.confirmationToken;
+        await writeJsonArray(CALENDLY_BOOKINGS_PATH, bookings);
+
+        return res.send(`
+            <!doctype html>
+            <html lang="en">
+                <head>
+                    <meta charset="utf-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+                    <title>NDA Sent</title>
+                    <style>body { font-family: Arial, sans-serif; max-width: 720px; margin: 4rem auto; padding: 0 1rem; line-height: 1.6; }</style>
+                </head>
+                <body>
+                    <h1>NDA sent</h1>
+                    <p>The NDA has been sent to ${escapeHtml(booking.email)} using the information from their Calendly booking.</p>
+                    <p>You can continue the call without asking the client to fill out the same information again.</p>
+                </body>
+            </html>
+        `);
+    } catch (error) {
+        console.error('Error triggering NDA from Calendly booking:', error);
+        return res.status(500).send('<h1>Server error</h1><p>Unable to send the NDA.</p>');
     }
 });
 
