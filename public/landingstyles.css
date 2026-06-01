@@ -11337,6 +11337,18 @@ body {
   max-width: 42rem;
 }
 
+.tis-page .hero-proof {
+  display: grid;
+  gap: 0.45rem;
+  max-width: 42rem;
+}
+
+.tis-page .hero-proof span {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 1.08rem;
+  line-height: 1.45;
+}
+
 .pain-section {
   padding: 5rem 0;
 }
@@ -11427,6 +11439,20 @@ body {
     font-size: 1rem;
     line-height: 1.55;
     margin-bottom: 2rem !important;
+  }
+
+  .tis-page .hero-proof {
+    gap: 0.65rem;
+    max-width: 18.5rem;
+    margin-top: 1.35rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .tis-page .hero-proof span {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.35;
   }
 
   .tis-page .masthead .btn {
