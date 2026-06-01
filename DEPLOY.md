@@ -24,9 +24,9 @@ This document tracks how `tomemme.com` is built, configured, deployed, and verif
 - Legacy `.html` routes redirect to cleaner URLs where configured.
 - `/submit-contact` handles both:
   - Basic portfolio contact submissions.
-  - TIS onboarding submissions from `/tis`.
+  - Legacy TIS onboarding submissions if an older form is used.
 - `/schedule` redirects to `CALENDLY_URL` when configured, or back to `/tis#signup` as a safe fallback.
-- `/admin/send-nda?token=<NDA_ADMIN_TOKEN>` opens a private manual form for sending an NDA from Calendly booking details.
+- `/admin/send-nda?token=<NDA_ADMIN_TOKEN>` opens a private manual form for sending an NDA from Calendly booking details. It can also accept `name`, `email`, `companyName`, `signerTitle`, and `message` query values to prefill the form from an admin-only email link.
 - `/calendly-webhook` can receive a Calendly booking payload, store the booking, and email an admin-only NDA trigger link.
 - `/trigger-nda/:token` sends the NDA from a stored Calendly booking when Tom chooses to trigger it during or after the call.
 - TIS onboarding compiles `public/nda.md`, emails the customized NDA, and creates a confirmation link.
@@ -85,7 +85,7 @@ Free Calendly manual NDA flow:
 https://www.tomemme.com/admin/send-nda?token=<NDA_ADMIN_TOKEN>
 ```
 
-- Paste the client name, email, company, title, and workflow note from the Calendly booking.
+- Paste the client name, email, company, title, and workflow note from the Calendly booking. If the private link already includes those values, quickly review the prefilled form instead.
 - Click `Send NDA`.
 - The app sends the NDA without asking the client to fill out the same information again.
 
@@ -102,7 +102,7 @@ https://www.tomemme.com/calendly-webhook?token=<CALENDLY_WEBHOOK_TOKEN>
   - Company name
   - Job title or role
   - What repetitive workflow is costing you time?
-- When a booking arrives, the app stores it in `calendly-bookings.json` and emails the admin inbox a private `Send NDA` trigger link.
+- When a booking arrives, the app stores it in `calendly-bookings.json` and emails the admin inbox a private `Review and Send NDA` button plus a direct `Send NDA` trigger link.
 - Click the private trigger during or after the call only when an NDA is actually needed.
 
 With Gmail SMTP, Gmail may still show or authenticate the sender as the Gmail account. This is normal and better than spoofing. Client replies should go to `MAIL_REPLY_TO`.

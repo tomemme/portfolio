@@ -85,6 +85,31 @@ const escapeHtml = (value) => validator.escape(String(value));
 
 const hasValidAdminToken = (req) => Boolean(NDA_ADMIN_TOKEN) && req.query.token === NDA_ADMIN_TOKEN;
 
+const getAdminFormValuesFromQuery = (query) => ({
+    name: cleanText(query.name, 120),
+    email: cleanText(query.email, 254),
+    companyName: cleanText(query.companyName, 160),
+    signerTitle: cleanText(query.signerTitle, 120) || 'Authorized Representative',
+    message: cleanText(query.message, 3000)
+});
+
+const buildManualNdaUrl = (req, values = {}) => {
+    if (!NDA_ADMIN_TOKEN) {
+        return '';
+    }
+
+    const url = new URL('/admin/send-nda', getBaseUrl(req));
+    url.searchParams.set('token', NDA_ADMIN_TOKEN);
+
+    Object.entries(values).forEach(([key, value]) => {
+        if (value) {
+            url.searchParams.set(key, value);
+        }
+    });
+
+    return url.toString();
+};
+
 const renderSendNdaForm = ({ token, values = {}, error = '' }) => `
     <!doctype html>
     <html lang="en">
@@ -280,7 +305,7 @@ const buildInternalConfirmationHtml = ({ name, companyName, signerTitle, email, 
     <p><strong>User agent:</strong> ${escapeHtml(confirmedUserAgent || 'Not recorded')}</p>
 `;
 
-const buildCalendlyBookingHtml = ({ name, companyName, signerTitle, email, message, scheduledAt, triggerUrl }) => `
+const buildCalendlyBookingHtml = ({ name, companyName, signerTitle, email, message, scheduledAt, triggerUrl, manualNdaUrl }) => `
     <p><strong>Workflow audit booked</strong></p>
     <p><strong>Name:</strong> ${escapeHtml(name)}</p>
     <p><strong>Company:</strong> ${escapeHtml(companyName)}</p>
@@ -288,7 +313,11 @@ const buildCalendlyBookingHtml = ({ name, companyName, signerTitle, email, messa
     <p><strong>Email:</strong> ${escapeHtml(email)}</p>
     <p><strong>Scheduled time:</strong> ${escapeHtml(scheduledAt || 'See Calendly event')}</p>
     <p><strong>Workflow note:</strong> ${escapeHtml(message)}</p>
-    <p>Use this private link during or after the call if an NDA is needed:</p>
+    ${manualNdaUrl ? `
+        <p>Use this private button during or after the call to review the details and send the NDA:</p>
+        <p><a href="${escapeHtml(manualNdaUrl)}" style="background: #0d6efd; border-radius: 6px; color: #fff; display: inline-block; font-weight: 700; padding: 12px 18px; text-decoration: none;">Review and Send NDA</a></p>
+    ` : ''}
+    <p>${manualNdaUrl ? 'Or use' : 'Use'} this private link to send the NDA immediately:</p>
     <p><a href="${escapeHtml(triggerUrl)}">Send NDA to ${escapeHtml(email)}</a></p>
 `;
 
@@ -414,6 +443,7 @@ const storeCalendlyBooking = async ({ req, name, companyName, signerTitle, email
     const timestamp = new Date().toISOString();
     const triggerToken = crypto.randomBytes(32).toString('hex');
     const triggerUrl = `${getBaseUrl(req)}/trigger-nda/${triggerToken}`;
+    const manualNdaUrl = buildManualNdaUrl(req, { name, email, companyName, signerTitle, message });
     const bookingRecord = {
         type: 'calendly-booking',
         name,
@@ -447,8 +477,9 @@ Scheduled time: ${scheduledAt || 'See Calendly event'}
 Workflow note: ${message}
 
 Private NDA trigger:
-${triggerUrl}`,
-        html: buildCalendlyBookingHtml({ name, companyName, signerTitle, email, message, scheduledAt, triggerUrl })
+${triggerUrl}
+${manualNdaUrl ? `\nReview and send NDA:\n${manualNdaUrl}` : ''}`,
+        html: buildCalendlyBookingHtml({ name, companyName, signerTitle, email, message, scheduledAt, triggerUrl, manualNdaUrl })
     };
 
     try {
@@ -543,7 +574,10 @@ app.get('/admin/send-nda', (req, res) => {
         return res.status(404).send('<h1>Not found</h1>');
     }
 
-    return res.send(renderSendNdaForm({ token: req.query.token }));
+    return res.send(renderSendNdaForm({
+        token: req.query.token,
+        values: getAdminFormValuesFromQuery(req.query)
+    }));
 });
 
 app.post('/admin/send-nda', async (req, res) => {
