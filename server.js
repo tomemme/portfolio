@@ -17,6 +17,7 @@ const MAIL_FROM = process.env.MAIL_FROM || `${MAIL_FROM_NAME} <${MAIL_FROM_ADDRE
 const MAIL_REPLY_TO = process.env.MAIL_REPLY_TO || ADMIN_EMAIL;
 const CALENDLY_URL = process.env.CALENDLY_URL || '/tis#signup';
 const CALENDLY_WEBHOOK_TOKEN = process.env.CALENDLY_WEBHOOK_TOKEN;
+const NDA_ADMIN_TOKEN = process.env.NDA_ADMIN_TOKEN;
 const SUBMISSIONS_PATH = path.join(__dirname, 'submissions.json');
 const ONBOARDING_PATH = path.join(__dirname, 'onboarding-submissions.json');
 const CALENDLY_BOOKINGS_PATH = path.join(__dirname, 'calendly-bookings.json');
@@ -44,6 +45,7 @@ const transporter = nodemailer.createTransport(transporterOptions);
 
 // Middleware to parse JSON bodies for form submissions
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 const contactLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
@@ -80,6 +82,55 @@ const cleanText = (value, maxLength = 1000) => {
 };
 
 const escapeHtml = (value) => validator.escape(String(value));
+
+const hasValidAdminToken = (req) => Boolean(NDA_ADMIN_TOKEN) && req.query.token === NDA_ADMIN_TOKEN;
+
+const renderSendNdaForm = ({ token, values = {}, error = '' }) => `
+    <!doctype html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Send NDA</title>
+            <style>
+                body { background: #f4f7fb; color: #1f2933; font-family: Arial, sans-serif; line-height: 1.5; margin: 0; padding: 24px 12px; }
+                main { background: #fff; border: 1px solid #d8dee5; border-radius: 8px; margin: 0 auto; max-width: 720px; padding: 24px; }
+                h1 { font-size: 1.7rem; margin: 0 0 8px; }
+                p { color: #52616f; margin: 0 0 20px; }
+                label { display: block; font-weight: 700; margin: 16px 0 6px; }
+                input, textarea { border: 1px solid #c9d2dc; border-radius: 6px; box-sizing: border-box; font: inherit; min-height: 48px; padding: 10px 12px; width: 100%; }
+                textarea { min-height: 128px; resize: vertical; }
+                button { background: #0d6efd; border: 0; border-radius: 6px; color: #fff; cursor: pointer; font: inherit; font-weight: 700; margin-top: 20px; min-height: 48px; padding: 12px 18px; width: 100%; }
+                .error { background: #fff1f2; border: 1px solid #fecdd3; border-radius: 6px; color: #9f1239; padding: 12px; }
+            </style>
+        </head>
+        <body>
+            <main>
+                <h1>Send NDA</h1>
+                <p>Paste details from the Calendly booking, then send the NDA without asking the client to enter the same information again.</p>
+                ${error ? `<div class="error">${escapeHtml(error)}</div>` : ''}
+                <form method="POST" action="/admin/send-nda?token=${encodeURIComponent(token)}">
+                    <label for="name">Client Name</label>
+                    <input id="name" name="name" required value="${escapeHtml(values.name || '')}" />
+
+                    <label for="email">Client Email</label>
+                    <input id="email" name="email" type="email" required value="${escapeHtml(values.email || '')}" />
+
+                    <label for="companyName">Company Name</label>
+                    <input id="companyName" name="companyName" required value="${escapeHtml(values.companyName || '')}" />
+
+                    <label for="signerTitle">Title / Role</label>
+                    <input id="signerTitle" name="signerTitle" required value="${escapeHtml(values.signerTitle || 'Authorized Representative')}" />
+
+                    <label for="message">Workflow Note</label>
+                    <textarea id="message" name="message" required>${escapeHtml(values.message || '')}</textarea>
+
+                    <button type="submit">Send NDA</button>
+                </form>
+            </main>
+        </body>
+    </html>
+`;
 
 const renderInlineMarkdown = (value) => escapeHtml(value)
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
@@ -485,6 +536,79 @@ app.use(express.static(path.join(__dirname, 'public'), {
 
 app.get('/schedule', (req, res) => {
     res.redirect(302, CALENDLY_URL);
+});
+
+app.get('/admin/send-nda', (req, res) => {
+    if (!hasValidAdminToken(req)) {
+        return res.status(404).send('<h1>Not found</h1>');
+    }
+
+    return res.send(renderSendNdaForm({ token: req.query.token }));
+});
+
+app.post('/admin/send-nda', async (req, res) => {
+    if (!hasValidAdminToken(req)) {
+        return res.status(404).send('<h1>Not found</h1>');
+    }
+
+    const name = cleanText(req.body.name, 120);
+    const email = cleanText(req.body.email, 254);
+    const companyName = cleanText(req.body.companyName, 160);
+    const signerTitle = cleanText(req.body.signerTitle, 120);
+    const message = cleanText(req.body.message, 3000);
+    const values = { name, email, companyName, signerTitle, message };
+
+    if (!name || !email || !companyName || !signerTitle || !message) {
+        return res.status(400).send(renderSendNdaForm({
+            token: req.query.token,
+            values,
+            error: 'All fields are required.'
+        }));
+    }
+
+    if (!validator.isEmail(email)) {
+        return res.status(400).send(renderSendNdaForm({
+            token: req.query.token,
+            values,
+            error: 'Please enter a valid client email address.'
+        }));
+    }
+
+    try {
+        await sendOnboardingNda({
+            req,
+            name,
+            companyName,
+            signerTitle,
+            email,
+            message,
+            source: 'manual-admin'
+        });
+
+        return res.send(`
+            <!doctype html>
+            <html lang="en">
+                <head>
+                    <meta charset="utf-8" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
+                    <title>NDA Sent</title>
+                    <style>body { font-family: Arial, sans-serif; max-width: 720px; margin: 4rem auto; padding: 0 1rem; line-height: 1.6; }</style>
+                </head>
+                <body>
+                    <h1>NDA sent</h1>
+                    <p>The NDA has been sent to ${escapeHtml(email)} using the details you entered from Calendly.</p>
+                    <p><a href="/admin/send-nda?token=${encodeURIComponent(req.query.token)}">Send another NDA</a></p>
+                </body>
+            </html>
+        `);
+    } catch (error) {
+        console.error('Error sending manual NDA:', error);
+        return res.status(500).send(renderSendNdaForm({
+            token: req.query.token,
+            values,
+            error: 'Unable to send the NDA. Check server logs and try again.'
+        }));
+    }
 });
 
 app.post('/calendly-webhook', async (req, res) => {

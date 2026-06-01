@@ -26,6 +26,7 @@ This document tracks how `tomemme.com` is built, configured, deployed, and verif
   - Basic portfolio contact submissions.
   - TIS onboarding submissions from `/tis`.
 - `/schedule` redirects to `CALENDLY_URL` when configured, or back to `/tis#signup` as a safe fallback.
+- `/admin/send-nda?token=<NDA_ADMIN_TOKEN>` opens a private manual form for sending an NDA from Calendly booking details.
 - `/calendly-webhook` can receive a Calendly booking payload, store the booking, and email an admin-only NDA trigger link.
 - `/trigger-nda/:token` sends the NDA from a stored Calendly booking when Tom chooses to trigger it during or after the call.
 - TIS onboarding compiles `public/nda.md`, emails the customized NDA, and creates a confirmation link.
@@ -60,6 +61,7 @@ Required for the current Gmail-based setup:
 - `MAIL_REPLY_TO`: address clients reply to. Defaults to `ADMIN_EMAIL`.
 - `MAIL_FROM_NAME`: display name for outgoing mail. Defaults to `Tech Integration Solutions`.
 - `CALENDLY_URL`: scheduling link for the 15-minute workflow audit. If unset, `/schedule` falls back to `/tis#signup`.
+- `NDA_ADMIN_TOKEN`: required private token for the manual `Send NDA` page.
 - `CALENDLY_WEBHOOK_TOKEN`: optional shared token for `/calendly-webhook`.
 
 Set or update values:
@@ -71,9 +73,23 @@ heroku config:set ADMIN_EMAIL=tomemme@outlook.com
 heroku config:set MAIL_REPLY_TO=tomemme@outlook.com
 heroku config:set MAIL_FROM_NAME="Tech Integration Solutions"
 heroku config:set CALENDLY_URL=https://calendly.com/your-user/15-minute-workflow-audit
+heroku config:set NDA_ADMIN_TOKEN=make-a-long-random-secret
 ```
 
-Calendly webhook setup:
+Free Calendly manual NDA flow:
+
+- Use Calendly normally for the 15-minute audit.
+- During or after the call, open:
+
+```text
+https://www.tomemme.com/admin/send-nda?token=<NDA_ADMIN_TOKEN>
+```
+
+- Paste the client name, email, company, title, and workflow note from the Calendly booking.
+- Click `Send NDA`.
+- The app sends the NDA without asking the client to fill out the same information again.
+
+Optional paid Calendly webhook setup:
 
 - Webhooks are what let the app reuse booking details instead of asking the client to fill out the same information again.
 - Configure Calendly to call:
@@ -166,8 +182,8 @@ Test TIS onboarding:
 1. Open `https://www.tomemme.com/tis`.
 2. Tap `Book a 15-Minute Workflow Audit` and confirm `/schedule` reaches the configured Calendly URL.
 3. Book a test Calendly meeting with a test email you control.
-4. If Calendly webhooks are configured, confirm the admin inbox receives a `Workflow audit booked...` email with a private NDA trigger.
-5. Click the admin-only trigger during or after the test call.
+4. Open the private manual NDA page and paste the booking details.
+5. Click `Send NDA`.
 6. Confirm the client email receives the rendered NDA and confirmation link.
 7. Click the client confirmation link from the client inbox.
 8. Confirm the admin inbox receives a `TIS NDA confirmed...` notification.
