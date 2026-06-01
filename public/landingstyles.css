@@ -11279,3 +11279,147 @@ body {
 .footer {
   padding: 5rem 0;
 }
+
+/* TIS page mobile refinements */
+.tis-page .masthead h1 {
+  max-width: 54rem;
+}
+
+.tis-page .masthead h2 {
+  max-width: 34rem;
+}
+
+.tis-page .projects-section ul,
+.tis-page .project-text ul {
+  text-align: left;
+}
+
+.tis-page .signup-section form {
+  text-align: left;
+}
+
+.tis-page .signup-section #formFeedback {
+  text-align: center;
+}
+
+@media (max-width: 767.98px) {
+  .tis-page #mainNav .navbar-brand {
+    max-width: 12rem;
+    white-space: normal;
+    line-height: 1.2;
+  }
+
+  .tis-page .masthead {
+    min-height: 34rem;
+    padding: 8rem 0 5rem;
+    background-position: 54% center;
+  }
+
+  .tis-page .masthead .container {
+    padding-left: 1.75rem !important;
+    padding-right: 1.75rem !important;
+  }
+
+  .tis-page .masthead h1 {
+    max-width: 18.5rem;
+    font-size: 1.75rem;
+    line-height: 2.15rem;
+    letter-spacing: 0.14rem;
+    background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.55));
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+            background-clip: text;
+  }
+
+  .tis-page .masthead h2 {
+    max-width: 18.5rem;
+    font-size: 1rem;
+    line-height: 1.55;
+    margin-bottom: 2rem !important;
+  }
+
+  .tis-page .masthead .btn {
+    width: min(100%, 18rem);
+    padding: 0.9rem 1.25rem;
+  }
+
+  .tis-page .about-section {
+    padding-top: 5rem;
+  }
+
+  .tis-page .about-section p {
+    margin-bottom: 2.5rem;
+  }
+
+  .tis-page .projects-section {
+    padding: 4rem 0;
+  }
+
+  .tis-page .projects-section .featured-text {
+    padding: 1.5rem 0 0;
+  }
+
+  .tis-page .projects-section .project-text {
+    padding: 2rem 1.25rem;
+  }
+
+  .tis-page .projects-section ul,
+  .tis-page .project-text ul {
+    padding-left: 1.2rem;
+  }
+
+  .tis-page .services-section {
+    padding: 4rem 0 3rem;
+  }
+
+  .tis-page .services-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .tis-page .services-section .card {
+    border-radius: 0.4rem;
+    box-shadow: 0 0.35rem 1.25rem rgba(0, 0, 0, 0.08);
+    margin-bottom: 1rem;
+  }
+
+  .tis-page .signup-section {
+    padding: 5rem 0;
+  }
+
+  .tis-page .signup-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem !important;
+  }
+
+  .tis-page .signup-section .form-control {
+    min-height: 3rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .tis-page .signup-section textarea.form-control {
+    min-height: 8rem;
+  }
+
+  .tis-page .signup-section .btn-primary {
+    min-height: 3rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .tis-page .contact-section {
+    padding-top: 3rem;
+  }
+
+  .tis-page .contact-section .card {
+    margin-bottom: 1rem;
+  }
+
+  .tis-page .contact-section .social {
+    margin-top: 2.5rem;
+  }
+
+  .tis-page .footer {
+    padding: 2.5rem 0;
+  }
+}
