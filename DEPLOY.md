@@ -8,7 +8,7 @@ This document tracks how `tomemme.com` is built, configured, deployed, and verif
 - Server: Express, started by `node server.js`.
 - Frontend: static HTML, CSS, and browser JavaScript from `public/`.
 - Styling: Bootstrap-based static pages plus local CSS files.
-- Email: Nodemailer using Gmail SMTP.
+- Email: Nodemailer using either Gmail SMTP fallback vars or explicit SMTP provider vars.
 - Form protection: `express-rate-limit` on `/submit-contact`.
 - Input validation/sanitization: `validator`.
 - Storage: local JSON files written by the app at runtime:
@@ -44,17 +44,39 @@ Check production values before deploying email or onboarding changes:
 heroku config
 ```
 
-Required:
+Required for the current Gmail-based setup:
 
 - `GMAIL_USER`: Gmail address used by Nodemailer.
 - `GMAIL_APP_PASSWORD`: Gmail app password for SMTP auth.
 - `PORT`: supplied automatically by Heroku.
+- `ADMIN_EMAIL`: business inbox that receives internal lead notifications. Defaults to `tomemme@outlook.com`.
+- `MAIL_REPLY_TO`: address clients reply to. Defaults to `ADMIN_EMAIL`.
+- `MAIL_FROM_NAME`: display name for outgoing mail. Defaults to `Tech Integration Solutions`.
 
 Set or update values:
 
 ```bash
 heroku config:set GMAIL_USER=your-address@gmail.com
 heroku config:set GMAIL_APP_PASSWORD=your-app-password
+heroku config:set ADMIN_EMAIL=tomemme@outlook.com
+heroku config:set MAIL_REPLY_TO=tomemme@outlook.com
+heroku config:set MAIL_FROM_NAME="Tech Integration Solutions"
+```
+
+With Gmail SMTP, Gmail may still show or authenticate the sender as the Gmail account. This is normal and better than spoofing. Client replies should go to `MAIL_REPLY_TO`.
+
+To make mail truly send from `tomemme@outlook.com`, configure an Outlook/Microsoft SMTP account instead:
+
+```bash
+heroku config:set SMTP_HOST=smtp.office365.com
+heroku config:set SMTP_PORT=587
+heroku config:set SMTP_SECURE=false
+heroku config:set SMTP_USER=tomemme@outlook.com
+heroku config:set SMTP_PASS=your-outlook-smtp-password
+heroku config:set MAIL_FROM_ADDRESS=tomemme@outlook.com
+heroku config:set MAIL_REPLY_TO=tomemme@outlook.com
+heroku config:set ADMIN_EMAIL=tomemme@outlook.com
+heroku config:unset GMAIL_USER GMAIL_APP_PASSWORD
 ```
 
 ## Manual Deploy Flow

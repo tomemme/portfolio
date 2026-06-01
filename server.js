@@ -8,19 +8,36 @@ const validator = require('validator');
 const app = express();
 app.set('trust proxy', true);
 
-const ADMIN_EMAIL = 'tomemme@outlook.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'tomemme@outlook.com';
+const SMTP_USER = process.env.SMTP_USER || process.env.GMAIL_USER;
+const SMTP_PASS = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
+const MAIL_FROM_ADDRESS = process.env.MAIL_FROM_ADDRESS || SMTP_USER || ADMIN_EMAIL;
+const MAIL_FROM_NAME = process.env.MAIL_FROM_NAME || 'Tech Integration Solutions';
+const MAIL_FROM = process.env.MAIL_FROM || `${MAIL_FROM_NAME} <${MAIL_FROM_ADDRESS}>`;
+const MAIL_REPLY_TO = process.env.MAIL_REPLY_TO || ADMIN_EMAIL;
 const SUBMISSIONS_PATH = path.join(__dirname, 'submissions.json');
 const ONBOARDING_PATH = path.join(__dirname, 'onboarding-submissions.json');
 const NDA_TEMPLATE_PATH = path.join(__dirname, 'public', 'nda.md');
 
-// Create a Nodemailer transporter using Gmail SMTP
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_USER, // Your Gmail address
-        pass: process.env.GMAIL_APP_PASSWORD // Your Gmail App Password
+const transporterOptions = process.env.SMTP_HOST
+    ? {
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT) || 587,
+        secure: process.env.SMTP_SECURE === 'true',
+        auth: {
+            user: SMTP_USER,
+            pass: SMTP_PASS
+        }
     }
-});
+    : {
+        service: 'gmail',
+        auth: {
+            user: SMTP_USER,
+            pass: SMTP_PASS
+        }
+    };
+
+const transporter = nodemailer.createTransport(transporterOptions);
 
 // Middleware to parse JSON bodies for form submissions
 app.use(express.json());
@@ -226,7 +243,8 @@ app.post('/submit-contact', contactLimiter, async (req, res) => {
             await writeJsonArray(ONBOARDING_PATH, onboardingRecords);
 
             const clientMailOptions = {
-                from: process.env.GMAIL_USER,
+                from: MAIL_FROM,
+                replyTo: MAIL_REPLY_TO,
                 to: email,
                 subject: 'Tech Integration Solutions onboarding NDA',
                 text: `Hello ${name},
@@ -250,7 +268,8 @@ ${renderedNda}`,
             };
 
             const internalMailOptions = {
-                from: process.env.GMAIL_USER,
+                from: MAIL_FROM,
+                replyTo: email,
                 to: ADMIN_EMAIL,
                 subject: `New TIS onboarding request from ${name}`,
                 text: `Name: ${name}
@@ -281,7 +300,8 @@ Confirmation link: ${confirmationUrl}`,
 
         // Send email via Nodemailer
         const mailOptions = {
-            from: process.env.GMAIL_USER, // Your Gmail address
+            from: MAIL_FROM,
+            replyTo: email,
             to: ADMIN_EMAIL,
             subject: `New Contact Form Submission from ${name}`,
             text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}\nTimestamp: ${submission.timestamp}`,
