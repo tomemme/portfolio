@@ -11440,6 +11440,104 @@ body {
   width: min(100%, 22rem);
 }
 
+.tis-page .tis-about-section {
+  overflow: hidden;
+  padding: 8rem 0;
+  position: relative;
+  text-align: left;
+  background:
+    linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.9) 22%, rgba(8, 13, 13, 0.92) 100%);
+}
+
+.tis-page .tis-about-section::before,
+.tis-page .tis-about-section::after {
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 700ms ease;
+}
+
+.tis-page .tis-about-section::before {
+  background:
+    linear-gradient(rgba(100, 161, 157, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 161, 157, 0.05) 1px, transparent 1px);
+  background-size: 72px 72px;
+  opacity: 0.18;
+}
+
+.tis-page .tis-about-section::after {
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.64) 42%, rgba(0, 0, 0, 0.82)),
+    radial-gradient(circle at 18% 34%, rgba(100, 161, 157, 0.18), transparent 30%),
+    linear-gradient(135deg, rgba(23, 42, 34, 0.68), rgba(0, 0, 0, 0) 58%),
+    url("img/milback.jpg");
+  background-position: center;
+  background-size: cover;
+  opacity: 0;
+}
+
+.tis-page .tis-about-section.about-section-active::after {
+  opacity: 1;
+}
+
+.tis-page .tis-about-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.tis-page .about-brief {
+  max-width: 45rem;
+}
+
+.tis-page .about-brief h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.tis-page .about-lead {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 38rem;
+}
+
+.tis-page .about-signal-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 2.5rem;
+}
+
+.tis-page .about-signal {
+  border-top: 1px solid rgba(100, 161, 157, 0.42);
+  padding-top: 1.2rem;
+}
+
+.tis-page .about-signal span {
+  color: #64a19d;
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16rem;
+  margin-bottom: 0.65rem;
+}
+
+.tis-page .about-signal h3 {
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 0.65rem;
+}
+
+.tis-page .about-signal p {
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.98rem;
+  line-height: 1.65;
+  margin-bottom: 0;
+}
+
 @media (max-width: 767.98px) {
   .tis-page #mainNav .navbar-brand {
     max-width: 12rem;
@@ -11489,12 +11587,28 @@ body {
     padding: 0.9rem 1.25rem;
   }
 
-  .tis-page .about-section {
-    padding-top: 5rem;
+  .tis-page .tis-about-section {
+    padding: 4.5rem 0;
+    text-align: left;
   }
 
-  .tis-page .about-section p {
-    margin-bottom: 2.5rem;
+  .tis-page .about-brief h2 {
+    font-size: 2rem;
+  }
+
+  .tis-page .about-lead {
+    font-size: 1.02rem;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+  }
+
+  .tis-page .about-signal-grid {
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+  }
+
+  .tis-page .about-signal {
+    padding-top: 1rem;
   }
 
   .pain-section,

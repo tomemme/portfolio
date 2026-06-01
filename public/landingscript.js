@@ -62,4 +62,17 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
+    const tisAboutSection = document.querySelector('.tis-about-section');
+    if (tisAboutSection && 'IntersectionObserver' in window) {
+        const aboutObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                tisAboutSection.classList.toggle('about-section-active', entry.isIntersecting);
+            });
+        }, { threshold: 0.35 });
+
+        aboutObserver.observe(tisAboutSection);
+    } else if (tisAboutSection) {
+        tisAboutSection.classList.add('about-section-active');
+    }
+
 });
