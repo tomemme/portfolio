@@ -78,6 +78,89 @@ const cleanText = (value, maxLength = 1000) => {
 
 const escapeHtml = (value) => validator.escape(String(value));
 
+const renderInlineMarkdown = (value) => escapeHtml(value)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+const renderMarkdownDocument = (markdown) => {
+    const lines = markdown.split(/\r?\n/);
+    const html = [];
+    let inList = false;
+
+    const closeList = () => {
+        if (inList) {
+            html.push('</ul>');
+            inList = false;
+        }
+    };
+
+    lines.forEach((line) => {
+        const trimmed = line.trim();
+
+        if (!trimmed) {
+            closeList();
+            return;
+        }
+
+        if (trimmed === '---') {
+            closeList();
+            html.push('<hr />');
+            return;
+        }
+
+        if (trimmed.startsWith('# ')) {
+            closeList();
+            html.push(`<h1>${renderInlineMarkdown(trimmed.slice(2))}</h1>`);
+            return;
+        }
+
+        if (trimmed.startsWith('### ')) {
+            closeList();
+            html.push(`<h2>${renderInlineMarkdown(trimmed.slice(4))}</h2>`);
+            return;
+        }
+
+        if (trimmed.startsWith('* ')) {
+            if (!inList) {
+                html.push('<ul>');
+                inList = true;
+            }
+
+            html.push(`<li>${renderInlineMarkdown(trimmed.slice(2))}</li>`);
+            return;
+        }
+
+        closeList();
+        html.push(`<p>${renderInlineMarkdown(trimmed.replace(/\s{2,}$/g, ''))}</p>`);
+    });
+
+    closeList();
+    return html.join('\n');
+};
+
+const buildStandaloneNdaHtml = ({ companyName, renderedNda }) => `
+    <!doctype html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Tech Integration Solutions NDA - ${escapeHtml(companyName)}</title>
+            <style>
+                body { color: #1f2933; font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 24px; }
+                main { margin: 0 auto; max-width: 760px; }
+                h1 { font-size: 24px; line-height: 1.25; margin: 0 0 20px; }
+                h2 { font-size: 18px; margin: 28px 0 8px; }
+                p { margin: 0 0 12px; }
+                ul { margin: 0 0 16px; padding-left: 22px; }
+                li { margin: 0 0 8px; }
+                hr { border: 0; border-top: 1px solid #d8dee5; margin: 24px 0; }
+            </style>
+        </head>
+        <body>
+            <main>${renderMarkdownDocument(renderedNda)}</main>
+        </body>
+    </html>
+`;
+
 const compileNda = async ({ name, companyName, signerTitle }) => {
     const template = await fs.readFile(NDA_TEMPLATE_PATH, 'utf8');
     const effectiveDate = new Date().toLocaleDateString('en-US', {
@@ -100,15 +183,24 @@ const getBaseUrl = (req) => {
 };
 
 const buildNdaEmailHtml = ({ name, companyName, message, renderedNda, confirmationUrl }) => `
-    <p>Hello ${escapeHtml(name)},</p>
-    <p>Thank you for starting the onboarding process with Tech Integration Solutions.</p>
-    <p>Please review the NDA below. If the terms are acceptable, confirm them here:</p>
-    <p><a href="${escapeHtml(confirmationUrl)}">Confirm NDA terms</a></p>
-    <p>Your project note:</p>
-    <blockquote>${escapeHtml(message)}</blockquote>
-    <hr />
-    <p><strong>Customized NDA for ${escapeHtml(companyName)}</strong></p>
-    <pre style="white-space: pre-wrap; font-family: Arial, sans-serif;">${escapeHtml(renderedNda)}</pre>
+    <div style="background: #f4f7fb; margin: 0; padding: 24px 12px;">
+        <div style="background: #ffffff; border: 1px solid #d8dee5; border-radius: 8px; color: #1f2933; font-family: Arial, sans-serif; line-height: 1.6; margin: 0 auto; max-width: 680px; overflow: hidden;">
+            <div style="padding: 24px 20px;">
+                <p style="margin: 0 0 12px;">Hello ${escapeHtml(name)},</p>
+                <p style="margin: 0 0 12px;">Thank you for starting the onboarding process with Tech Integration Solutions.</p>
+                <p style="margin: 0 0 20px;">Please review the NDA below. If the terms are acceptable, use the confirmation button.</p>
+                <p style="margin: 0 0 24px;">
+                    <a href="${escapeHtml(confirmationUrl)}" style="background: #0d6efd; border-radius: 6px; color: #ffffff; display: inline-block; font-weight: bold; padding: 12px 18px; text-decoration: none;">Confirm NDA Terms</a>
+                </p>
+                <p style="font-size: 14px; margin: 0 0 6px;"><strong>Your project note</strong></p>
+                <blockquote style="border-left: 3px solid #64a19d; color: #52616f; margin: 0 0 24px; padding: 0 0 0 12px;">${escapeHtml(message)}</blockquote>
+                <p style="font-size: 14px; margin: 0 0 12px;"><strong>Customized NDA for ${escapeHtml(companyName)}</strong></p>
+                <div style="border-top: 1px solid #d8dee5; padding-top: 18px;">
+                    ${renderMarkdownDocument(renderedNda)}
+                </div>
+            </div>
+        </div>
+    </div>
 `;
 
 const buildInternalOnboardingHtml = ({ name, companyName, signerTitle, email, message, timestamp, confirmationUrl }) => `
@@ -220,6 +312,7 @@ app.post('/submit-contact', contactLimiter, async (req, res) => {
         if (isOnboarding) {
             const timestamp = new Date().toISOString();
             const renderedNda = await compileNda({ name, companyName, signerTitle });
+            const renderedNdaHtml = buildStandaloneNdaHtml({ companyName, renderedNda });
             const token = crypto.randomBytes(32).toString('hex');
             const confirmationUrl = `${getBaseUrl(req)}/confirm-onboarding/${token}`;
             const onboardingRecord = {
@@ -261,8 +354,9 @@ ${renderedNda}`,
                 html: buildNdaEmailHtml({ name, companyName, message, renderedNda, confirmationUrl }),
                 attachments: [
                     {
-                        filename: 'Tech-Integration-Solutions-NDA.md',
-                        content: renderedNda
+                        filename: 'Tech-Integration-Solutions-NDA.html',
+                        content: renderedNdaHtml,
+                        contentType: 'text/html'
                     }
                 ]
             };

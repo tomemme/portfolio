@@ -25,6 +25,7 @@ This document tracks how `tomemme.com` is built, configured, deployed, and verif
   - Basic portfolio contact submissions.
   - TIS onboarding submissions from `/tis`.
 - TIS onboarding compiles `public/nda.md`, emails the customized NDA, and creates a confirmation link.
+- The NDA source stays in Markdown, but client emails render it as mobile-friendly HTML and attach an `.html` copy.
 - `/confirm-onboarding/:token` records NDA confirmation in `onboarding-submissions.json`.
 
 ## Production Hosting
