@@ -11280,7 +11280,7 @@ body {
   padding: 5rem 0;
 }
 
-/* TIS page mobile refinements */
+/* TIS page refinements */
 .tis-page .masthead h1 {
   max-width: 54rem;
 }
@@ -11326,7 +11326,9 @@ body {
   background: none;
   color: #fff;
   font-family: var(--bs-body-font-family);
+  font-size: 2.5rem;
   font-weight: 800;
+  line-height: 1.12;
   letter-spacing: 0;
   max-width: 58rem;
   text-transform: none;
@@ -11347,6 +11349,33 @@ body {
   color: rgba(255, 255, 255, 0.68);
   font-size: 1.08rem;
   line-height: 1.45;
+}
+
+@media (min-width: 768px) {
+  .tis-page .masthead h1 {
+    font-size: 3.6rem;
+    line-height: 1.14;
+    max-width: 44rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .tis-page .masthead h1 {
+    font-size: 4.25rem;
+    line-height: 1.12;
+    max-width: 50rem;
+  }
+
+  .tis-page .hero-proof {
+    max-width: 34rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .tis-page .masthead h1 {
+    font-size: 4.75rem;
+    max-width: 54rem;
+  }
 }
 
 .pain-section {
