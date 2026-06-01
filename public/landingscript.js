@@ -31,22 +31,33 @@ window.addEventListener('DOMContentLoaded', event => {
 
     // Activate Bootstrap scrollspy on the main nav element
     const mainNav = document.body.querySelector('#mainNav');
-    if (mainNav) {
+    if (mainNav && window.bootstrap && bootstrap.ScrollSpy) {
         new bootstrap.ScrollSpy(document.body, {
             target: '#mainNav',
             rootMargin: '0px 0px -40%',
         });
     };
 
-    // Collapse responsive navbar when toggler is visible
     const navbarToggler = document.body.querySelector('.navbar-toggler');
+    const navbarResponsive = document.body.querySelector('#navbarResponsive');
+
+    if (navbarToggler && navbarResponsive && !(window.bootstrap && bootstrap.Collapse)) {
+        navbarToggler.addEventListener('click', () => {
+            const isExpanded = navbarToggler.getAttribute('aria-expanded') === 'true';
+            navbarToggler.setAttribute('aria-expanded', String(!isExpanded));
+            navbarResponsive.classList.toggle('show', !isExpanded);
+        });
+    }
+
+    // Collapse responsive navbar when toggler is visible
     const responsiveNavItems = [].slice.call(
         document.querySelectorAll('#navbarResponsive .nav-link')
     );
     responsiveNavItems.map(function (responsiveNavItem) {
         responsiveNavItem.addEventListener('click', () => {
-            if (window.getComputedStyle(navbarToggler).display !== 'none') {
-                navbarToggler.click();
+            if (navbarToggler && navbarResponsive && window.getComputedStyle(navbarToggler).display !== 'none') {
+                navbarResponsive.classList.remove('show');
+                navbarToggler.setAttribute('aria-expanded', 'false');
             }
         });
     });

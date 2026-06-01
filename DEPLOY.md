@@ -24,6 +24,8 @@ This document tracks how `tomemme.com` is built, configured, deployed, and verif
 - `/submit-contact` handles both:
   - Basic portfolio contact submissions.
   - TIS onboarding submissions from `/tis`.
+- `/schedule` redirects to `CALENDLY_URL` when configured, or back to `/tis#signup` as a safe fallback.
+- `/calendly-webhook` can receive a Calendly booking payload and trigger the same NDA email engine.
 - TIS onboarding compiles `public/nda.md`, emails the customized NDA, and creates a confirmation link.
 - The NDA source stays in Markdown, but client emails render it as mobile-friendly HTML and attach an `.html` copy.
 - `/confirm-onboarding/:token` records NDA confirmation in `onboarding-submissions.json`.
@@ -55,6 +57,8 @@ Required for the current Gmail-based setup:
 - `ADMIN_EMAIL`: business inbox that receives internal lead notifications. Defaults to `tomemme@outlook.com`.
 - `MAIL_REPLY_TO`: address clients reply to. Defaults to `ADMIN_EMAIL`.
 - `MAIL_FROM_NAME`: display name for outgoing mail. Defaults to `Tech Integration Solutions`.
+- `CALENDLY_URL`: scheduling link for the 15-minute workflow audit. If unset, `/schedule` falls back to `/tis#signup`.
+- `CALENDLY_WEBHOOK_TOKEN`: optional shared token for `/calendly-webhook`.
 
 Set or update values:
 
@@ -64,6 +68,7 @@ heroku config:set GMAIL_APP_PASSWORD=your-app-password
 heroku config:set ADMIN_EMAIL=tomemme@outlook.com
 heroku config:set MAIL_REPLY_TO=tomemme@outlook.com
 heroku config:set MAIL_FROM_NAME="Tech Integration Solutions"
+heroku config:set CALENDLY_URL=https://calendly.com/your-user/15-minute-workflow-audit
 ```
 
 With Gmail SMTP, Gmail may still show or authenticate the sender as the Gmail account. This is normal and better than spoofing. Client replies should go to `MAIL_REPLY_TO`.
@@ -141,11 +146,12 @@ Check these URLs manually:
 Test TIS onboarding:
 
 1. Open `https://www.tomemme.com/tis`.
-2. Submit the onboarding form with a test email you control.
-3. Confirm the client email includes the rendered NDA and confirmation link.
-4. Click the confirmation link.
-5. Confirm the admin inbox receives a `TIS NDA confirmed...` notification.
-6. Check Heroku logs for errors.
+2. Tap `Book a 15-Minute Workflow Audit` and confirm `/schedule` reaches the configured Calendly URL.
+3. Submit the fallback onboarding form with a test email you control.
+4. Confirm the client email includes the rendered NDA and confirmation link.
+5. Click the confirmation link.
+6. Confirm the admin inbox receives a `TIS NDA confirmed...` notification.
+7. Check Heroku logs for errors.
 
 Do not click a client confirmation link from an internal/admin copy of an email. The confirmation URL is a bearer token, so whoever opens it records the NDA as confirmed.
 

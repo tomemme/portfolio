@@ -11302,6 +11302,111 @@ body {
   text-align: center;
 }
 
+.tis-page .btn,
+.tis-page .nav-link,
+.tis-page .navbar-toggler,
+.tis-page .social a {
+  min-height: 3rem;
+}
+
+.tis-page .btn {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.tis-page .masthead {
+  background: radial-gradient(circle at top left, rgba(100, 161, 157, 0.24), transparent 34%), linear-gradient(135deg, #050708 0%, #111820 54%, #000 100%);
+}
+
+.tis-page .hero-kicker,
+.tis-page .pain-label,
+.tis-page .project-label {
+  color: #64a19d;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12rem;
+  margin-bottom: 0.85rem;
+  text-transform: uppercase;
+}
+
+.tis-page .masthead h1 {
+  background: none;
+  color: #fff;
+  font-family: var(--bs-body-font-family);
+  font-weight: 800;
+  letter-spacing: 0;
+  max-width: 58rem;
+  text-transform: none;
+  -webkit-text-fill-color: currentColor;
+}
+
+.tis-page .masthead h2 {
+  max-width: 42rem;
+}
+
+.pain-section {
+  padding: 5rem 0;
+}
+
+.pain-grid,
+.project-card-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.pain-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.pain-card,
+.project-card {
+  background: #fff;
+  border: 1px solid rgba(33, 37, 41, 0.08);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.06);
+}
+
+.pain-card {
+  padding: 1.4rem;
+}
+
+.pain-card h3,
+.project-card h3 {
+  color: #212529;
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+}
+
+.pain-card p:last-child,
+.project-card p:last-child {
+  color: #5f6b76;
+  margin-bottom: 0;
+}
+
+.project-card-stack {
+  grid-template-columns: 1fr;
+}
+
+.project-card {
+  align-items: center;
+  display: flex;
+  gap: 1.25rem;
+  justify-content: space-between;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.project-card .btn {
+  flex: 0 0 auto;
+  min-width: 9rem;
+}
+
+.tis-page .audit-link {
+  width: min(100%, 22rem);
+}
+
 @media (max-width: 767.98px) {
   .tis-page #mainNav .navbar-brand {
     max-width: 12rem;
@@ -11310,9 +11415,8 @@ body {
   }
 
   .tis-page .masthead {
-    min-height: 34rem;
-    padding: 8rem 0 5rem;
-    background-position: 54% center;
+    min-height: 31rem;
+    padding: 8.25rem 0 4.25rem;
   }
 
   .tis-page .masthead .container {
@@ -11321,18 +11425,13 @@ body {
   }
 
   .tis-page .masthead h1 {
-    max-width: 18.5rem;
-    font-size: 1.75rem;
-    line-height: 2.15rem;
-    letter-spacing: 0.14rem;
-    background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.55));
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-            background-clip: text;
+    max-width: 20rem;
+    font-size: 2rem;
+    line-height: 2.35rem;
   }
 
   .tis-page .masthead h2 {
-    max-width: 18.5rem;
+    max-width: 20rem;
     font-size: 1rem;
     line-height: 1.55;
     margin-bottom: 2rem !important;
@@ -11351,8 +11450,28 @@ body {
     margin-bottom: 2.5rem;
   }
 
+  .pain-section,
   .tis-page .projects-section {
     padding: 4rem 0;
+  }
+
+  .pain-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pain-card,
+  .project-card {
+    border-radius: 0.45rem;
+    padding: 1.2rem;
+  }
+
+  .project-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .project-card .btn {
+    width: 100%;
   }
 
   .tis-page .projects-section .featured-text {
@@ -11405,6 +11524,7 @@ body {
   .tis-page .signup-section .btn-primary {
     min-height: 3rem;
     padding: 0.75rem 1rem;
+    width: 100%;
   }
 
   .tis-page .contact-section {

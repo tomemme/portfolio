@@ -15,6 +15,8 @@ const MAIL_FROM_ADDRESS = process.env.MAIL_FROM_ADDRESS || SMTP_USER || ADMIN_EM
 const MAIL_FROM_NAME = process.env.MAIL_FROM_NAME || 'Tech Integration Solutions';
 const MAIL_FROM = process.env.MAIL_FROM || `${MAIL_FROM_NAME} <${MAIL_FROM_ADDRESS}>`;
 const MAIL_REPLY_TO = process.env.MAIL_REPLY_TO || ADMIN_EMAIL;
+const CALENDLY_URL = process.env.CALENDLY_URL || '/tis#signup';
+const CALENDLY_WEBHOOK_TOKEN = process.env.CALENDLY_WEBHOOK_TOKEN;
 const SUBMISSIONS_PATH = path.join(__dirname, 'submissions.json');
 const ONBOARDING_PATH = path.join(__dirname, 'onboarding-submissions.json');
 const NDA_TEMPLATE_PATH = path.join(__dirname, 'public', 'nda.md');
@@ -226,6 +228,120 @@ const buildInternalConfirmationHtml = ({ name, companyName, signerTitle, email, 
     <p><strong>User agent:</strong> ${escapeHtml(confirmedUserAgent || 'Not recorded')}</p>
 `;
 
+const sendOnboardingNda = async ({ req, name, companyName, signerTitle, email, message, source = 'tis-form' }) => {
+    const timestamp = new Date().toISOString();
+    const renderedNda = await compileNda({ name, companyName, signerTitle });
+    const renderedNdaHtml = buildStandaloneNdaHtml({ companyName, renderedNda });
+    const token = crypto.randomBytes(32).toString('hex');
+    const confirmationUrl = `${getBaseUrl(req)}/confirm-onboarding/${token}`;
+    const onboardingRecord = {
+        type: 'tis-onboarding',
+        source,
+        name,
+        companyName,
+        signerTitle,
+        email,
+        message,
+        renderedNda,
+        confirmationToken: token,
+        status: 'sent',
+        createdAt: timestamp,
+        confirmedAt: null,
+        confirmedIp: null,
+        confirmedUserAgent: null
+    };
+
+    const onboardingRecords = await readJsonArray(ONBOARDING_PATH);
+    onboardingRecords.push(onboardingRecord);
+    await writeJsonArray(ONBOARDING_PATH, onboardingRecords);
+
+    const clientMailOptions = {
+        from: MAIL_FROM,
+        replyTo: MAIL_REPLY_TO,
+        to: email,
+        subject: 'Tech Integration Solutions onboarding NDA',
+        text: `Hello ${name},
+
+Thank you for starting the onboarding process with Tech Integration Solutions.
+
+Please review the NDA below. If the terms are acceptable, confirm them here:
+${confirmationUrl}
+
+Your project note:
+${message}
+
+${renderedNda}`,
+        html: buildNdaEmailHtml({ name, companyName, message, renderedNda, confirmationUrl }),
+        attachments: [
+            {
+                filename: 'Tech-Integration-Solutions-NDA.html',
+                content: renderedNdaHtml,
+                contentType: 'text/html'
+            }
+        ]
+    };
+
+    const internalMailOptions = {
+        from: MAIL_FROM,
+        replyTo: email,
+        to: ADMIN_EMAIL,
+        subject: `New TIS onboarding request from ${name}`,
+        text: `Name: ${name}
+Company: ${companyName}
+Title: ${signerTitle}
+Email: ${email}
+Message: ${message}
+Source: ${source}
+Timestamp: ${timestamp}
+NDA status: Sent to client. Waiting for client confirmation.
+Client-only confirmation link sent to: ${email}`,
+        html: buildInternalOnboardingHtml({ name, companyName, signerTitle, email, message, timestamp })
+    };
+
+    try {
+        await transporter.sendMail(clientMailOptions);
+        await transporter.sendMail(internalMailOptions);
+        console.log(`Onboarding NDA sent to ${email}`);
+    } catch (error) {
+        console.error('Error sending onboarding email:', error.message);
+    }
+
+    return onboardingRecord;
+};
+
+const findCalendlyAnswer = (answers, patterns) => {
+    const match = answers.find(({ question }) => patterns.some((pattern) => pattern.test(question)));
+    return match ? match.answer : '';
+};
+
+const normalizeCalendlyPayload = (body) => {
+    const payload = body.payload || body;
+    const answers = Array.isArray(payload.questions_and_answers) ? payload.questions_and_answers : [];
+    const normalizedAnswers = answers.map((item) => ({
+        question: cleanText(item.question || item.name || '', 160).toLowerCase(),
+        answer: cleanText(item.answer || item.value || '', 500)
+    }));
+    const name = cleanText(payload.name || payload.invitee_name || `${payload.first_name || ''} ${payload.last_name || ''}`, 120);
+    const email = cleanText(payload.email || payload.invitee_email, 254);
+    const companyName = cleanText(
+        payload.company ||
+        findCalendlyAnswer(normalizedAnswers, [/company/, /business/, /organization/]) ||
+        name,
+        160
+    );
+    const signerTitle = cleanText(
+        payload.title ||
+        findCalendlyAnswer(normalizedAnswers, [/title/, /role/, /position/]) ||
+        'Authorized Representative',
+        120
+    );
+    const workflowPain = cleanText(findCalendlyAnswer(normalizedAnswers, [/workflow/, /pain/, /problem/, /repetitive/]), 1000);
+    const eventName = cleanText(payload.scheduled_event && payload.scheduled_event.name, 160);
+    const message = workflowPain || `15-Minute Workflow Audit booked${eventName ? `: ${eventName}` : ' through Calendly'}.`;
+
+    return { name, email, companyName, signerTitle, message };
+};
+
 // Force production traffic onto the canonical host and scheme.
 app.use((req, res, next) => {
     const host = req.headers.host;
@@ -299,6 +415,44 @@ app.use(express.static(path.join(__dirname, 'public'), {
     }
 }));
 
+app.get('/schedule', (req, res) => {
+    res.redirect(302, CALENDLY_URL);
+});
+
+app.post('/calendly-webhook', async (req, res) => {
+    try {
+        if (CALENDLY_WEBHOOK_TOKEN) {
+            const authHeader = req.get('authorization') || '';
+            const requestToken = authHeader.replace(/^Bearer\s+/i, '') || req.query.token;
+
+            if (requestToken !== CALENDLY_WEBHOOK_TOKEN) {
+                return res.status(401).json({ message: 'Unauthorized webhook request' });
+            }
+        }
+
+        const { name, email, companyName, signerTitle, message } = normalizeCalendlyPayload(req.body);
+
+        if (!name || !email || !validator.isEmail(email)) {
+            return res.status(400).json({ message: 'Calendly payload is missing a valid name or email' });
+        }
+
+        await sendOnboardingNda({
+            req,
+            name,
+            companyName,
+            signerTitle,
+            email,
+            message,
+            source: 'calendly'
+        });
+
+        return res.json({ message: 'Calendly onboarding NDA sent' });
+    } catch (error) {
+        console.error('Error processing Calendly webhook:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
+
 // Handle contact form and TIS onboarding submissions
 app.post('/submit-contact', contactLimiter, async (req, res) => {
     try {
@@ -322,81 +476,7 @@ app.post('/submit-contact', contactLimiter, async (req, res) => {
         }
 
         if (isOnboarding) {
-            const timestamp = new Date().toISOString();
-            const renderedNda = await compileNda({ name, companyName, signerTitle });
-            const renderedNdaHtml = buildStandaloneNdaHtml({ companyName, renderedNda });
-            const token = crypto.randomBytes(32).toString('hex');
-            const confirmationUrl = `${getBaseUrl(req)}/confirm-onboarding/${token}`;
-            const onboardingRecord = {
-                type: 'tis-onboarding',
-                name,
-                companyName,
-                signerTitle,
-                email,
-                message,
-                renderedNda,
-                confirmationToken: token,
-                status: 'sent',
-                createdAt: timestamp,
-                confirmedAt: null,
-                confirmedIp: null,
-                confirmedUserAgent: null
-            };
-
-            const onboardingRecords = await readJsonArray(ONBOARDING_PATH);
-            onboardingRecords.push(onboardingRecord);
-            await writeJsonArray(ONBOARDING_PATH, onboardingRecords);
-
-            const clientMailOptions = {
-                from: MAIL_FROM,
-                replyTo: MAIL_REPLY_TO,
-                to: email,
-                subject: 'Tech Integration Solutions onboarding NDA',
-                text: `Hello ${name},
-
-Thank you for starting the onboarding process with Tech Integration Solutions.
-
-Please review the NDA below. If the terms are acceptable, confirm them here:
-${confirmationUrl}
-
-Your project note:
-${message}
-
-${renderedNda}`,
-                html: buildNdaEmailHtml({ name, companyName, message, renderedNda, confirmationUrl }),
-                attachments: [
-                    {
-                        filename: 'Tech-Integration-Solutions-NDA.html',
-                        content: renderedNdaHtml,
-                        contentType: 'text/html'
-                    }
-                ]
-            };
-
-            const internalMailOptions = {
-                from: MAIL_FROM,
-                replyTo: email,
-                to: ADMIN_EMAIL,
-                subject: `New TIS onboarding request from ${name}`,
-                text: `Name: ${name}
-Company: ${companyName}
-Title: ${signerTitle}
-Email: ${email}
-Message: ${message}
-Timestamp: ${timestamp}
-NDA status: Sent to client. Waiting for client confirmation.
-Client-only confirmation link sent to: ${email}`,
-                html: buildInternalOnboardingHtml({ name, companyName, signerTitle, email, message, timestamp })
-            };
-
-            try {
-                await transporter.sendMail(clientMailOptions);
-                await transporter.sendMail(internalMailOptions);
-                console.log(`Onboarding NDA sent to ${email}`);
-            } catch (error) {
-                console.error('Error sending onboarding email:', error.message);
-            }
-
+            await sendOnboardingNda({ req, name, companyName, signerTitle, email, message });
             return res.json({ message: 'Onboarding started. Please check your inbox for the NDA confirmation email.' });
         }
 
