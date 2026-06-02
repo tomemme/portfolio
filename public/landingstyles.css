@@ -11468,9 +11468,9 @@ body {
 
 .tis-page .tis-about-section::after {
   background:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.64) 42%, rgba(0, 0, 0, 0.82)),
-    radial-gradient(circle at 18% 34%, rgba(100, 161, 157, 0.18), transparent 30%),
-    linear-gradient(135deg, rgba(23, 42, 34, 0.68), rgba(0, 0, 0, 0) 58%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.42) 42%, rgba(0, 0, 0, 0.68)),
+    radial-gradient(circle at 18% 34%, rgba(100, 161, 157, 0.14), transparent 30%),
+    linear-gradient(135deg, rgba(23, 42, 34, 0.46), rgba(0, 0, 0, 0) 58%),
     url("img/milback.jpg");
   background-position: center;
   background-size: cover;
@@ -11478,7 +11478,7 @@ body {
 }
 
 .tis-page .tis-about-section.about-section-active::after {
-  opacity: 1;
+  opacity: 0.92;
 }
 
 .tis-page .tis-about-section .container {
