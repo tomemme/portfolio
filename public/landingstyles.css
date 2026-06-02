@@ -11436,6 +11436,68 @@ body {
   min-width: 9rem;
 }
 
+.proof-section {
+  padding: 5rem 0;
+}
+
+.proof-header {
+  max-width: 48rem;
+  margin-bottom: 2rem;
+}
+
+.proof-header h2 {
+  color: #212529;
+  font-size: 2.35rem;
+  font-weight: 800;
+  line-height: 1.18;
+  margin-bottom: 1rem;
+}
+
+.proof-header p:last-child {
+  font-size: 1.08rem;
+  line-height: 1.65;
+  max-width: 42rem;
+}
+
+.proof-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.proof-card {
+  background: #fff;
+  border: 1px solid rgba(33, 37, 41, 0.08);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.06);
+  padding: 1.35rem;
+}
+
+.proof-card span {
+  color: #64a19d;
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12rem;
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+}
+
+.proof-card h3 {
+  color: #212529;
+  font-size: 1.18rem;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+}
+
+.proof-card p {
+  color: #5f6b76;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
 .tis-page .audit-link {
   width: min(100%, 22rem);
 }
@@ -11612,7 +11674,8 @@ body {
   }
 
   .pain-section,
-  .tis-page .projects-section {
+  .tis-page .projects-section,
+  .proof-section {
     padding: 4rem 0;
   }
 
@@ -11620,8 +11683,17 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .proof-header h2 {
+    font-size: 2rem;
+  }
+
+  .proof-grid {
+    grid-template-columns: 1fr;
+  }
+
   .pain-card,
-  .project-card {
+  .project-card,
+  .proof-card {
     border-radius: 0.45rem;
     padding: 1.2rem;
   }
