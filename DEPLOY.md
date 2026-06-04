@@ -9,7 +9,7 @@ This document tracks how `tomemme.com` is built, configured, deployed, and verif
 - Frontend: static HTML, CSS, and browser JavaScript from `public/`.
 - Styling: Bootstrap-based static pages plus local CSS files.
 - Email: Nodemailer using either Gmail SMTP fallback vars or explicit SMTP provider vars.
-- Form protection: `express-rate-limit` on `/submit-contact`.
+- Form protection: hidden honeypot, Cloudflare Turnstile, and `express-rate-limit` on `/submit-contact`.
 - Input validation/sanitization: `validator`.
 - Storage: local JSON files written by the app at runtime:
   - `submissions.json`
@@ -63,6 +63,8 @@ Required for the current Gmail-based setup:
 - `CALENDLY_URL`: scheduling link for the 15-minute workflow audit. If unset, `/schedule` falls back to `/tis#signup`.
 - `NDA_ADMIN_TOKEN`: required private token for the manual `Send NDA` page.
 - `CALENDLY_WEBHOOK_TOKEN`: optional shared token for `/calendly-webhook`.
+- `TURNSTILE_SITE_KEY`: public Cloudflare Turnstile site key rendered on the contact form.
+- `TURNSTILE_SECRET_KEY`: private Cloudflare Turnstile secret key used by the server to verify submissions.
 
 Set or update values:
 
@@ -74,7 +76,26 @@ heroku config:set MAIL_REPLY_TO=tomemme@outlook.com
 heroku config:set MAIL_FROM_NAME="Tech Integration Solutions"
 heroku config:set CALENDLY_URL=https://calendly.com/your-user/15-minute-workflow-audit
 heroku config:set NDA_ADMIN_TOKEN=make-a-long-random-secret
+heroku config:set TURNSTILE_SITE_KEY=your-cloudflare-turnstile-site-key
+heroku config:set TURNSTILE_SECRET_KEY=your-cloudflare-turnstile-secret-key
 ```
+
+Cloudflare Turnstile setup:
+
+1. In Cloudflare, open `Turnstile`.
+2. Add a new widget for `www.tomemme.com`.
+3. Choose a managed, non-interactive widget for the least friction.
+4. Copy the generated site key into `TURNSTILE_SITE_KEY`.
+5. Copy the generated secret key into `TURNSTILE_SECRET_KEY`.
+6. Deploy the app and confirm `/contact` renders the Turnstile widget.
+
+Contact form anti-spam behavior:
+
+- The form includes a hidden `company_website` honeypot field. If it contains any value, `/submit-contact` returns HTTP `400` and does not send email.
+- Turnstile must verify successfully before the app stores a submission, sends a contact email, or starts onboarding.
+- Rate limiting allows a maximum of 5 verified contact submissions per IP per hour. Exceeded requests return HTTP `429` and log a rate-limit violation.
+- Contact attempts log timestamp, IP address, user agent, submitted email, Turnstile result, honeypot status, rate-limit status, and acceptance status.
+- Contact input is sanitized, email format is validated, HTML is escaped before email rendering, and message bodies over 5000 characters are rejected.
 
 Free Calendly manual NDA flow:
 
@@ -176,6 +197,18 @@ Check these URLs manually:
 - `https://www.tomemme.com/projects`
 - `https://www.tomemme.com/sitemap.xml`
 - `https://www.tomemme.com/journal-tour`
+- `https://www.tomemme.com/contact`
+
+Contact form testing checklist:
+
+1. Load `/contact` and confirm the Turnstile widget appears.
+2. Submit a normal test lead and confirm the browser shows success, the submission is saved, and the admin email is sent.
+3. Submit with an invalid email address and confirm HTTP `400` with no email sent.
+4. Submit a message longer than 5000 characters and confirm HTTP `400` with no email sent.
+5. Submit with `company_website` populated using browser dev tools or `curl` and confirm HTTP `400` with no email sent.
+6. Submit without a Turnstile token and confirm HTTP `400` with no email sent.
+7. Submit more than 5 verified requests from the same IP within one hour and confirm HTTP `429`.
+8. Check Heroku logs and confirm each attempt includes timestamp, IP address, user agent, email, Turnstile result, and honeypot status.
 
 Test TIS onboarding:
 

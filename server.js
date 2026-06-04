@@ -3,6 +3,7 @@ const fs = require('fs').promises;
 const path = require('path');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const fetch = require('node-fetch');
 const { rateLimit, ipKeyGenerator } = require('express-rate-limit');
 const validator = require('validator');
 const app = express();
@@ -18,6 +19,8 @@ const MAIL_REPLY_TO = process.env.MAIL_REPLY_TO || ADMIN_EMAIL;
 const CALENDLY_URL = process.env.CALENDLY_URL || '/tis#signup';
 const CALENDLY_WEBHOOK_TOKEN = process.env.CALENDLY_WEBHOOK_TOKEN;
 const NDA_ADMIN_TOKEN = process.env.NDA_ADMIN_TOKEN;
+const TURNSTILE_SITE_KEY = process.env.TURNSTILE_SITE_KEY || '';
+const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY || '';
 const SUBMISSIONS_PATH = path.join(__dirname, 'submissions.json');
 const ONBOARDING_PATH = path.join(__dirname, 'onboarding-submissions.json');
 const CALENDLY_BOOKINGS_PATH = path.join(__dirname, 'calendly-bookings.json');
@@ -48,12 +51,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const contactLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
+    windowMs: 60 * 60 * 1000,
     limit: 5,
     standardHeaders: 'draft-8',
     legacyHeaders: false,
     keyGenerator: (req) => ipKeyGenerator(req.ip),
-    message: { message: 'Too many submissions. Please try again later.' }
+    handler: (req, res) => {
+        logContactAttempt(req, {
+            ...req.contactSecurityLog,
+            rateLimited: true,
+            accepted: false
+        });
+        return res.status(429).json({ message: 'Too many submissions. Please try again later.' });
+    }
 });
 
 const readJsonArray = async (filePath) => {
@@ -82,6 +92,94 @@ const cleanText = (value, maxLength = 1000) => {
 };
 
 const escapeHtml = (value) => validator.escape(String(value));
+
+const getClientIp = (req) => req.ip || req.socket.remoteAddress || '';
+
+const logContactAttempt = (req, details = {}) => {
+    const body = req.body || {};
+    const email = cleanText(body.email, 254);
+    const entry = {
+        event: 'contact_form_submission',
+        timestamp: new Date().toISOString(),
+        ipAddress: getClientIp(req),
+        userAgent: cleanText(req.get('user-agent') || '', 500),
+        email,
+        turnstileVerificationResult: details.turnstileVerificationResult || 'not_checked',
+        honeypotTriggered: Boolean(details.honeypotTriggered),
+        rateLimited: Boolean(details.rateLimited),
+        accepted: Boolean(details.accepted)
+    };
+
+    console.log(JSON.stringify(entry));
+};
+
+const verifyTurnstileToken = async ({ token, ipAddress }) => {
+    if (!TURNSTILE_SECRET_KEY) {
+        return { success: false, result: 'missing_secret' };
+    }
+
+    if (!token) {
+        return { success: false, result: 'missing_token' };
+    }
+
+    const params = new URLSearchParams();
+    params.append('secret', TURNSTILE_SECRET_KEY);
+    params.append('response', token);
+
+    if (ipAddress) {
+        params.append('remoteip', ipAddress);
+    }
+
+    try {
+        const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+            method: 'POST',
+            body: params
+        });
+        const data = await response.json();
+
+        return {
+            success: Boolean(data.success),
+            result: data.success ? 'success' : `failed:${(data['error-codes'] || []).join(',') || 'unknown'}`
+        };
+    } catch (error) {
+        console.error('Turnstile verification request failed:', error.message);
+        return { success: false, result: 'verification_error' };
+    }
+};
+
+const rejectSpamSignals = async (req, res, next) => {
+    const honeypotTriggered = Boolean(cleanText(req.body.company_website, 512));
+    req.contactSecurityLog = {
+        honeypotTriggered,
+        turnstileVerificationResult: 'not_checked'
+    };
+
+    if (honeypotTriggered) {
+        logContactAttempt(req, {
+            ...req.contactSecurityLog,
+            accepted: false
+        });
+        return res.status(400).json({ message: 'Unable to process this submission.' });
+    }
+
+    const token = cleanText(req.body['cf-turnstile-response'] || req.body.turnstileToken, 4096);
+    const verification = await verifyTurnstileToken({
+        token,
+        ipAddress: getClientIp(req)
+    });
+
+    req.contactSecurityLog.turnstileVerificationResult = verification.result;
+
+    if (!verification.success) {
+        logContactAttempt(req, {
+            ...req.contactSecurityLog,
+            accepted: false
+        });
+        return res.status(400).json({ message: 'Security verification failed. Please refresh and try again.' });
+    }
+
+    next();
+};
 
 const hasValidAdminToken = (req) => Boolean(NDA_ADMIN_TOKEN) && req.query.token === NDA_ADMIN_TOKEN;
 
@@ -569,6 +667,10 @@ app.get('/schedule', (req, res) => {
     res.redirect(302, CALENDLY_URL);
 });
 
+app.get('/contact-security-config', (req, res) => {
+    res.json({ turnstileSiteKey: TURNSTILE_SITE_KEY });
+});
+
 app.get('/admin/send-nda', (req, res) => {
     if (!hasValidAdminToken(req)) {
         return res.status(404).send('<h1>Not found</h1>');
@@ -750,29 +852,45 @@ app.get('/trigger-nda/:token', async (req, res) => {
 });
 
 // Handle contact form and TIS onboarding submissions
-app.post('/submit-contact', contactLimiter, async (req, res) => {
+app.post('/submit-contact', rejectSpamSignals, contactLimiter, async (req, res) => {
     try {
+        const rawMessage = typeof req.body.message === 'string' ? req.body.message : '';
         const name = cleanText(req.body.name, 120);
         const email = cleanText(req.body.email, 254);
-        const message = cleanText(req.body.message, 3000);
+        const message = cleanText(rawMessage, 5000);
         const companyName = cleanText(req.body.companyName, 160);
         const signerTitle = cleanText(req.body.signerTitle, 120);
         const isOnboarding = Boolean(companyName || signerTitle);
+        const logAndReject = (status, messageText) => {
+            logContactAttempt(req, {
+                ...req.contactSecurityLog,
+                accepted: false
+            });
+            return res.status(status).json({ message: messageText });
+        };
 
         if (!name || !email || !message) {
-            return res.status(400).json({ message: 'All fields are required' });
+            return logAndReject(400, 'All fields are required');
         }
 
         if (!validator.isEmail(email)) {
-            return res.status(400).json({ message: 'Please enter a valid email address' });
+            return logAndReject(400, 'Please enter a valid email address');
+        }
+
+        if (rawMessage.length > 5000) {
+            return logAndReject(400, 'Message must be 5000 characters or fewer');
         }
 
         if (isOnboarding && (!companyName || !signerTitle)) {
-            return res.status(400).json({ message: 'Company name and signer title are required for onboarding' });
+            return logAndReject(400, 'Company name and signer title are required for onboarding');
         }
 
         if (isOnboarding) {
             await sendOnboardingNda({ req, name, companyName, signerTitle, email, message });
+            logContactAttempt(req, {
+                ...req.contactSecurityLog,
+                accepted: true
+            });
             return res.json({ message: 'Onboarding started. Please check your inbox for the NDA confirmation email.' });
         }
 
@@ -802,6 +920,10 @@ app.post('/submit-contact', contactLimiter, async (req, res) => {
             // Still respond with success since submission is saved
         }
 
+        logContactAttempt(req, {
+            ...req.contactSecurityLog,
+            accepted: true
+        });
         res.json({ message: 'Message sent successfully! You will hear from us soon.' });
     } catch (error) {
         console.error('Error processing submission:', error);
