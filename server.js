@@ -614,10 +614,7 @@ app.use((req, res, next) => {
 
     const redirects = {
         '/index.html': '/',
-        '/home.html': '/retro',
         '/portfolio.html': '/portfolio',
-        '/gallery.html': '/retro/gallery',
-        '/books.html': '/retro/books',
         '/journalTour.html': '/journal-tour'
     };
 
@@ -625,20 +622,8 @@ app.use((req, res, next) => {
     return res.redirect(301, destination);
 });
 
-app.get('/retro', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'home.html'));
-});
-
 app.get('/portfolio', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'portfolio.html'));
-});
-
-app.get('/retro/gallery', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'gallery.html'));
-});
-
-app.get('/retro/books', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'books.html'));
 });
 
 app.get('/journal-tour', (req, res) => {
@@ -1001,6 +986,11 @@ User agent: ${record.confirmedUserAgent || 'Not recorded'}`,
         console.error('Error confirming onboarding:', error);
         return res.status(500).send('<h1>Server error</h1><p>Unable to confirm this onboarding agreement.</p>');
     }
+});
+
+// Block access to hidden pages
+app.get(['/contact', '/tis', '/retro', '/retro/*'], (req, res) => {
+    res.status(404).send('Not found');
 });
 
 // Serve index.html for the root URL
